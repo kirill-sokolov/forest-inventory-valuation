@@ -35,7 +35,7 @@ Status: DONE
 - **Verification:** `npm run typecheck && npm test && npm run build`
 
 ## Step 2 — PDF text extraction + normalization (P0, ~40 min)
-Status: TODO
+Status: DONE
 
 - `engine/pdf/normalize.ts`: ligature replacement table (at least `Ɵ→ti`, plus `ﬁ ﬂ ﬀ ﬃ ﬄ` via NFKC),
   decimal comma helper, whitespace collapsing. Tests: `daƟ → dati`, `1,54 → 1.54`.
