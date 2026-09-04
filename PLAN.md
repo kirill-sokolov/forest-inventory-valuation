@@ -11,7 +11,7 @@ Status legend below is edited by the executor. Kirill reads this file first in t
 ---
 
 ## Step 0 — Preflight (P0, ~10 min)
-Status: TODO
+Status: DONE
 
 - Check `node -v` (≥ 24) and network: `npm view vite version` and `curl -sI https://openrouter.ai | head -1`.
 - If network is blocked: write `docs/waiting.md` ("network blocked in sandbox — nothing can proceed")
