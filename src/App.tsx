@@ -1,4 +1,5 @@
 import { Link, Route, Routes } from "react-router";
+import { CallsPage } from "./pages/CallsPage";
 import { ContractsPage } from "./pages/ContractsPage";
 import { DecisionsPage } from "./pages/DecisionsPage";
 import { ForestPage } from "./pages/ForestPage";
@@ -7,11 +8,11 @@ function HomePage() {
   return (
     <main className="home-shell">
       <section className="home-hero">
-        <p className="home-kicker">Darba prototips · divi procesi</p>
-        <h1>Meža inventarizācijas un līgumu datu automatizācija — demo</h1>
+        <p className="home-kicker">Darba prototips · trīs procesi</p>
+        <h1>Meža inventarizācijas, līgumu un zvanu procesu automatizācija — demo</h1>
         <p className="home-intro">
-          No sarežģīta PDF līdz pārbaudāmam lēmumam. Aprēķini ir izsekojami, bet neskaidrības
-          vienmēr paliek redzamas.
+          No dokumenta vai sarunas līdz pārbaudāmam lēmumam. Aprēķini ir izsekojami, bet
+          neskaidrības vienmēr paliek redzamas.
         </p>
       </section>
 
@@ -28,6 +29,12 @@ function HomePage() {
           <p>Līguma lauki ar avota citātiem, pārbaudēm un gatavu e-pasta kopsavilkumu.</p>
           <span className="card-link">Atvērt rīku →</span>
         </Link>
+        <Link className="surface-card calls-card" to="/zvani">
+          <span className="eyebrow">03 · Zvani</span>
+          <h2>Izvērtēt zvanu kvalitāti</h2>
+          <p>Pārbaudāmi kritēriji, avota citāti un atšķirīgi dienas kopsavilkumi komandai.</p>
+          <span className="card-link">Atvērt rīku →</span>
+        </Link>
       </section>
 
       <section className="home-steps" aria-labelledby="steps-title">
@@ -39,8 +46,8 @@ function HomePage() {
           <li>
             <span>01</span>
             <div>
-              <strong>Ielādē PDF</strong>
-              <p>Fails tiek nolasīts pārlūkā; meža dokuments paliek ierīcē.</p>
+              <strong>Ievadi avotu</strong>
+              <p>Ielādē PDF vai zvana transkriptu; audio netiek sūtīts vai glabāts.</p>
             </div>
           </li>
           <li>
@@ -81,6 +88,7 @@ export function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/mezs" element={<ForestPage />} />
       <Route path="/ligumi" element={<ContractsPage />} />
+      <Route path="/zvani" element={<CallsPage />} />
       <Route path="/lemumi" element={<DecisionsPage />} />
       <Route path="*" element={<HomePage />} />
     </Routes>

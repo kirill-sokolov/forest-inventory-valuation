@@ -279,7 +279,7 @@ Status: DONE
 - **Verification:** `npm test -- api/analyze-call`
 
 ## Step 21 — Task 3 web prototype (P0)
-Status: TODO
+Status: DONE
 
 - `/zvani`: transcript/file input, cached sample day, call drill-down, rubric evidence, daily metrics,
   employee and manager summaries, copy/mailto/JSON, and the process/measurement plan.

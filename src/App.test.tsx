@@ -14,7 +14,11 @@ describe("App", () => {
     );
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Meža inventarizācijas un līgumu datu automatizācija",
+      "Meža inventarizācijas, līgumu un zvanu procesu automatizācija",
+    );
+    expect(screen.getByRole("link", { name: /Izvērtēt zvanu kvalitāti/ })).toHaveAttribute(
+      "href",
+      "/zvani",
     );
   });
 });
