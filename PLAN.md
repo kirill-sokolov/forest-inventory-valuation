@@ -63,7 +63,7 @@ Status: DONE
 - **Verification:** `npm test -- engine/inventory`
 
 ## Step 4 — Composition formula (P0, ~30 min)
-Status: TODO
+Status: DONE
 
 - `engine/inventory/formula.ts`: parse per spec grammar → groups, per-species shares (tenths),
   dominant species, warnings (`coefficient-sum`, `unknown-species`), `+X` admixture.
@@ -72,7 +72,7 @@ Status: TODO
 - **Verification:** `npm test -- engine/inventory/formula`
 
 ## Step 5 — Clear-cut eligibility rules (P0, ~40 min)
-Status: TODO
+Status: DONE
 
 - `engine/rules/law-tables.ts`: table A (age) and table B (diameter) as data with `edition`
   (`current-2024` default, `task-pre-2022`), bonitāte grouping, source URLs in comments.
@@ -85,7 +85,7 @@ Status: TODO
 - **Verification:** `npm test -- engine/rules`
 
 ## Step 6 — Volume, species split, assortments, finance (P0, ~50 min)
-Status: TODO
+Status: DONE
 
 - `engine/calc/volume.ts`, `species-split.ts`, `assortments.ts` (default matrix from spec as data,
   column mapping, per-column share sum check with hint), `finance.ts` (costs, profit %, max purchase,
@@ -96,7 +96,7 @@ Status: TODO
 - **Verification:** `npm test -- engine/calc`
 
 ## Step 7 — Report + CLI (P0, ~30 min)
-Status: TODO
+Status: DONE
 
 - `engine/report/text.ts`: headline exactly as spec §Final report + extended sections; `report/json.ts`.
 - `cli/forest-report.ts` (run with `npx tsx`): PDF path → prints report; `--json` flag.
@@ -104,7 +104,7 @@ Status: TODO
 - **Verification:** `npm test -- engine/report`
 
 ## Step 7b — Public synthetic inventory PDF (P0, ~60 min)
-Status: TODO
+Status: DONE
 
 - `scripts/make-synthetic-inventory.tsx`: renders `samples/inventory-paraugmezs.pdf` with
   `@react-pdf/renderer` from `samples/expected/inventory-paraugmezs.json` — same column headers, row
@@ -115,7 +115,7 @@ Status: TODO
 - **Verification:** `npm test -- inventory-paraugmezs && npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf | grep -q "23 435 EUR"`
 
 ## Step 8 — Web UI for task 1 (P0, ~90 min)
-Status: TODO
+Status: DONE
 
 - Pages `/` and `/mezs` per spec §Screens; sample button loads the bundled synthetic PDF
   (`samples/inventory-paraugmezs.pdf`); everything under base `/forest/`; panels; editable
@@ -127,7 +127,7 @@ Status: TODO
 - **Verification:** `npm run typecheck && npm test && npm run build`
 
 ## Step 9 — Contract extraction engine (P1, ~60 min)
-Status: TODO
+Status: DONE
 
 - `engine/contracts/schema.ts` (zod, `Field<T>` wrapper), `validate.ts` (rules from spec), `summary.ts`
   (LV e-mail subject/body), `extract.ts` (`generateObject` via OpenRouter provider; system prompt in
@@ -140,7 +140,7 @@ Status: TODO
 - **Verification:** `npm test -- engine/contracts`
 
 ## Step 10 — Contract samples (P1, ~45 min)
-Status: TODO
+Status: DONE
 
 - `scripts/fetch-samples.sh`: downloads the templates listed in `samples/contracts/SOURCES.md` into
   git-ignored `samples/contracts/third-party/` (already fetched locally; re-fetch missing ones). They
@@ -157,7 +157,7 @@ Status: TODO
 - **Verification:** `npm test -- contracts && test "$(ls samples/contracts/synthetic-*.pdf | wc -l)" -eq 3`
 
 ## Step 11 — Contract API + UI (P1, ~60 min)
-Status: TODO
+Status: DONE
 
 - `api/extract.ts`: POST `{ text, documentTypeHint?, fileName }` (≤ 200 KB) → engine → JSON; 413 on
   oversize; best-effort in-memory per-IP limit (10/min) → 429; 503 with a clear message when no key.
@@ -167,7 +167,7 @@ Status: TODO
 - **Verification:** `npm run typecheck && npm test && npm run build`
 
 ## Step 12 — Decisions page, README, e-mail draft (P1, ~40 min)
-Status: TODO
+Status: DONE
 
 - `DECISIONS.md` (Latvian, manager language) from `docs/decisions.ru.md` + implementation-level
   decisions worth a manager (parser-first with paid fallback only on failure; client-side calculation;
@@ -186,7 +186,7 @@ Status: TODO
 - **Verification:** `npm run build && test -s DECISIONS.md && test -s README.md`
 
 ## Step 13 — Polish + edge cases (P2, ~40 min)
-Status: TODO
+Status: DONE
 
 - Error states: non-PDF, image-only PDF (no text layer) → Latvian message + hint to the manual path;
   empty formula stand; multi-quarter PDF; huge PDF (> 20 pages) → still fine.
@@ -195,7 +195,7 @@ Status: TODO
 - **Verification:** `npm run typecheck && npm test && npm run build`
 
 ## Step 14 — Optional A: vision fallback (P3, ~45 min)
-Status: TODO
+Status: SKIPPED — parser-first prototype; OCR/vision is documented as a next step
 
 - `api/parse-inventory.ts`: when the parser finds no stands or area sums mismatch, the client may send
   page images/text to a vision-capable model with the stand JSON schema; result is cross-checked (area
@@ -203,19 +203,19 @@ Status: TODO
 - **Verification:** `npm test -- api/parse-inventory`
 
 ## Step 15 — Optional B: manual stand entry (P3, ~30 min)
-Status: TODO
+Status: SKIPPED — manual grid is outside the two core prototype flows
 
 - Editable stands grid on `/mezs` as the last-resort input (paste from Excel supported via TSV).
 - **Verification:** `npm run build`
 
 ## Step 16 — Optional C: XLSX export (P3, ~20 min)
-Status: TODO
+Status: SKIPPED — TXT, JSON, and DOCX cover the prototype export requirement
 
 - SheetJS from its CDN tarball (npm tag is stale) → matrix + report sheets.
 - **Verification:** `npm run build`
 
 ## Step 17 — Night report (P0, ~10 min)
-Status: TODO
+Status: DONE
 
 - Update every Status line; write `docs/NIGHT-REPORT.md`: what works (with commands to verify in
   5 minutes), what is blocked/skipped and why, assumptions made, questions for Kirill; commit.
