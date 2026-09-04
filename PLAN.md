@@ -263,7 +263,7 @@ Status: DONE
 - **Verification:** `test -s samples/expected/calls-demo.json && test -s docs/calls-process.lv.md`
 
 ## Step 19 — Deterministic call scoring and daily reports (P0)
-Status: TODO
+Status: DONE
 
 - `engine/calls/`: versioned rubric, evidence validation, deterministic score, warnings, daily
   aggregation, employee/manager summaries and JSON export.
