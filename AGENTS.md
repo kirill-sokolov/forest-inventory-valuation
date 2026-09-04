@@ -43,6 +43,9 @@ DECISIONS.md Latvian, manager-facing; rendered at /lemumi
   not depend on it. Do not loop.
 - **Never wait for input.** Nobody is watching. Make a reasonable assumption, write it down in
   `docs/waiting.md` (what, why, where the stub is), and move on.
+- **No proactive escalation.** This repository runs with Full Access. Run in-repository commands,
+  including `git add` and `git commit`, directly. Never set `sandbox_permissions = "require_escalated"`
+  preemptively; request escalation only after a command actually fails with a permission or sandbox error.
 - **Deterministic numbers.** Every number shown for task 1 comes from `engine/` code. LLM output is
   never a source of numbers (vision fallback, if reached, is cross-checked and labelled).
 - **Keep it small.** No abstractions for hypothetical futures, no config systems, no plugin layers.
