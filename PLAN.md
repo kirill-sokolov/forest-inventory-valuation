@@ -48,7 +48,7 @@ Status: DONE
 - **Verification:** `npm test -- engine/pdf`
 
 ## Step 3 — Inventory parser (P0, ~60 min)
-Status: TODO
+Status: DONE
 
 - `engine/inventory/parse.ts` → `Inventory` type (property, landUnit, parish, inventoryYear,
   quarters[{ number, stands[] }], totals{ totalHa, forestHa }). Stand: number, areaHa, landKind,
