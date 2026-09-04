@@ -271,7 +271,7 @@ Status: DONE
 - **Verification:** `npm test -- engine/calls`
 
 ## Step 20 — Grounded transcript API (P1)
-Status: TODO
+Status: DONE
 
 - `api/analyze-call.ts`: transcript text (not audio) to fixed observations/facts schema via
   OpenRouter; 100 KB limit, 10/min best-effort limit, clear 503 without key and no request logging.
