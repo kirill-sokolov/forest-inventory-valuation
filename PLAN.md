@@ -20,7 +20,7 @@ Status: DONE
 - **Verification:** `node -v && npm view vite version`
 
 ## Step 1 — Scaffold (P0, ~20 min)
-Status: TODO
+Status: DONE
 
 - Package name `forest-inventory-valuation`. Vite + React 19 + TypeScript (strict) + Tailwind v4 +
   react-router at repo root; folders per `AGENTS.md` §Repo layout; vitest configured for `engine/`,
