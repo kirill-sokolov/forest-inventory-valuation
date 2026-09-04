@@ -2,6 +2,10 @@
 
 Šis prototips parāda, kā no meža inventarizācijas un līgumu PDF iegūt pārbaudāmu darba rezultātu vienas dienas laikā. Zemāk ir svarīgākie lēmumi, to iemesli un praktiskais ieguvums pasūtītājam.
 
+## Pieeja un problēmas sadalījums
+
+Uzdevumu sadalīju divās atšķirīgās plūsmās: skaitliski pārbaudāmā meža inventarizācija un semantiski interpretējamie līgumi. Inventarizācijas plūsma ir PDF teksts → normalizācija → strukturēti dati → tiesību noteikumi → aprēķins → atskaite; līgumu plūsma ir teksts → strukturēta izvilkšana → shēmas pārbaude → kopsavilkums. Rīkus izvēlējos pēc kļūdas riska: determinētu kodu visiem skaitļiem, valodas modeli tikai brīvas formas tekstam un pārbaudāmus paraugus katra posma validācijai. Vienas dienas ierobežojumā vispirms izveidoju pilnu darbojošos plūsmu, bet apzināti neiekļāvu infrastruktūru, kas prototipa galveno pieņēmumu nepārbauda.
+
 ## 1. Vispirms strādājošs prototips
 
 Risinājumam nav lietotāju kontu, datubāzes un sarežģītas infrastruktūras. Vienas dienas darbā svarīgākais ir pierādīt, ka process no faila līdz rezultātam darbojas. Tas ļauj risinājumu pārbaudīt uz reāliem failiem un tikai pēc tam lemt par ieviešanu.
