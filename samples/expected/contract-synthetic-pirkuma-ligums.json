@@ -1,0 +1,279 @@
+{
+  "document": {
+    "type": {
+      "value": "purchase",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "NEKUSTAMĀ ĪPAŠUMA PIRKUMA LĪGUMS"
+      }
+    },
+    "title": {
+      "value": "Nekustamā īpašuma pirkuma līgums",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "NEKUSTAMĀ ĪPAŠUMA PIRKUMA LĪGUMS"
+      }
+    },
+    "signedAt": {
+      "value": "2026-08-12",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Rīgā, 2026. gada 12. augustā"
+      }
+    },
+    "place": {
+      "value": "Rīga",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Rīgā, 2026. gada 12. augustā"
+      }
+    }
+  },
+  "parties": [
+    {
+      "role": {
+        "value": "seller",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Pārdevējs"
+        }
+      },
+      "name": {
+        "value": "SIA Zaļais Nams",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "SIA Zaļais Nams"
+        }
+      },
+      "registrationNumber": {
+        "value": "40000000011",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "reģistrācijas Nr. 40000000011"
+        }
+      },
+      "personalCode": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "address": {
+        "value": "Parauga bulvāris 8, Rīga, LV-1001",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Parauga bulvāris 8, Rīga, LV-1001"
+        }
+      },
+      "representative": {
+        "value": "Marta Liepa",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "valdes locekles Martas Liepas personā"
+        }
+      },
+      "iban": {
+        "value": "LV80BANK0000435195001",
+        "confidence": 0.99,
+        "source": {
+          "page": 1,
+          "quote": "LV80BANK0000435195001"
+        }
+      }
+    },
+    {
+      "role": {
+        "value": "buyer",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Pircējs"
+        }
+      },
+      "name": {
+        "value": "Elīna Ozola",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Elīna Ozola"
+        }
+      },
+      "registrationNumber": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "personalCode": {
+        "value": "320180-00001",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "personas kods 320180-00001"
+        }
+      },
+      "address": {
+        "value": "Izdomu iela 12-4, Rīga, LV-1002",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Izdomu iela 12-4, Rīga, LV-1002"
+        }
+      },
+      "representative": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "iban": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      }
+    }
+  ],
+  "object": {
+    "address": {
+      "value": "Parauga ceļš 11, Izdomu pagasts",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Parauga ceļš 11, Izdomu pagasts"
+      }
+    },
+    "cadastreNumber": {
+      "value": "00000000011",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "kadastra numurs 00000000011"
+      }
+    },
+    "area": {
+      "value": {
+        "value": 6.42,
+        "unit": "ha"
+      },
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "kopējā platība 6,42 ha"
+      }
+    },
+    "description": {
+      "value": "Zemes īpašums ar mežaudzi un palīgēku",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "zemes īpašums ar mežaudzi un palīgēku"
+      }
+    }
+  },
+  "financials": {
+    "price": {
+      "value": {
+        "amount": 48500,
+        "currency": "EUR",
+        "netAmount": 40082.64,
+        "grossAmount": 48500
+      },
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Pirkuma cena ir 48 500,00 EUR"
+      }
+    },
+    "rent": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "vat": {
+      "value": {
+        "included": true,
+        "rate": 21
+      },
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "cenā ir ietverts PVN 21 %"
+      }
+    },
+    "deposit": {
+      "value": {
+        "amount": 4850,
+        "currency": "EUR"
+      },
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "drošības maksājumu 4 850,00 EUR"
+      }
+    },
+    "paymentDeadline": {
+      "value": "2026-08-30",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "ne vēlāk kā līdz 2026. gada 30. augustam"
+      }
+    },
+    "penalty": {
+      "value": "0,1 % no kavētās summas par katru kavējuma dienu",
+      "confidence": 0.98,
+      "source": {
+        "page": 2,
+        "quote": "līgumsodu 0,1 % no kavētās summas par katru kavējuma dienu"
+      }
+    }
+  },
+  "term": {
+    "effectiveFrom": {
+      "value": "2026-08-12",
+      "confidence": 0.98,
+      "source": {
+        "page": 2,
+        "quote": "Līgums stājas spēkā tā parakstīšanas dienā"
+      }
+    },
+    "effectiveTo": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "durationMonths": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "noticePeriodDays": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "autoRenewal": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    }
+  },
+  "specialConditions": [
+    {
+      "title": "Zemesgrāmata",
+      "quote": "Pircējs 10 darba dienu laikā iesniedz nostiprinājuma lūgumu zemesgrāmatā.",
+      "page": 2
+    },
+    {
+      "title": "Apgrūtinājumi",
+      "quote": "Pārdevējs apliecina, ka nav citu nereģistrētu apgrūtinājumu.",
+      "page": 2
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "data": {
+    "document": {
+      "type": {
+        "value": "lease",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "NEKUSTAMĀ ĪPAŠUMA NOMAS LĪGUMS"
+        }
+      },
+      "title": {
+        "value": "Nekustamā īpašuma nomas līgums",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "NEKUSTAMĀ ĪPAŠUMA NOMAS LĪGUMS"
+        }
+      },
+      "signedAt": {
+        "value": "2026-09-15",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Jelgavā, 2026. gada 15. septembrī"
+        }
+      },
+      "place": {
+        "value": "Jelgava",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Jelgavā, 2026. gada 15. septembrī"
+        }
+      }
+    },
+    "parties": [
+      {
+        "role": {
+          "value": "lessor",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "Iznomātājs"
+          }
+        },
+        "name": {
+          "value": "SIA Miera Telpas",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "SIA Miera Telpas"
+          }
+        },
+        "registrationNumber": {
+          "value": "40000000022",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "reģistrācijas Nr. 40000000022"
+          }
+        },
+        "personalCode": {
+          "value": null,
+          "confidence": 0,
+          "source": null
+        },
+        "address": {
+          "value": "Mācību iela 3, Jelgava, LV-3001",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "Mācību iela 3, Jelgava, LV-3001"
+          }
+        },
+        "representative": {
+          "value": "Rihards Bērziņš",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "valdes locekļa Riharda Bērziņa personā"
+          }
+        },
+        "iban": {
+          "value": "LV97HABA0012345678910",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "LV97HABA0012345678910"
+          }
+        }
+      },
+      {
+        "role": {
+          "value": "lessee",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "Nomnieks"
+          }
+        },
+        "name": {
+          "value": "SIA Darba Parks",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "SIA Darba Parks"
+          }
+        },
+        "registrationNumber": {
+          "value": "40000000023",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "reģistrācijas Nr. 40000000023"
+          }
+        },
+        "personalCode": {
+          "value": null,
+          "confidence": 0,
+          "source": null
+        },
+        "address": {
+          "value": "Fikcijas laukums 5, Jelgava, LV-3002",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "Fikcijas laukums 5, Jelgava, LV-3002"
+          }
+        },
+        "representative": {
+          "value": "Līga Priede",
+          "confidence": 0.98,
+          "source": {
+            "page": 1,
+            "quote": "valdes locekles Līgas Priedes personā"
+          }
+        },
+        "iban": {
+          "value": null,
+          "confidence": 0,
+          "source": null
+        }
+      }
+    ],
+    "object": {
+      "address": {
+        "value": "Miera iela 22, Jelgava",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Miera ielā 22, Jelgavā"
+        }
+      },
+      "cadastreNumber": {
+        "value": "00000000022",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "kadastra numurs 00000000022"
+        }
+      },
+      "area": {
+        "value": {
+          "value": 120,
+          "unit": "m²"
+        },
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "120 m² platībā"
+        }
+      },
+      "description": {
+        "value": "Biroja telpas ēkas otrajā stāvā",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "biroja telpas ēkas otrajā stāvā"
+        }
+      }
+    },
+    "financials": {
+      "price": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "rent": {
+        "value": {
+          "amount": 650,
+          "currency": "EUR",
+          "period": "mēnesī",
+          "netAmount": 650,
+          "grossAmount": 786.5
+        },
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Nomas maksa ir 650,00 EUR mēnesī bez PVN"
+        }
+      },
+      "vat": {
+        "value": {
+          "included": false,
+          "rate": 21
+        },
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "papildus maksājams PVN 21 %"
+        }
+      },
+      "deposit": {
+        "value": {
+          "amount": 1300,
+          "currency": "EUR"
+        },
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "drošības naudu 1 300,00 EUR"
+        }
+      },
+      "paymentDeadline": {
+        "value": "katra mēneša 10. datums",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "līdz katra mēneša 10. datumam"
+        }
+      },
+      "penalty": {
+        "value": "0,05 % no kavētā maksājuma par katru dienu",
+        "confidence": 0.98,
+        "source": {
+          "page": 2,
+          "quote": "līgumsods 0,05 % no kavētā maksājuma par katru dienu"
+        }
+      }
+    },
+    "term": {
+      "effectiveFrom": {
+        "value": "2026-10-01",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "no 2026. gada 1. oktobra"
+        }
+      },
+      "effectiveTo": {
+        "value": "2029-09-30",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "līdz 2029. gada 30. septembrim"
+        }
+      },
+      "durationMonths": {
+        "value": 36,
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "uz 36 mēnešiem"
+        }
+      },
+      "noticePeriodDays": {
+        "value": 60,
+        "confidence": 0.98,
+        "source": {
+          "page": 2,
+          "quote": "rakstveidā paziņojot vismaz 60 dienas iepriekš"
+        }
+      },
+      "autoRenewal": {
+        "value": false,
+        "confidence": 0.98,
+        "source": {
+          "page": 2,
+          "quote": "automātiski nepagarinās"
+        }
+      }
+    },
+    "specialConditions": [
+      {
+        "title": "Pirmstermiņa izbeigšana",
+        "quote": "Katra puse var izbeigt līgumu, rakstveidā paziņojot vismaz 60 dienas iepriekš.",
+        "page": 2
+      },
+      {
+        "title": "Telpu nodošana",
+        "quote": "Telpas nodod ar abpusēji parakstītu pieņemšanas un nodošanas aktu.",
+        "page": 2
+      }
+    ]
+  },
+  "issues": [],
+  "needsReview": false,
+  "summary": {
+    "subject": "Nomas līgums: Miera iela 22, Jelgava",
+    "body": "Nomas līgums: Nekustamā īpašuma nomas līgums\nParakstīts: 2026-09-15, Jelgava\n\nLīdzēji\n- Iznomātājs: SIA Miera Telpas (40000000022)\n- Nomnieks: SIA Darba Parks (40000000023)\n\nLīguma objekts\n- Adrese: Miera iela 22, Jelgava\n- Kadastra numurs: 00000000022\n- Platība: 120 m²\n- Apraksts: Biroja telpas ēkas otrajā stāvā\n\nFinanšu nosacījumi\n- Pirkuma cena: nav norādīts\n- Nomas maksa: 650 EUR / mēnesī\n- Drošības nauda: 1300 EUR\n- Maksājuma termiņš: katra mēneša 10. datums\n- Līgumsods: 0,05 % no kavētā maksājuma par katru dienu\n\nTermiņš\n- No: 2026-10-01\n- Līdz: 2029-09-30\n- Ilgums: 36 mēneši\n- Uzteikuma termiņš: 60 dienas\n- Automātiska pagarināšana: nē\n\nĪpašie nosacījumi\n- Pirmstermiņa izbeigšana (2. lpp.): Katra puse var izbeigt līgumu, rakstveidā paziņojot vismaz 60 dienas iepriekš.\n- Telpu nodošana (2. lpp.): Telpas nodod ar abpusēji parakstītu pieņemšanas un nodošanas aktu.\n\nPārbaudāmie jautājumi\n- Nav konstatēti."
+  },
+  "model": null
+}

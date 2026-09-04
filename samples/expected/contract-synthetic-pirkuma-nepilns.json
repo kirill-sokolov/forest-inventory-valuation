@@ -1,0 +1,239 @@
+{
+  "document": {
+    "type": {
+      "value": "purchase",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "NEPILNĪGS PIRKUMA LĪGUMA PARAUGS"
+      }
+    },
+    "title": {
+      "value": "Nepilnīgs pirkuma līguma paraugs",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "NEPILNĪGS PIRKUMA LĪGUMA PARAUGS"
+      }
+    },
+    "signedAt": {
+      "value": "2026-09-20",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Rīgā, 2026. gada 20. septembrī"
+      }
+    },
+    "place": {
+      "value": "Rīga",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Rīgā, 2026. gada 20. septembrī"
+      }
+    }
+  },
+  "parties": [
+    {
+      "role": {
+        "value": "seller",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Pārdevējs"
+        }
+      },
+      "name": {
+        "value": "SIA Parauga Īpašumi",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "SIA Parauga Īpašumi"
+        }
+      },
+      "registrationNumber": {
+        "value": "40000000033",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "reģistrācijas Nr. 40000000033"
+        }
+      },
+      "personalCode": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "address": {
+        "value": "Nosacījumu iela 1, Rīga",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Nosacījumu iela 1, Rīga"
+        }
+      },
+      "representative": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "iban": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      }
+    },
+    {
+      "role": {
+        "value": "buyer",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Pircējs"
+        }
+      },
+      "name": {
+        "value": "SIA Drošs Pircējs",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "SIA Drošs Pircējs"
+        }
+      },
+      "registrationNumber": {
+        "value": "40000000034",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "reģistrācijas Nr. 40000000034"
+        }
+      },
+      "personalCode": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "address": {
+        "value": "Pārbaudes iela 2, Rīga",
+        "confidence": 0.98,
+        "source": {
+          "page": 1,
+          "quote": "Pārbaudes iela 2, Rīga"
+        }
+      },
+      "representative": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      },
+      "iban": {
+        "value": null,
+        "confidence": 0,
+        "source": null
+      }
+    }
+  ],
+  "object": {
+    "address": {
+      "value": "Nepabeigtā iela 33, Rīga",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "Nepabeigtā iela 33, Rīga"
+      }
+    },
+    "cadastreNumber": {
+      "value": "0000-ABC-33",
+      "confidence": 0.58,
+      "source": {
+        "page": 1,
+        "quote": "kadastra apzīmējums 0000-ABC-33"
+      }
+    },
+    "area": {
+      "value": {
+        "value": 0.18,
+        "unit": "ha"
+      },
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "platība 0,18 ha"
+      }
+    },
+    "description": {
+      "value": "Zemesgabals ar nepabeigtu būvi",
+      "confidence": 0.98,
+      "source": {
+        "page": 1,
+        "quote": "zemesgabals ar nepabeigtu būvi"
+      }
+    }
+  },
+  "financials": {
+    "price": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "rent": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "vat": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "deposit": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "paymentDeadline": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "penalty": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    }
+  },
+  "term": {
+    "effectiveFrom": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "effectiveTo": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "durationMonths": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "noticePeriodDays": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    },
+    "autoRenewal": {
+      "value": null,
+      "confidence": 0,
+      "source": null
+    }
+  },
+  "specialConditions": [
+    {
+      "title": "Nezināms apgrūtinājums",
+      "quote": "Pircējs ir informēts par iespējamu apgrūtinājumu, kura saturs nav pievienots.",
+      "page": 1
+    }
+  ]
+}
