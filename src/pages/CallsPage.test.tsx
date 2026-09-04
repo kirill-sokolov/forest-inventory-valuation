@@ -32,6 +32,7 @@ describe("CallsPage", () => {
     expect(within(metrics).getByText("18:20")).toBeInTheDocument();
     expect(within(metrics).getByText("82,5")).toBeInTheDocument();
     expect(within(metrics).getByText("4:30")).toBeInTheDocument();
+    expect(screen.getByText(/ārējam OpenRouter modelim/)).toBeInTheDocument();
   });
 
   it("drills into deterministic rubric evidence and review warnings", async () => {
@@ -100,11 +101,14 @@ describe("CallsPage", () => {
       unknown
     >;
     expect(request).toEqual(
-      expect.objectContaining({
-        transcript: callFixture.calls[0]?.transcript,
-        metadata: expect.objectContaining({ contactLabel: "Kontakts 006" }),
-      }),
+      expect.objectContaining({ transcript: callFixture.calls[0]?.transcript }),
     );
+    expect(request.metadata).toEqual(expect.objectContaining({ startedAt: expect.any(String) }));
+    const metadata = request.metadata as Record<string, unknown>;
+    expect(metadata).not.toHaveProperty("employee");
+    expect(metadata).not.toHaveProperty("contactLabel");
+    expect(metadata).not.toHaveProperty("durationSec");
+    expect(request).not.toHaveProperty("fileName");
     expect(request).not.toHaveProperty("audio");
   });
 });

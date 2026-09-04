@@ -273,7 +273,10 @@ Input record: `id`, ISO `startedAt`, `durationSec`, `employee`, `contactLabel`, 
 (`connected` | `no-answer`), and `transcript`. A connected call receives one observation per rubric
 criterion: `status` (`met` | `partial` | `missed` | `not-applicable`), confidence `0..1`, a short
 source quote or `null`, and a note. Extracted facts include the stated need, key parameters and the
-next action with owner/due date when present.
+next action with owner/due date when present. Summary facts are shown only when the corresponding
+effective criterion is `met` or `partial`. A next action additionally needs an evidence quote that
+overlaps the grounded `next-step` observation; unsupported facts are suppressed and warned, and a
+non-ISO due date is discarded.
 
 Versioned rubric `procurement-v1` totals 100 points:
 
@@ -296,7 +299,7 @@ below `0.70` does not change the score but requires human review. Bands: `>=85` 
 improve, `<70` review. No-answer attempts are counted in volume and duration but excluded from
 quality averages.
 
-Daily output: total/evaluated/connected/no-answer calls, total duration, average connected-call
+Daily output: total/evaluated/connected/no-answer calls, total duration, average evaluated-call
 duration, average score, score-band counts, per-criterion status rates, follow-ups and calls needing
 review. Employee summaries show only that employee's calls, strengths, focus criteria and actions.
 The manager summary shows team totals, per-employee rows, common omissions and a review queue; it
@@ -385,7 +388,8 @@ read the generated PDF back into the same stands.
 1. All four connected samples retain their fixed scores `90/60/80/100`; the no-answer attempt has
    `score = null` and no criterion results.
 2. A `partial` criterion earns half its weight; a `not-applicable` criterion changes the denominator;
-   a positive status without evidence is downgraded and warned.
+   a positive status without evidence is downgraded and warned. Unsupported summary facts and
+   follow-ups are not exposed as confirmed data.
 3. Day totals equal five attempts, four evaluated, 1 100 seconds total, 270 seconds average evaluated
    duration and 82.5 average quality. Quality bands are 2/1/1 and the review queue has two calls.
 4. The employee summary includes that employee's follow-ups and focus criteria. The manager summary

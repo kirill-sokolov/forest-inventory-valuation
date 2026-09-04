@@ -1,11 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fixture from "../../samples/expected/calls-demo.json";
 import { aggregateCallDay } from "./aggregate";
-import {
-  createEmployeeDaySummary,
-  createManagerDaySummary,
-  serializeCallDay,
-} from "./report";
+import { createEmployeeDaySummary, createManagerDaySummary, serializeCallDay } from "./report";
 import { analyzeCall } from "./score";
 import type { CallDemoFixture } from "./types";
 

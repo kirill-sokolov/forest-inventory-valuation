@@ -12,7 +12,7 @@ Demonstrācijas kontroles rezultāts ir pieci mēģinājumi, četri izvērtēti 
 
 1. Sistēma saņem zvana metadatus un transkriptu. Neatbildēts mēģinājums tiek ieskaitīts zvanu apjomā un ilgumā, bet netiek vērtēts pēc kvalitātes kritērijiem.
 2. Jaunam transkriptam valodas modelis drīkst piedāvāt tikai strukturētus novērojumus un faktus: kritērija statusu, pārliecības līmeni, īsu pamatojumu un precīzu citātu no transkripta.
-3. Programmas kods pārbauda rezultāta shēmu un pierādījumus. Pozitīvs vai daļējs vērtējums bez citāta tiek pazemināts līdz neizpildītam kritērijam un rada brīdinājumu.
+3. Programmas kods pārbauda rezultāta shēmu un pierādījumus. Pozitīvs vai daļējs vērtējums bez citāta tiek pazemināts līdz neizpildītam kritērijam un rada brīdinājumu. Kopsavilkuma fakts tiek rādīts tikai tad, ja saistītais kritērijs ir pozitīvs; turpmākās darbības citātam papildus jāsakrīt ar nākamā soļa pierādījumu.
 4. Programmas kods, nevis modelis, piemēro versēto rubriku, aprēķina punktus un nosaka kvalitātes grupu. Pārliecība zem 0,70 nemaina punktus, bet nosūta zvanu cilvēka pārbaudei.
 5. Darbinieks saņem viena zvana pārskatu ar stiprajām pusēm, izlaistajiem kritērijiem, iegūtajiem faktiem, nākamo soli un visiem gadījumiem, kas jāpārbauda.
 6. Dienas beigās sistēma agregē zvanu mēģinājumus divos lomu skatījumos. Kopsummas tiek rēķinātas no pārbaudītajiem strukturētajiem rezultātiem, nevis no brīva modeļa teksta.

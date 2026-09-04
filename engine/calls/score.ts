@@ -24,9 +24,10 @@ const EMPTY_FACTS: CallFacts = {
 
 /** Deterministic scoring rules from docs/spec.md, “Task 3 — call quality and daily summaries”. */
 export function analyzeCall(record: CallRecord, extraction: CallExtraction | null): AnalyzedCall {
+  const publicRecord = projectCallRecord(record);
   if (record.disposition === "no-answer") {
     return {
-      ...record,
+      ...publicRecord,
       rubricVersion: PROCUREMENT_CALL_RUBRIC.version,
       criteria: [],
       facts: cloneFacts(EMPTY_FACTS),
@@ -59,6 +60,12 @@ export function analyzeCall(record: CallRecord, extraction: CallExtraction | nul
     0,
   );
   const earnedWeight = criteria.reduce((sum, criterion) => sum + criterion.earnedWeight, 0);
+  const facts = validateFacts(
+    extraction?.facts ?? EMPTY_FACTS,
+    criteria,
+    record.transcript,
+    warnings,
+  );
 
   let score: number | null = null;
   let band: CallScoreBand | null = null;
@@ -73,10 +80,10 @@ export function analyzeCall(record: CallRecord, extraction: CallExtraction | nul
   }
 
   return {
-    ...record,
+    ...publicRecord,
     rubricVersion: PROCUREMENT_CALL_RUBRIC.version,
     criteria,
-    facts: cloneFacts(extraction?.facts ?? EMPTY_FACTS),
+    facts,
     applicableWeight,
     earnedWeight,
     score,
@@ -84,6 +91,140 @@ export function analyzeCall(record: CallRecord, extraction: CallExtraction | nul
     warnings,
     needsReview: score === null || score < 70 || warnings.length > 0,
   };
+}
+
+function projectCallRecord(record: CallRecord): CallRecord {
+  return {
+    id: record.id,
+    startedAt: record.startedAt,
+    durationSec: record.durationSec,
+    employee: record.employee,
+    contactLabel: record.contactLabel,
+    disposition: record.disposition,
+    transcript: record.transcript,
+  };
+}
+
+function validateFacts(
+  facts: CallFacts,
+  criteria: readonly AnalyzedCriterion[],
+  transcript: string,
+  warnings: CallWarning[],
+): CallFacts {
+  const result = cloneFacts(facts);
+
+  if (result.need && !hasPositiveCriterion(criteria, "need-object")) {
+    result.need = null;
+    warnUngroundedFact(warnings, "Vajadzības fakts nav pamatots ar pozitīvu rubrikas novērojumu.");
+  }
+  if (result.keyParameters.length > 0 && !hasPositiveCriterion(criteria, "key-parameters")) {
+    result.keyParameters = [];
+    warnUngroundedFact(
+      warnings,
+      "Galveno parametru fakti nav pamatoti ar pozitīvu rubrikas novērojumu.",
+    );
+  }
+  if (result.priceTerms && !hasPositiveCriterion(criteria, "price-terms")) {
+    result.priceTerms = null;
+    warnUngroundedFact(
+      warnings,
+      "Cenas un nosacījumu fakts nav pamatots ar pozitīvu rubrikas novērojumu.",
+    );
+  }
+  if (result.timing && !hasPositiveCriterion(criteria, "timing-decision")) {
+    result.timing = null;
+    warnUngroundedFact(warnings, "Termiņa fakts nav pamatots ar pozitīvu rubrikas novērojumu.");
+  }
+
+  const nextAction = result.nextAction;
+  if (!nextAction) return result;
+
+  const evidenceQuote = cleanOptionalText(nextAction.evidenceQuote);
+  const nextStep = criteria.find((criterion) => criterion.criterionId === "next-step");
+  if (!nextStep || (nextStep.status !== "met" && nextStep.status !== "partial")) {
+    warnUngroundedFact(
+      warnings,
+      "Turpmākā darbība nav pamatota ar pozitīvu nākamā soļa novērojumu.",
+    );
+    result.nextAction = null;
+  } else if (!evidenceQuote) {
+    warnings.push({
+      code: "missing-evidence",
+      message: "Turpmākajai darbībai nav avota citāta; tā netika iekļauta pārskatā.",
+    });
+    result.nextAction = null;
+  } else if (!containsGroundedQuote(transcript, evidenceQuote)) {
+    warnings.push({
+      code: "quote-not-found",
+      message:
+        "Turpmākās darbības citāts nav atrodams sarunas tekstā; tā netika iekļauta pārskatā.",
+    });
+    result.nextAction = null;
+  } else if (!quotesOverlap(nextStep.evidenceQuote, evidenceQuote)) {
+    warnUngroundedFact(
+      warnings,
+      "Turpmākās darbības citāts neatbilst nākamā soļa pierādījumam; tā netika iekļauta pārskatā.",
+    );
+    result.nextAction = null;
+  } else {
+    const dueAt = cleanOptionalText(nextAction.dueAt);
+    if (dueAt && !isIsoDateOrDateTime(dueAt)) {
+      warnUngroundedFact(
+        warnings,
+        "Turpmākās darbības termiņš nav derīgā ISO formātā; termiņš netika iekļauts pārskatā.",
+      );
+    }
+    result.nextAction = {
+      ...nextAction,
+      dueAt: dueAt && isIsoDateOrDateTime(dueAt) ? dueAt : null,
+      evidenceQuote,
+    };
+  }
+
+  return result;
+}
+
+function hasPositiveCriterion(
+  criteria: readonly AnalyzedCriterion[],
+  criterionId: CriterionId,
+): boolean {
+  const criterion = criteria.find((candidate) => candidate.criterionId === criterionId);
+  return Boolean(
+    criterion &&
+      (criterion.status === "met" || criterion.status === "partial") &&
+      criterion.evidenceQuote,
+  );
+}
+
+function quotesOverlap(first: string | null, second: string): boolean {
+  if (!first) return false;
+  const normalizedFirst = normalizeForGrounding(first);
+  const normalizedSecond = normalizeForGrounding(second);
+  return normalizedFirst.includes(normalizedSecond) || normalizedSecond.includes(normalizedFirst);
+}
+
+function warnUngroundedFact(warnings: CallWarning[], message: string): void {
+  warnings.push({ code: "ungrounded-fact", message });
+}
+
+function isIsoDateOrDateTime(value: string): boolean {
+  const match =
+    /^(\d{4})-(\d{2})-(\d{2})(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})?)?$/.exec(
+      value,
+    );
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const calendarDate = new Date(Date.UTC(year, month - 1, day));
+  if (
+    calendarDate.getUTCFullYear() !== year ||
+    calendarDate.getUTCMonth() !== month - 1 ||
+    calendarDate.getUTCDate() !== day
+  ) {
+    return false;
+  }
+  return !value.includes("T") || Number.isFinite(Date.parse(value));
 }
 
 function analyzeCriterion(

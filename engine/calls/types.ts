@@ -62,6 +62,7 @@ export type CallWarningCode =
   | "invalid-status"
   | "missing-evidence"
   | "quote-not-found"
+  | "ungrounded-fact"
   | "low-confidence"
   | "no-applicable-criteria";
 

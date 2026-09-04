@@ -71,4 +71,74 @@ describe("call quality scoring", () => {
     ]);
     expect(analysis.needsReview).toBe(true);
   });
+
+  it("projects only public call-record fields into the analysis", () => {
+    const analysis = analyzeCall(demo.calls[0], demo.calls[0].extraction);
+
+    expect(analysis).not.toHaveProperty("extraction");
+    expect(analysis).not.toHaveProperty("expected");
+  });
+
+  it("drops a next action whose evidence quote is not in the transcript", () => {
+    const call = structuredClone(demo.calls[0]);
+    if (!call.extraction?.facts.nextAction) throw new Error("Oracle next action is missing");
+    call.extraction.facts.nextAction.evidenceQuote = "Izdomāts citāts, kura sarunā nav.";
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.facts.nextAction).toBeNull();
+    expect(analysis.warnings).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: "quote-not-found" })]),
+    );
+    expect(analysis.needsReview).toBe(true);
+  });
+
+  it("does not accept an unrelated transcript quote as next-action evidence", () => {
+    const call = structuredClone(demo.calls[0]);
+    if (!call.extraction?.facts.nextAction) throw new Error("Oracle next action is missing");
+    call.extraction.facts.nextAction = {
+      action: "Nosūtīt nepamatotu maksājumu",
+      owner: "Klients",
+      dueAt: "2026-09-05",
+      evidenceQuote: "Labdien.",
+    };
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.facts.nextAction).toBeNull();
+    expect(analysis.warnings).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: "ungrounded-fact" })]),
+    );
+  });
+
+  it("suppresses facts when their supporting criterion is not positive", () => {
+    const call = structuredClone(demo.calls[0]);
+    const observation = call.extraction?.observations.find(
+      (candidate) => candidate.criterionId === "need-object",
+    );
+    if (!observation) throw new Error("Oracle observation is missing");
+    observation.status = "missed";
+    observation.evidenceQuote = null;
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.facts.need).toBeNull();
+    expect(analysis.warnings).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: "ungrounded-fact" })]),
+    );
+  });
+
+  it("removes a non-ISO next-action deadline and requires review", () => {
+    const call = structuredClone(demo.calls[0]);
+    if (!call.extraction?.facts.nextAction) throw new Error("Oracle next action is missing");
+    call.extraction.facts.nextAction.dueAt = "rīt no rīta";
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.facts.nextAction?.dueAt).toBeNull();
+    expect(analysis.warnings).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: "ungrounded-fact" })]),
+    );
+    expect(analysis.needsReview).toBe(true);
+  });
 });

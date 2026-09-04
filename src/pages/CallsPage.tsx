@@ -58,6 +58,7 @@ const warningLabels: Record<string, string> = {
   "low-confidence": "Zema uzticamība — secinājums jāpārbauda cilvēkam.",
   "missing-evidence": "Pozitīvam vērtējumam trūkst avota citāta.",
   "quote-not-found": "Avota citāts nav atrodams transkriptā.",
+  "ungrounded-fact": "Iegūtais fakts nav pietiekami pamatots ar rubrikas citātu.",
   "missing-observation": "Kritērijam nav saņemts novērojums.",
   "rubric-version": "Analīzei ir neatbilstoša rubrikas versija.",
   "duplicate-observation": "Kritērijs analīzē atkārtojas.",
@@ -112,22 +113,14 @@ function isCallExtraction(value: unknown): value is CallExtraction {
   );
 }
 
-async function requestCallExtraction(
-  record: CallRecord,
-  fileName?: string,
-): Promise<CallExtraction> {
+async function requestCallExtraction(record: CallRecord): Promise<CallExtraction> {
   const response = await fetch(apiEndpoint(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       transcript: record.transcript,
-      fileName,
       metadata: {
-        id: record.id,
-        employee: record.employee,
-        contactLabel: record.contactLabel,
         startedAt: record.startedAt,
-        durationSec: record.durationSec,
       },
     }),
   });
@@ -279,6 +272,9 @@ function CallDetails({ call }: { call: AnalyzedCall }) {
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="rounded-xl bg-emerald-50 p-4">
               <h3 className="font-bold text-emerald-950">Sarunā noskaidrots</h3>
+              <p className="mt-1 text-xs leading-5 text-emerald-900">
+                Modeļa strukturēti lauki; pārbaudiet tos pret rubrikas citātiem.
+              </p>
               <dl className="mt-3 space-y-3 text-sm">
                 <div>
                   <dt className="font-semibold text-emerald-900">Vajadzība</dt>
@@ -412,8 +408,7 @@ export function CallsPage() {
 
     setIsLoading(true);
     try {
-      const extraction =
-        disposition === "connected" ? await requestCallExtraction(record, textFileName) : null;
+      const extraction = disposition === "connected" ? await requestCallExtraction(record) : null;
       const analysis = analyzeCall(record, extraction);
       setAnalyses((current) => [...current, analysis]);
       setSelectedCallId(record.id);
@@ -550,6 +545,11 @@ export function CallsPage() {
           value={transcript}
           onChange={(event) => setTranscript(event.target.value)}
         />
+        <aside className="mt-3 rounded-lg border border-sky-200 bg-sky-50 p-3 text-sm leading-6 text-sky-950">
+          <strong>Datu robeža.</strong> Jauna transkripta teksts un zvana laiks tiek nosūtīts ārējam
+          OpenRouter modelim. Šajā prototipā izmantojiet tikai sintētisku vai anonimizētu tekstu.
+          Parauga diena modelim netiek sūtīta.
+        </aside>
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <label className="cursor-pointer rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800">
             Izvēlēties .txt failu

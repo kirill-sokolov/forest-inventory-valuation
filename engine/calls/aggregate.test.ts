@@ -18,9 +18,7 @@ describe("daily call aggregation", () => {
     expect(day.evaluatedCount).toBe(demo.expectedDay.evaluatedCount);
     expect(day.noAnswerCount).toBe(demo.expectedDay.noAnswerCount);
     expect(day.totalDurationSec).toBe(demo.expectedDay.totalDurationSec);
-    expect(day.averageEvaluatedDurationSec).toBe(
-      demo.expectedDay.averageEvaluatedDurationSec,
-    );
+    expect(day.averageEvaluatedDurationSec).toBe(demo.expectedDay.averageEvaluatedDurationSec);
     expect(day.averageScore).toBe(demo.expectedDay.averageScore);
     expect(day.bands).toEqual(demo.expectedDay.bands);
     expect(day.reviewCallIds).toEqual(demo.expectedDay.reviewCallIds);
