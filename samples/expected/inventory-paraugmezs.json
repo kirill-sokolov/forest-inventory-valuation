@@ -14,16 +14,161 @@
     {
       "number": 1,
       "stands": [
-        { "number": 1, "areaHa": 1.2, "landKind": "Mežaudze", "forestType": "Ln", "formulaRaw": "6P3E1B95", "origin": "D", "bonitate": "III", "heightM": 22, "diameterCm": 28, "ageYears": 95, "density": 7, "basalAreaM2Ha": 26, "treesPerHa": null, "stockM3Ha": 280, "notes": { "areaBreakdown": { "forestHa": 1.2, "roadsHa": 0, "ditchesHa": 0 } }, "flags": [] },
-        { "number": 2, "areaHa": 0.8, "landKind": "Mežaudze", "forestType": "Dm", "formulaRaw": "7B2A1Ba75", "origin": "D", "bonitate": "I", "heightM": 27, "diameterCm": 26, "ageYears": 75, "density": 7, "basalAreaM2Ha": 22, "treesPerHa": null, "stockM3Ha": 230, "notes": { "lastFelling": "Kopšanas cirte 2011", "lastActivity": "Koku ciršana 2011", "areaBreakdown": { "forestHa": 0.8, "roadsHa": 0, "ditchesHa": 0 } }, "flags": [] },
-        { "number": 3, "areaHa": 0.5, "landKind": "Mežaudze", "forestType": "Gr", "formulaRaw": "5Oz3B2Os125", "origin": "D", "bonitate": "II", "heightM": 28, "diameterCm": 40, "ageYears": 125, "density": 6, "basalAreaM2Ha": 27, "treesPerHa": null, "stockM3Ha": 300, "notes": { "areaBreakdown": { "forestHa": 0.5, "roadsHa": 0, "ditchesHa": 0 } }, "flags": [] },
-        { "number": 4, "areaHa": 0.3, "landKind": "Pļava", "forestType": null, "formulaRaw": null, "origin": null, "bonitate": null, "heightM": null, "diameterCm": null, "ageYears": null, "density": null, "basalAreaM2Ha": null, "treesPerHa": null, "stockM3Ha": null, "notes": { "areaBreakdown": { "forestHa": 0, "roadsHa": 0, "ditchesHa": 0 } }, "flags": ["non-forest"] },
-        { "number": 5, "areaHa": 0.9, "landKind": "Mežaudze", "forestType": "Vr", "formulaRaw": "4Ba3B30 2E1A25", "formulaLinesInPdf": ["4Ba3B30 2E1A25"], "origin": "D", "bonitate": "I", "heightM": 17, "diameterCm": 15, "ageYears": 30, "density": 9, "basalAreaM2Ha": 23, "treesPerHa": null, "stockM3Ha": 190,
-          "notes": { "protection": { "code": "40022000", "text": "Aizsargjoslas/Ūdenstilpju(teču), mitrzemju a_/Aizsarg. zona gar ūdeņiem" }, "areaBreakdown": { "forestHa": 0.9, "roadsHa": 0, "ditchesHa": 0 } },
-          "flags": ["protection-zone"] },
-        { "number": 6, "areaHa": 0.6, "landKind": "Mežaudze", "forestType": "Dm", "formulaRaw": "3P3E3B60", "origin": "D", "bonitate": "II", "heightM": 21, "diameterCm": 25, "ageYears": 60, "density": 8, "basalAreaM2Ha": 24, "treesPerHa": null, "stockM3Ha": 210, "notes": { "areaBreakdown": { "forestHa": 0.6, "roadsHa": 0, "ditchesHa": 0 } }, "flags": [] },
-        { "number": 7, "areaHa": 0.45, "landKind": "Mežaudze", "forestType": "Vr", "formulaRaw": "8E2B85", "origin": "D", "bonitate": "Ia", "heightM": 30, "diameterCm": 32, "ageYears": 85, "density": 8, "basalAreaM2Ha": 30, "treesPerHa": null, "stockM3Ha": 320, "notes": { "areaBreakdown": { "forestHa": 0.45, "roadsHa": 0, "ditchesHa": 0 } }, "flags": [] },
-        { "number": 8, "areaHa": 0.25, "landKind": "Mežaudze", "forestType": "Ap", "formulaRaw": "10A45", "origin": "D", "bonitate": "IV", "heightM": 18, "diameterCm": 20, "ageYears": 45, "density": 7, "basalAreaM2Ha": 19, "treesPerHa": null, "stockM3Ha": 160, "notes": { "areaBreakdown": { "forestHa": 0.25, "roadsHa": 0, "ditchesHa": 0 } }, "flags": [] }
+        {
+          "number": 1,
+          "areaHa": 1.2,
+          "landKind": "Mežaudze",
+          "forestType": "Ln",
+          "formulaRaw": "6P3E1B95",
+          "origin": "D",
+          "bonitate": "III",
+          "heightM": 22,
+          "diameterCm": 28,
+          "ageYears": 95,
+          "density": 7,
+          "basalAreaM2Ha": 26,
+          "treesPerHa": null,
+          "stockM3Ha": 280,
+          "notes": { "areaBreakdown": { "forestHa": 1.2, "roadsHa": 0, "ditchesHa": 0 } },
+          "flags": []
+        },
+        {
+          "number": 2,
+          "areaHa": 0.8,
+          "landKind": "Mežaudze",
+          "forestType": "Dm",
+          "formulaRaw": "7B2A1Ba75",
+          "origin": "D",
+          "bonitate": "I",
+          "heightM": 27,
+          "diameterCm": 26,
+          "ageYears": 75,
+          "density": 7,
+          "basalAreaM2Ha": 22,
+          "treesPerHa": null,
+          "stockM3Ha": 230,
+          "notes": {
+            "lastFelling": "Kopšanas cirte 2011",
+            "lastActivity": "Koku ciršana 2011",
+            "areaBreakdown": { "forestHa": 0.8, "roadsHa": 0, "ditchesHa": 0 }
+          },
+          "flags": []
+        },
+        {
+          "number": 3,
+          "areaHa": 0.5,
+          "landKind": "Mežaudze",
+          "forestType": "Gr",
+          "formulaRaw": "5Oz3B2Os125",
+          "origin": "D",
+          "bonitate": "II",
+          "heightM": 28,
+          "diameterCm": 40,
+          "ageYears": 125,
+          "density": 6,
+          "basalAreaM2Ha": 27,
+          "treesPerHa": null,
+          "stockM3Ha": 300,
+          "notes": { "areaBreakdown": { "forestHa": 0.5, "roadsHa": 0, "ditchesHa": 0 } },
+          "flags": []
+        },
+        {
+          "number": 4,
+          "areaHa": 0.3,
+          "landKind": "Pļava",
+          "forestType": null,
+          "formulaRaw": null,
+          "origin": null,
+          "bonitate": null,
+          "heightM": null,
+          "diameterCm": null,
+          "ageYears": null,
+          "density": null,
+          "basalAreaM2Ha": null,
+          "treesPerHa": null,
+          "stockM3Ha": null,
+          "notes": { "areaBreakdown": { "forestHa": 0, "roadsHa": 0, "ditchesHa": 0 } },
+          "flags": ["non-forest"]
+        },
+        {
+          "number": 5,
+          "areaHa": 0.9,
+          "landKind": "Mežaudze",
+          "forestType": "Vr",
+          "formulaRaw": "4Ba3B30 2E1A25",
+          "formulaLinesInPdf": ["4Ba3B30 2E1A25"],
+          "origin": "D",
+          "bonitate": "I",
+          "heightM": 17,
+          "diameterCm": 15,
+          "ageYears": 30,
+          "density": 9,
+          "basalAreaM2Ha": 23,
+          "treesPerHa": null,
+          "stockM3Ha": 190,
+          "notes": {
+            "protection": {
+              "code": "40022000",
+              "text": "Aizsargjoslas/Ūdenstilpju(teču), mitrzemju a_/Aizsarg. zona gar ūdeņiem"
+            },
+            "areaBreakdown": { "forestHa": 0.9, "roadsHa": 0, "ditchesHa": 0 }
+          },
+          "flags": ["protection-zone"]
+        },
+        {
+          "number": 6,
+          "areaHa": 0.6,
+          "landKind": "Mežaudze",
+          "forestType": "Dm",
+          "formulaRaw": "3P3E3B60",
+          "origin": "D",
+          "bonitate": "II",
+          "heightM": 21,
+          "diameterCm": 25,
+          "ageYears": 60,
+          "density": 8,
+          "basalAreaM2Ha": 24,
+          "treesPerHa": null,
+          "stockM3Ha": 210,
+          "notes": { "areaBreakdown": { "forestHa": 0.6, "roadsHa": 0, "ditchesHa": 0 } },
+          "flags": []
+        },
+        {
+          "number": 7,
+          "areaHa": 0.45,
+          "landKind": "Mežaudze",
+          "forestType": "Vr",
+          "formulaRaw": "8E2B85",
+          "origin": "D",
+          "bonitate": "Ia",
+          "heightM": 30,
+          "diameterCm": 32,
+          "ageYears": 85,
+          "density": 8,
+          "basalAreaM2Ha": 30,
+          "treesPerHa": null,
+          "stockM3Ha": 320,
+          "notes": { "areaBreakdown": { "forestHa": 0.45, "roadsHa": 0, "ditchesHa": 0 } },
+          "flags": []
+        },
+        {
+          "number": 8,
+          "areaHa": 0.25,
+          "landKind": "Mežaudze",
+          "forestType": "Ap",
+          "formulaRaw": "10A45",
+          "origin": "D",
+          "bonitate": "IV",
+          "heightM": 18,
+          "diameterCm": 20,
+          "ageYears": 45,
+          "density": 7,
+          "basalAreaM2Ha": 19,
+          "treesPerHa": null,
+          "stockM3Ha": 160,
+          "notes": { "areaBreakdown": { "forestHa": 0.25, "roadsHa": 0, "ditchesHa": 0 } },
+          "flags": []
+        }
       ]
     }
   ],
@@ -31,8 +176,20 @@
     "$comment": "Layout requirements for scripts/make-synthetic-inventory.tsx so the same parser reads both the real form and this file.",
     "wrapFormulaOfStand": 5,
     "wrapAs": ["4Ba3B30", "2E1A25"],
-    "noteLinesAfterStand": { "2": ["Pēdējais cirtes izpildes veids un gads: Kopšanas cirte 2011", "Pēdējais darbības veids un gads: Koku ciršana 2011"], "5": ["Aizs.paz.- 40022000 Aizsargjoslas/Ūdenstilpju(teču), mitrzemju a_/Aizsarg. zona gar ūdeņiem"] },
-    "footer": ["Kopā platība kvartālā (ha): 5,00", "Kopā platība kadastrā (ha): 5,00", "Pavisam kopā (ha): 5,00"],
+    "noteLinesAfterStand": {
+      "2": [
+        "Pēdējais cirtes izpildes veids un gads: Kopšanas cirte 2011",
+        "Pēdējais darbības veids un gads: Koku ciršana 2011"
+      ],
+      "5": [
+        "Aizs.paz.- 40022000 Aizsargjoslas/Ūdenstilpju(teču), mitrzemju a_/Aizsarg. zona gar ūdeņiem"
+      ]
+    },
+    "footer": [
+      "Kopā platība kvartālā (ha): 5,00",
+      "Kopā platība kadastrā (ha): 5,00",
+      "Pavisam kopā (ha): 5,00"
+    ],
     "decimalComma": true
   },
   "formulas": {
@@ -40,7 +197,12 @@
     "2": { "shares": { "B": 7, "A": 2, "Ba": 1 }, "dominant": "B" },
     "3": { "shares": { "Oz": 5, "B": 3, "Os": 2 }, "dominant": "Oz" },
     "5": { "shares": { "Ba": 4, "B": 3, "E": 2, "A": 1 }, "dominant": "Ba", "groupAges": [30, 25] },
-    "6": { "shares": { "P": 3, "E": 3, "B": 3 }, "dominant": "P", "warnings": ["coefficient-sum"], "coefficientSum": 9 },
+    "6": {
+      "shares": { "P": 3, "E": 3, "B": 3 },
+      "dominant": "P",
+      "warnings": ["coefficient-sum"],
+      "coefficientSum": 9
+    },
     "7": { "shares": { "E": 8, "B": 2 }, "dominant": "E" },
     "8": { "shares": { "A": 10 }, "dominant": "A" }
   },
@@ -73,14 +235,42 @@
       "total": 689,
       "totalWithoutFlagged": 518
     },
-    "task-pre-2022": { "byStand": { "1": 336, "2": 184, "3": 150, "5": 171, "7": 144, "8": 40 }, "total": 1025 }
+    "task-pre-2022": {
+      "byStand": { "1": 336, "2": 184, "3": 150, "5": 171, "7": 144, "8": 40 },
+      "total": 1025
+    }
   },
   "speciesTotals": { "E": 149.4, "B": 253.9, "A": 93.9, "Ba": 86.8, "Oz": 75, "Os": 30 },
-  "matrixColumnsTotals": { "P": 0, "E": 149.4, "B": 253.9, "Ma": 0, "A": 93.9, "Ba": 86.8, "Oz/Os": 105, "Citi": 0 },
+  "matrixColumnsTotals": {
+    "P": 0,
+    "E": 149.4,
+    "B": 253.9,
+    "Ma": 0,
+    "A": 93.9,
+    "Ba": 86.8,
+    "Oz/Os": 105,
+    "Citi": 0
+  },
   "finance": {
     "$comment": "Default matrix and rates from docs/spec.md. Oz/Os column prices only 70 % of its volume (31.5 m3 unpriced) — this is the expected behaviour with the default matrix; the warning must say so. Tolerances: ±0.05 EUR on rows, ±0.5 on totals.",
-    "revenueBySpeciesColumn": { "E": 11937.06, "B": 16198.82, "A": 5051.82, "Ba": 3506.72, "Oz/Os": 5880, "Citi": 0 },
-    "revenueRows": { "Finieris A": 1904.25, "Finieris B": 4189.35, "Finieris C": 2285.1, "ZB": 11072.4, "SB": 1792.8, "Tara": 11700.4, "PM": 5385.9, "Malka": 4244.22 },
+    "revenueBySpeciesColumn": {
+      "E": 11937.06,
+      "B": 16198.82,
+      "A": 5051.82,
+      "Ba": 3506.72,
+      "Oz/Os": 5880,
+      "Citi": 0
+    },
+    "revenueRows": {
+      "Finieris A": 1904.25,
+      "Finieris B": 4189.35,
+      "Finieris C": 2285.1,
+      "ZB": 11072.4,
+      "SB": 1792.8,
+      "Tara": 11700.4,
+      "PM": 5385.9,
+      "Malka": 4244.22
+    },
     "revenue": 42574.42,
     "unpricedM3": { "Oz/Os": 31.5 },
     "costs": { "cirsana": 7579, "pievesana": 4823, "transports": 4134, "total": 16536 },
@@ -99,9 +289,24 @@
     ]
   },
   "warnings": [
-    { "code": "protection-zone", "stand": 5, "anchor": "stand-5-include", "alternativeTotalM3": 518 },
+    {
+      "code": "protection-zone",
+      "stand": 5,
+      "anchor": "stand-5-include",
+      "alternativeTotalM3": 518
+    },
     { "code": "coefficient-sum", "stand": 6, "sum": 9 },
-    { "code": "matrix-column-sum", "column": "Oz/Os", "sumPercent": 70, "unpricedM3": 31.5, "hint": "Kamīnmalka" },
-    { "code": "edition-note", "flips": [1], "message": "Uzdevuma redakcijā (līdz 29.06.2022) 1. nogabals būtu cērtams (caurmērs 28 ≥ 27); spēkā esošajā — nē (nepieciešami 30 cm)" }
+    {
+      "code": "matrix-column-sum",
+      "column": "Oz/Os",
+      "sumPercent": 70,
+      "unpricedM3": 31.5,
+      "hint": "Kamīnmalka"
+    },
+    {
+      "code": "edition-note",
+      "flips": [1],
+      "message": "Uzdevuma redakcijā (līdz 29.06.2022) 1. nogabals būtu cērtams (caurmērs 28 ≥ 27); spēkā esošajā — nē (nepieciešami 30 cm)"
+    }
   ]
 }

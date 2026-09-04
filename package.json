@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "generate:samples": "node --import tsx scripts/make-synthetic-inventory.tsx && node --import tsx scripts/make-synthetic-contract.tsx",
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
