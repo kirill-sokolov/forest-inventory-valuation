@@ -240,9 +240,11 @@ Status: DONE
    ```
    Apply by hand on the VPS (`/opt/caddy/sites/sokolov.caddy` + `caddy reload`) and commit the same
    change to the monorepo so the next deploy keeps it. Check `https://sokolov.lv/forest/` and
-   `https://sokolov.lv/forest/api/extract` (expect 405/400, not 404).
+   `https://sokolov.lv/forest/api/extract` and `https://sokolov.lv/forest/api/analyze-call`
+   (expect 405/400, not 404).
 4. Manual checklist: `docs/spec.md` §Test scenarios.
-5. Screen recording (2–3 min): sample → report → edit matrix → warning gone → contracts sample.
+5. Screen recording (3–4 min): forest sample → report → edit matrix → warning gone → contracts
+   sample → call-day drill-down and employee/manager summaries.
 6. Send `docs/email.lv.md` with the links.
 
 ---
@@ -287,7 +289,7 @@ Status: DONE
 - **Verification:** `npm run typecheck && npm test -- calls && npm run build`
 
 ## Step 22 — Task 3 handoff (P0)
-Status: TODO
+Status: DONE
 
 - Update README, DECISIONS, Latvian e-mail and night report for three prototypes; run every gate and
   commit with a clean tree.

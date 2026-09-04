@@ -1,6 +1,9 @@
-# Latvian forest inventory PDF parser and contract data extraction
+# Latvian forest inventory PDF parser, contract extraction, and call quality prototype
 
-One-day prototype for parsing Latvian forest inventory PDFs, checking clear-cut eligibility (kailcirte, MK 935), valuing forest stands through an editable sortiment matrix, and extracting structured contract data with an LLM. The public demo is anonymized and contains no client documents.
+One-day prototype covering three workflows: Latvian forest inventory PDF parsing, clear-cut
+eligibility (kailcirte, MK 935), stand valuation through an editable sortiment matrix, grounded LLM
+contract data extraction with structured output, and evidence-based procurement-call quality
+reports. The public demo is anonymized and contains only fictional samples.
 
 Live demo: https://sokolov.lv/forest/
 
@@ -13,6 +16,10 @@ Live demo: https://sokolov.lv/forest/
 - Copy or export the forest report as TXT, JSON or DOCX.
 - Upload a Latvian purchase or lease contract, extract grounded fields and validate them.
 - Use three bundled synthetic contract results without an API key.
+- Review a fictional five-call day, inspect criterion evidence and generate separate employee and
+  manager summaries.
+- Paste a new call transcript for grounded observations when the server has an OpenRouter key;
+  scores and day metrics are always calculated deterministically.
 
 ## Run locally
 
@@ -23,7 +30,10 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173/forest/`. The forest sample and cached contract samples work without secrets. To process a new contract through the Vercel function, copy `.env.example` to `.env.local`, set `OPENROUTER_API_KEY`, and run the project with Vercel's local development command.
+Open `http://localhost:5173/forest/`. The forest, contract, and call-day samples work without
+secrets. To process a new contract or call transcript through a Vercel function, copy `.env.example`
+to `.env.local`, set `OPENROUTER_API_KEY`, and run the project with Vercel's local development
+command.
 
 Generate the committed synthetic PDFs:
 
@@ -62,22 +72,38 @@ With `OPENROUTER_API_KEY` set, a contract can be processed from the command line
 7. `engine/contracts/` defines the structured schema, deterministic validation and e-mail summary.
 8. `api/extract.ts` accepts extracted text, calls OpenRouter and never receives the original PDF.
 9. `src/pages/ContractsPage.tsx` shows live or cached results with field-level grounding.
-10. `samples/` contains only fictional, reproducible public fixtures; private oracle files stay ignored.
+10. `engine/calls/` validates transcript evidence, applies the versioned call rubric and creates
+    deterministic daily summaries.
+11. `api/analyze-call.ts` maps transcript text into the fixed observation schema; it never receives
+    audio and never decides a score.
+12. `src/pages/CallsPage.tsx` provides the offline demonstration, call drill-down and daily views.
+13. `samples/` contains only fictional, reproducible public fixtures; private oracle files stay ignored.
 
 ## Deterministic and LLM boundaries
 
-Every number in the forest report comes from versioned TypeScript rules and editable inputs. No LLM participates in forest calculations. The contract prototype uses an LLM only to map document text into the fixed schema. Required fields, formats, date order, currency, VAT consistency and low-confidence values are checked deterministically after extraction.
+Every number in the forest report and call-quality dashboard comes from versioned TypeScript rules.
+No LLM participates in those calculations. The contract and new-transcript flows use an LLM only to
+map unstructured text into fixed schemas with source quotes. Validation, warnings, scores and daily
+aggregates are deterministic.
 
 ## Limits
 
 - Scanned PDFs without a text layer are detected but not OCR-processed.
 - The inventory parser targets the supplied VMD report layout; other layouts may need another adapter.
 - Contract processing handles one PDF per run and limits extracted text to 200 KB.
+- The call prototype starts from speaker-labelled transcript text; it does not integrate telephony,
+  accept audio, or perform speech recognition. New transcripts are limited to 100 KB.
+- A new transcript and its start time leave the browser for the configured OpenRouter model; use
+  synthetic or anonymized text in this prototype. The bundled call day makes no model request.
 - The rate limit is best-effort in serverless memory and is not a production abuse-control system.
 - Legal eligibility remains decision support: protection-zone warnings require specialist review.
+- Call scoring is coaching support, not an automated personnel decision. Low-confidence and weak
+  results require human review.
 
 ## Next steps
 
 - Integrate VMD open data where a reliable per-property source becomes available.
 - Add a human review queue with corrected contract fields and audit history.
+- Pilot the call rubric against a double-reviewed anonymized reference set before connecting
+  telephony or sending automatic reports.
 - Add OCR or a vision fallback with area-total cross-checking for scanned inventory documents.

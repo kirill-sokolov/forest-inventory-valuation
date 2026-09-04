@@ -2,7 +2,7 @@
 
 Labdien!
 
-Esmu sagatavojis divus strādājošus prototipus:
+Esmu sagatavojis trīs strādājošus prototipus:
 
 - demonstrācija: https://sokolov.lv/forest/
 - publiskais, anonimizētais kods: https://github.com/kirill-sokolov/forest-inventory-valuation
@@ -11,14 +11,17 @@ Sadaļā “Meža inventarizācija” var nospiest “Izmantot paraugu” un uzr
 
 Sadaļā “Līgumi” ir trīs izdomāti pirkuma un nomas līgumu paraugi. Rezultātā redzama lauka vērtība, uzticamība, avota citāts un pārbaudes statuss, kā arī sagatavots e-pasta kopsavilkums. Savu PDF var apstrādāt izvietotajā versijā; pārlūks uz serveri nosūta tikai izvilkto tekstu, nevis pašu failu.
 
+Sadaļā “Zvanu kvalitāte” var ielādēt izdomātu piecu zvanu dienu un pārbaudīt katra kritērija statusu, svaru un avota citātu. Atsevišķi sagatavots darbinieka un vadītāja dienas kopsavilkums ar zvanu skaitu, ilgumu, kvalitāti, turpmākajiem darbiem un pārbaudes rindu. Jauna transkripta gadījumā tā teksts tiek nosūtīts konfigurētajam OpenRouter modelim, tāpēc prototipā jāizmanto anonimizēts teksts. Modelis tikai strukturē novērojumus; punktus un dienas rādītājus aprēķina programma. Zemi vai nepietiekami pamatoti rezultāti tiek nodoti cilvēka pārbaudei.
+
 Publiskajā repozitorijā un demonstrācijā nav Jūsu dokumentu, reālo īpašumu datu vai kadastra numuru. Privātais inventarizācijas fails tika izmantots tikai lokālai rezultāta pārbaudei.
 
-Divi pieņēmumi, kurus vēlos skaidri norādīt:
+Trīs pieņēmumi, kurus vēlos skaidri norādīt:
 
 1. Uzdevumā dotā caurmēru tabula atbilst redakcijai līdz 2022. gada 29. jūnijam. Prototips piedāvā gan šo, gan spēkā esošo redakciju un atskaitē norāda izvēlēto.
 2. Oz/Os sortimentu kolonnā dotie īpatsvari kopā veido 70%, bet Kamīnmalka rindai ir cena bez īpatsvara. Prototips to saglabā un parāda brīdinājumu par nesadalītajiem 30%. Vai šie 30% bija paredzēti Kamīnmalkai?
+3. Zvanu `procurement-v1` rubrika ir caurskatāms prototipa pieņēmums. Pirms pilota jāapstiprina kritēriji, juridiskais pamats, piekļuves un glabāšanas kārtība, kā arī jāsalīdzina rezultāti ar divu cilvēku vērtētu etalonu.
 
-Īsā ekrānierakstā parādīšu parauga aprēķinu, matricas labošanu un līguma datu izvilkšanu.
+Īsā ekrānierakstā parādīšu parauga aprēķinu, matricas labošanu, līguma datu izvilkšanu un zvanu dienas pārskatu.
 
 Ar cieņu
 

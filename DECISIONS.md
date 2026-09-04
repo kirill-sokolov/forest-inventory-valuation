@@ -1,10 +1,10 @@
 # Lēmumi par prototipu
 
-Šis prototips parāda, kā no meža inventarizācijas un līgumu PDF iegūt pārbaudāmu darba rezultātu vienas dienas laikā. Zemāk ir svarīgākie lēmumi, to iemesli un praktiskais ieguvums pasūtītājam.
+Šis prototips parāda, kā no meža inventarizācijas un līgumu PDF, kā arī zvana transkripta iegūt pārbaudāmu darba rezultātu vienas dienas laikā. Zemāk ir svarīgākie lēmumi, to iemesli un praktiskais ieguvums pasūtītājam.
 
 ## Pieeja un problēmas sadalījums
 
-Uzdevumu sadalīju divās atšķirīgās plūsmās: skaitliski pārbaudāmā meža inventarizācija un semantiski interpretējamie līgumi. Inventarizācijas plūsma ir PDF teksts → normalizācija → strukturēti dati → tiesību noteikumi → aprēķins → atskaite; līgumu plūsma ir teksts → strukturēta izvilkšana → shēmas pārbaude → kopsavilkums. Rīkus izvēlējos pēc kļūdas riska: determinētu kodu visiem skaitļiem, valodas modeli tikai brīvas formas tekstam un pārbaudāmus paraugus katra posma validācijai. Vienas dienas ierobežojumā vispirms izveidoju pilnu darbojošos plūsmu, bet apzināti neiekļāvu infrastruktūru, kas prototipa galveno pieņēmumu nepārbauda.
+Uzdevumu sadalīju trīs atšķirīgās plūsmās: skaitliski pārbaudāmā meža inventarizācija, semantiski interpretējamie līgumi un pierādījumos balstīta zvanu kvalitātes kontrole. Inventarizācijas plūsma ir PDF teksts → normalizācija → strukturēti dati → tiesību noteikumi → aprēķins → atskaite; līgumu plūsma ir teksts → strukturēta izvilkšana → shēmas pārbaude → kopsavilkums; zvanu plūsma ir transkripts → kritēriju novērojumi ar citātiem → determinēts vērtējums → dienas pārskati. Rīkus izvēlējos pēc kļūdas riska: determinētu kodu visiem skaitļiem, valodas modeli tikai brīvas formas tekstam un pārbaudāmus paraugus katra posma validācijai. Vienas dienas ierobežojumā vispirms izveidoju pilnu darbojošos plūsmu, bet apzināti neiekļāvu infrastruktūru, kas prototipa galveno pieņēmumu nepārbauda.
 
 ## 1. Vispirms strādājošs prototips
 
@@ -38,4 +38,16 @@ Publiskajiem sintētiskajiem līgumiem ir saglabāti demonstrācijas rezultāti.
 
 ## 8. Publiskajā versijā nav pasūtītāja datu
 
-Repozitorijā un vietnē ir tikai izdomāta meža inventarizācija un pašu radīti līgumu paraugi. Pasūtītāja faili paliek lokāli un tiek izmantoti tikai privātā pārbaudē. Tas ļauj publiski parādīt risinājuma kvalitāti, neizpaužot dokumentus vai īpašumu datus.
+Repozitorijā un vietnē ir tikai izdomāta meža inventarizācija un pašu radīti līgumu un zvanu paraugi. Pasūtītāja faili paliek lokāli un tiek izmantoti tikai privātā pārbaudē. Tas ļauj publiski parādīt risinājuma kvalitāti, neizpaužot dokumentus, sarunas vai īpašumu datus.
+
+## 9. Zvana vērtējums ir izsekojams līdz transkripta citātam
+
+Valodas modelis var tikai piedāvāt fiksētas rubrikas novērojumus un avota citātus. Programma pārbauda citāta esamību transkriptā un pati aprēķina punktus. Nepamatots pozitīvs secinājums tiek pazemināts, nevis klusi pieņemts. Tas ļauj darbiniekam un vadītājam saprast un apstrīdēt katru rezultātu.
+
+## 10. Dienas pārskats palīdz pilnveidoties, nevis veido darbinieku reitingu
+
+Darbinieks redz tikai savus zvanus, turpmākos darbus, stiprās puses un pilnveidojamos kritērijus. Vadītājs redz komandas apjomu, ilgumu, biežākos izlaidumus un pārbaudāmos zvanus, bet ne automātisku cilvēku rangu. Zems vērtējums vai zema pārliecība vienmēr nozīmē cilvēka pārbaudi, nevis personāla lēmumu.
+
+## 11. Telefonijas integrācija sākas tikai pēc rubrikas un privātuma pilota
+
+Prototips izmanto tikai izdomātus transkriptus un neglabā audio. Pirms produkcijas nepieciešama juridiski pamatota zvanu ierakstīšana, lomu piekļuve, glabāšanas termiņi, labojumu ceļš un salīdzinājums ar divu cilvēku saskaņotu etalonu. Integrāciju paplašina tikai tad, ja sasniegta pietiekama precizitāte, laika ietaupījums un privātuma prasības.
