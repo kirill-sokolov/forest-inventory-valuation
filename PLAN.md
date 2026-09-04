@@ -244,3 +244,51 @@ Status: DONE
 4. Manual checklist: `docs/spec.md` §Test scenarios.
 5. Screen recording (2–3 min): sample → report → edit matrix → warning gone → contracts sample.
 6. Send `docs/email.lv.md` with the links.
+
+---
+
+## Task 3 extension — call quality workflow
+
+The user added the third original assignment after the first overnight build. These steps extend the
+same prototype without changing the completed task 1 and 2 scope.
+
+## Step 18 — Task 3 oracle and process design (P0)
+Status: DONE
+
+- Add the approved Task 3 rules and Oracle C to `docs/spec.md`.
+- Commit five fictional call attempts plus cached criterion observations in
+  `samples/expected/calls-demo.json`; no recordings, phone numbers or real people.
+- Write `docs/calls-process.lv.md`: process, implementation stages, measurement gates, privacy and
+  human-review boundaries.
+- **Verification:** `test -s samples/expected/calls-demo.json && test -s docs/calls-process.lv.md`
+
+## Step 19 — Deterministic call scoring and daily reports (P0)
+Status: TODO
+
+- `engine/calls/`: versioned rubric, evidence validation, deterministic score, warnings, daily
+  aggregation, employee/manager summaries and JSON export.
+- Tests lock Oracle C, N/A denominator, half credit, missing evidence and low-confidence review.
+- **Verification:** `npm test -- engine/calls`
+
+## Step 20 — Grounded transcript API (P1)
+Status: TODO
+
+- `api/analyze-call.ts`: transcript text (not audio) to fixed observations/facts schema via
+  OpenRouter; 100 KB limit, 10/min best-effort limit, clear 503 without key and no request logging.
+- Mocked handler tests; paid live test guarded by `OPENROUTER_API_KEY`.
+- **Verification:** `npm test -- api/analyze-call`
+
+## Step 21 — Task 3 web prototype (P0)
+Status: TODO
+
+- `/zvani`: transcript/file input, cached sample day, call drill-down, rubric evidence, daily metrics,
+  employee and manager summaries, copy/mailto/JSON, and the process/measurement plan.
+- Add the third landing card and keep the `/forest/` base path.
+- **Verification:** `npm run typecheck && npm test -- calls && npm run build`
+
+## Step 22 — Task 3 handoff (P0)
+Status: TODO
+
+- Update README, DECISIONS, Latvian e-mail and night report for three prototypes; run every gate and
+  commit with a clean tree.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build && test -z "$(git status --porcelain)"`

@@ -1,0 +1,154 @@
+{
+  "date": "2026-09-04",
+  "rubricVersion": "procurement-v1",
+  "calls": [
+    {
+      "id": "call-a1",
+      "startedAt": "2026-09-04T08:30:00+03:00",
+      "durationSec": 360,
+      "employee": "Darbinieks A",
+      "contactLabel": "Kontakts 001",
+      "disposition": "connected",
+      "transcript": "Darbinieks: Labdien! Mani sauc Anna, pārstāvu iepirkumu komandu.\nKlients: Labdien.\nDarbinieks: Zvanu par Jūsu iesniegto īpašuma piedāvājumu.\nDarbinieks: Kādu rezultātu Jūs sagaidāt no īpašuma pārdošanas?\nKlients: Vēlos drošu darījumu tuvāko nedēļu laikā.\nDarbinieks: Kāda ir īpašuma adrese, platība un dokumentu statuss?\nKlients: Adrese ir Parka iela 1, platība 4,2 hektāri, dokumenti ir sagatavoti.\nDarbinieks: Kādu cenu Jūs sagaidāt un vai tajā ir iekļauti visi nosacījumi?\nKlients: Sagaidu 120 000 EUR.\nDarbinieks: Kad plānojat pieņemt lēmumu un kas vēl piedalās lēmumā?\nKlients: Līdz 15. septembrim, lēmumu pieņemšu pats.\nDarbinieks: Vai Jums ir jautājumi vai bažas par nākamo soli?\nKlients: Vēlos zināt nepieciešamo dokumentu sarakstu.\nDarbinieks: Dokumentu sarakstu nosūtīšu rīt.\nDarbinieks: Paldies par sarunu, jauku dienu!",
+      "extraction": {
+        "rubricVersion": "procurement-v1",
+        "observations": [
+          { "criterionId": "greeting-identity", "status": "met", "confidence": 0.99, "evidenceQuote": "Labdien! Mani sauc Anna, pārstāvu iepirkumu komandu.", "note": "Darbinieks sasveicinās un nosauc sevi." },
+          { "criterionId": "purpose", "status": "met", "confidence": 0.99, "evidenceQuote": "Zvanu par Jūsu iesniegto īpašuma piedāvājumu.", "note": "Zvana mērķis ir skaidrs." },
+          { "criterionId": "need-object", "status": "met", "confidence": 0.96, "evidenceQuote": "Kādu rezultātu Jūs sagaidāt no īpašuma pārdošanas?", "note": "Noskaidrots klienta mērķis." },
+          { "criterionId": "key-parameters", "status": "met", "confidence": 0.97, "evidenceQuote": "Kāda ir īpašuma adrese, platība un dokumentu statuss?", "note": "Uzdoti jautājumi par galvenajiem parametriem." },
+          { "criterionId": "price-terms", "status": "met", "confidence": 0.97, "evidenceQuote": "Kādu cenu Jūs sagaidāt un vai tajā ir iekļauti visi nosacījumi?", "note": "Cena un nosacījumi ir pārrunāti." },
+          { "criterionId": "timing-decision", "status": "met", "confidence": 0.96, "evidenceQuote": "Kad plānojat pieņemt lēmumu un kas vēl piedalās lēmumā?", "note": "Noskaidrots termiņš un lēmuma pieņēmējs." },
+          { "criterionId": "questions-objections", "status": "met", "confidence": 0.94, "evidenceQuote": "Vai Jums ir jautājumi vai bažas par nākamo soli?", "note": "Darbinieks aicina nosaukt jautājumus." },
+          { "criterionId": "next-step", "status": "partial", "confidence": 0.93, "evidenceQuote": "Dokumentu sarakstu nosūtīšu rīt.", "note": "Darbība ir skaidra, bet nav precīza datuma un kanāla." },
+          { "criterionId": "summary-close", "status": "missed", "confidence": 0.91, "evidenceQuote": null, "note": "Saruna noslēgta pieklājīgi, bet vienošanās nav apkopota." }
+        ],
+        "facts": {
+          "need": "Drošs īpašuma pārdošanas darījums tuvāko nedēļu laikā",
+          "keyParameters": ["Parka iela 1", "4,2 ha", "Dokumenti sagatavoti"],
+          "priceTerms": "120 000 EUR",
+          "timing": "Lēmums līdz 15. septembrim",
+          "nextAction": { "action": "Nosūtīt dokumentu sarakstu", "owner": "Darbinieks A", "dueAt": null, "evidenceQuote": "Dokumentu sarakstu nosūtīšu rīt." }
+        }
+      },
+      "expected": { "score": 90, "band": "good", "needsReview": false }
+    },
+    {
+      "id": "call-a2",
+      "startedAt": "2026-09-04T10:10:00+03:00",
+      "durationSec": 240,
+      "employee": "Darbinieks A",
+      "contactLabel": "Kontakts 002",
+      "disposition": "connected",
+      "transcript": "Darbinieks: Labdien! Te Anna no iepirkumu komandas.\nKlients: Labdien.\nDarbinieks: Zvanu par iespējamu sadarbību saistībā ar Jūsu īpašumu.\nDarbinieks: Kāds risinājums Jums šobrīd būtu vispiemērotākais?\nKlients: Vēlos saprast, kā notiek izvērtēšana.\nDarbinieks: Kādi dokumenti par īpašumu Jums jau ir pieejami?\nKlients: Zemesgrāmata un robežu plāns.\nDarbinieks: Kādi jautājumi Jums vēl ir par izvērtēšanas procesu?\nKlients: Cik ilgi tas parasti aizņem?\nDarbinieks: Parasti dažas darba dienas.",
+      "extraction": {
+        "rubricVersion": "procurement-v1",
+        "observations": [
+          { "criterionId": "greeting-identity", "status": "met", "confidence": 0.98, "evidenceQuote": "Labdien! Te Anna no iepirkumu komandas.", "note": "Darbinieks identificē sevi." },
+          { "criterionId": "purpose", "status": "met", "confidence": 0.97, "evidenceQuote": "Zvanu par iespējamu sadarbību saistībā ar Jūsu īpašumu.", "note": "Mērķis ir nosaukts." },
+          { "criterionId": "need-object", "status": "met", "confidence": 0.91, "evidenceQuote": "Kāds risinājums Jums šobrīd būtu vispiemērotākais?", "note": "Noskaidrota vajadzība." },
+          { "criterionId": "key-parameters", "status": "met", "confidence": 0.92, "evidenceQuote": "Kādi dokumenti par īpašumu Jums jau ir pieejami?", "note": "Noskaidroti pieejamie dokumenti." },
+          { "criterionId": "price-terms", "status": "missed", "confidence": 0.95, "evidenceQuote": null, "note": "Cena un nosacījumi nav pārrunāti." },
+          { "criterionId": "timing-decision", "status": "missed", "confidence": 0.94, "evidenceQuote": null, "note": "Nav noskaidrots klienta lēmuma termiņš." },
+          { "criterionId": "questions-objections", "status": "met", "confidence": 0.91, "evidenceQuote": "Kādi jautājumi Jums vēl ir par izvērtēšanas procesu?", "note": "Klients tiek aicināts uzdot jautājumus." },
+          { "criterionId": "next-step", "status": "missed", "confidence": 0.96, "evidenceQuote": null, "note": "Nav vienošanās par nākamo darbību." },
+          { "criterionId": "summary-close", "status": "missed", "confidence": 0.95, "evidenceQuote": null, "note": "Nav kopsavilkuma un noslēguma." }
+        ],
+        "facts": {
+          "need": "Saprast īpašuma izvērtēšanas procesu",
+          "keyParameters": ["Zemesgrāmata", "Robežu plāns"],
+          "priceTerms": null,
+          "timing": null,
+          "nextAction": null
+        }
+      },
+      "expected": { "score": 60, "band": "review", "needsReview": true }
+    },
+    {
+      "id": "call-na1",
+      "startedAt": "2026-09-04T11:20:00+03:00",
+      "durationSec": 20,
+      "employee": "Darbinieks A",
+      "contactLabel": "Kontakts 003",
+      "disposition": "no-answer",
+      "transcript": "",
+      "extraction": null,
+      "expected": { "score": null, "band": null, "needsReview": false }
+    },
+    {
+      "id": "call-b1",
+      "startedAt": "2026-09-04T13:00:00+03:00",
+      "durationSec": 300,
+      "employee": "Darbinieks B",
+      "contactLabel": "Kontakts 004",
+      "disposition": "connected",
+      "transcript": "Darbinieks: Labdien! Mani sauc Kārlis, pārstāvu iepirkumu komandu.\nKlients: Labdien.\nDarbinieks: Zvanu par iepriekš pieteikto īpašuma izvērtēšanu.\nDarbinieks: Kāda ir īpašuma platība un kadastra dokumentu statuss?\nKlients: Platība ir 2,8 hektāri un dokumenti ir kārtībā.\nDarbinieks: Vai 85 000 EUR ir Jūsu vēlamā cena un kādi ir apmaksas nosacījumi?\nKlients: Jā, samaksa vienā maksājumā.\nDarbinieks: Kad vēlaties pabeigt darījumu un vai lēmumā piedalās vēl kāds?\nKlients: Šomēnes, lēmumu pieņemu es.\nDarbinieks: Kādas bažas vai jautājumi Jums ir par piedāvājumu?\nKlients: Vai būs vajadzīgs vērtējums?\nDarbinieks: Jā, to organizēsim mēs.\nDarbinieks: Vienojamies, ka piektdien piezvanīšu ar sākotnējo piedāvājumu.\nDarbinieks: Paldies, uz redzēšanos!",
+      "extraction": {
+        "rubricVersion": "procurement-v1",
+        "observations": [
+          { "criterionId": "greeting-identity", "status": "met", "confidence": 0.99, "evidenceQuote": "Labdien! Mani sauc Kārlis, pārstāvu iepirkumu komandu.", "note": "Darbinieks identificē sevi." },
+          { "criterionId": "purpose", "status": "met", "confidence": 0.98, "evidenceQuote": "Zvanu par iepriekš pieteikto īpašuma izvērtēšanu.", "note": "Zvana mērķis ir skaidrs." },
+          { "criterionId": "need-object", "status": "missed", "confidence": 0.9, "evidenceQuote": null, "note": "Nav noskaidrots klienta mērķis vai vajadzība." },
+          { "criterionId": "key-parameters", "status": "met", "confidence": 0.98, "evidenceQuote": "Kāda ir īpašuma platība un kadastra dokumentu statuss?", "note": "Galvenie parametri ir iegūti." },
+          { "criterionId": "price-terms", "status": "met", "confidence": 0.97, "evidenceQuote": "Vai 85 000 EUR ir Jūsu vēlamā cena un kādi ir apmaksas nosacījumi?", "note": "Cena un apmaksa ir pārrunāta." },
+          { "criterionId": "timing-decision", "status": "met", "confidence": 0.96, "evidenceQuote": "Kad vēlaties pabeigt darījumu un vai lēmumā piedalās vēl kāds?", "note": "Noskaidrots termiņš un lēmuma process." },
+          { "criterionId": "questions-objections", "status": "met", "confidence": 0.94, "evidenceQuote": "Kādas bažas vai jautājumi Jums ir par piedāvājumu?", "note": "Jautājumi ir aicināti un atbildēti." },
+          { "criterionId": "next-step", "status": "met", "confidence": 0.96, "evidenceQuote": "Vienojamies, ka piektdien piezvanīšu ar sākotnējo piedāvājumu.", "note": "Ir skaidrs nākamais solis." },
+          { "criterionId": "summary-close", "status": "missed", "confidence": 0.91, "evidenceQuote": null, "note": "Ir pieklājīgs noslēgums, bet nav sarunas kopsavilkuma." }
+        ],
+        "facts": {
+          "need": null,
+          "keyParameters": ["2,8 ha", "Kadastra dokumenti kārtībā"],
+          "priceTerms": "85 000 EUR, viens maksājums",
+          "timing": "Darījums šomēnes",
+          "nextAction": { "action": "Piezvanīt ar sākotnējo piedāvājumu", "owner": "Darbinieks B", "dueAt": "2026-09-05", "evidenceQuote": "Vienojamies, ka piektdien piezvanīšu ar sākotnējo piedāvājumu." }
+        }
+      },
+      "expected": { "score": 80, "band": "improve", "needsReview": false }
+    },
+    {
+      "id": "call-b2",
+      "startedAt": "2026-09-04T15:40:00+03:00",
+      "durationSec": 180,
+      "employee": "Darbinieks B",
+      "contactLabel": "Kontakts 005",
+      "disposition": "connected",
+      "transcript": "Darbinieks: Labdien! Te Kārlis no iepirkumu komandas.\nKlients: Labdien.\nDarbinieks: Zvanu par Jūsu zemes pārdošanas pieteikumu.\nDarbinieks: Kāds ir Jūsu galvenais mērķis un vēlamais rezultāts?\nKlients: Vēlos pārdot zemi līdz mēneša beigām.\nDarbinieks: Kāda ir adrese, platība un pieejamie dokumenti?\nKlients: Ezera iela 2, 1,6 hektāri, visi dokumenti ir pieejami.\nDarbinieks: Kāda ir vēlamā cena un apmaksas kārtība?\nKlients: 45 000 EUR vienā maksājumā.\nDarbinieks: Kas pieņem gala lēmumu un līdz kuram datumam?\nKlients: Es, līdz 20. septembrim.\nDarbinieks: Kādi jautājumi vai iebildumi vēl jāizrunā?\nKlients: Jautājumu nav.\nDarbinieks: Tātad vienojāmies, ka līdz rītdienas 12.00 nosūtīšu piedāvājumu e-pastā.\nDarbinieks: Paldies par sarunu, jauku dienu!",
+      "extraction": {
+        "rubricVersion": "procurement-v1",
+        "observations": [
+          { "criterionId": "greeting-identity", "status": "met", "confidence": 0.99, "evidenceQuote": "Labdien! Te Kārlis no iepirkumu komandas.", "note": "Darbinieks identificē sevi." },
+          { "criterionId": "purpose", "status": "met", "confidence": 0.99, "evidenceQuote": "Zvanu par Jūsu zemes pārdošanas pieteikumu.", "note": "Zvana mērķis ir skaidrs." },
+          { "criterionId": "need-object", "status": "met", "confidence": 0.98, "evidenceQuote": "Kāds ir Jūsu galvenais mērķis un vēlamais rezultāts?", "note": "Klienta vajadzība ir noskaidrota." },
+          { "criterionId": "key-parameters", "status": "met", "confidence": 0.98, "evidenceQuote": "Kāda ir adrese, platība un pieejamie dokumenti?", "note": "Galvenie parametri ir iegūti." },
+          { "criterionId": "price-terms", "status": "met", "confidence": 0.62, "evidenceQuote": "Kāda ir vēlamā cena un apmaksas kārtība?", "note": "Cena ir atrasta, bet modeļa pārliecība ir zema." },
+          { "criterionId": "timing-decision", "status": "met", "confidence": 0.96, "evidenceQuote": "Kas pieņem gala lēmumu un līdz kuram datumam?", "note": "Noskaidrots termiņš un lēmuma pieņēmējs." },
+          { "criterionId": "questions-objections", "status": "met", "confidence": 0.94, "evidenceQuote": "Kādi jautājumi vai iebildumi vēl jāizrunā?", "note": "Jautājumi un iebildumi ir pārbaudīti." },
+          { "criterionId": "next-step", "status": "met", "confidence": 0.97, "evidenceQuote": "Tātad vienojāmies, ka līdz rītdienas 12.00 nosūtīšu piedāvājumu e-pastā.", "note": "Ir darbība, termiņš un kanāls." },
+          { "criterionId": "summary-close", "status": "met", "confidence": 0.96, "evidenceQuote": "Paldies par sarunu, jauku dienu!", "note": "Saruna ir apkopota un pieklājīgi noslēgta." }
+        ],
+        "facts": {
+          "need": "Pārdot zemi līdz mēneša beigām",
+          "keyParameters": ["Ezera iela 2", "1,6 ha", "Dokumenti pieejami"],
+          "priceTerms": "45 000 EUR vienā maksājumā",
+          "timing": "Lēmums līdz 20. septembrim",
+          "nextAction": { "action": "Nosūtīt piedāvājumu e-pastā", "owner": "Darbinieks B", "dueAt": "2026-09-05", "evidenceQuote": "Tātad vienojāmies, ka līdz rītdienas 12.00 nosūtīšu piedāvājumu e-pastā." }
+        }
+      },
+      "expected": { "score": 100, "band": "good", "needsReview": true }
+    }
+  ],
+  "expectedDay": {
+    "callCount": 5,
+    "connectedCount": 4,
+    "evaluatedCount": 4,
+    "noAnswerCount": 1,
+    "totalDurationSec": 1100,
+    "averageEvaluatedDurationSec": 270,
+    "averageScore": 82.5,
+    "bands": { "good": 2, "improve": 1, "review": 1 },
+    "reviewCallIds": ["call-a2", "call-b2"],
+    "employeeA": { "callCount": 3, "evaluatedCount": 2, "averageScore": 75, "totalDurationSec": 620 },
+    "employeeB": { "callCount": 2, "evaluatedCount": 2, "averageScore": 90, "totalDurationSec": 480 }
+  }
+}
