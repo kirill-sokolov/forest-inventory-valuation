@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+.vercel/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+# local working material, not part of the public repo
+docs/research/
+docs/task/
+# the client's real inventory PDF + its oracle, and third-party contract templates (see samples/contracts/SOURCES.md)
+samples/private/
+samples/contracts/third-party/
