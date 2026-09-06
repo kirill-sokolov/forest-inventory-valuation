@@ -138,5 +138,10 @@ Reading/analysis disables conflicting input actions.
 
 All 122 offline tests, lint, typecheck and build pass. Tests cover transport retries, persistent
 empty/HTML/truncated JSON, explicit configuration errors, a single result after retry, TXT drops,
-invalid files and retrying the same PDF after a failed response. Publication and final live checks
-are recorded below after deployment.
+invalid files and retrying the same PDF after a failed response.
+
+Deployment `dpl_DvjSdQAEHGgBsNwgCeFichxpdFrH` is ready. Both public routes serve the verified
+`index-IEE-dqhV.js` bundle. Using the published sample files with the shared request helper, the
+production call endpoint returned HTTP 200 and nine schema-valid criteria in 9 seconds; the contract
+endpoint returned HTTP 200 and a schema-valid 48,500 EUR price in 13 seconds. No retry was needed.
+The deployment manifest contained 112 regular files and no private/environment contents.

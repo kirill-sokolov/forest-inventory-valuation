@@ -328,7 +328,7 @@ Status: DONE — 111 offline tests and all gates pass; five downloads and both r
   five published downloads match their source fixtures and both public task routes load the new build.
 
 ## Step 26 — Recover interrupted uploads and accept TXT drops (P0)
-Status: IN PROGRESS
+Status: DONE — 122 offline tests and all gates pass; deployed bundle and both live analyses verified
 
 - Reproduce both public input-to-analysis requests and inspect deployment responses.
 - Handle empty/non-JSON gateway responses in both pages, retry one transient failure and retain
