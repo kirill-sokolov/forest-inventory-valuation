@@ -117,4 +117,9 @@ download discovery, prepared-result selection, inserting a transcript and the te
 requests. All five build outputs match the original PDFs/transcripts byte-for-byte; the source
 oracles are unchanged. Dev/build creates the public files through `scripts/prepare-demo-files.ts`.
 Browser discovery still returns no available browser, so no visual screenshot check was possible.
-Production publication and download verification are recorded below after deployment.
+Production deployment `dpl_Ckp2ahbWQasZbQYgDozp76HvE5H1` is ready. Both task routes on
+`sokolov.lv` return the exact verified bundle (`index-D3NMxI4u.js`). All three
+`/forest/samples/contracts/*.pdf` and both `/forest/samples/calls/*.txt` downloads return HTTP 200,
+the correct content type and bytes identical to the verified inputs. The Vercel build log confirms
+generation of the five downloads. The source upload manifest includes 110 regular files, with no
+private documents or environment contents.

@@ -317,7 +317,7 @@ Status: DONE — production bundle matches the verified build; live call has no 
   application and the live transcript result passes the deployed engine's evidence checks.
 
 ## Step 25 — Make contract and call examples easy to try (P0)
-Status: IN PROGRESS
+Status: DONE — 111 offline tests and all gates pass; five downloads and both routes verified live
 
 - Explain each task in terms of its input and result, with a visible download/upload walkthrough.
 - Publish the three owned contract PDFs and two existing synthetic transcripts at stable sample URLs.
