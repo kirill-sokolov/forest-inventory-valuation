@@ -24,3 +24,13 @@ The prototype proceeds with the following documented assumptions. None blocks th
   property in `required`.
 - Vercel transpiles ESM TypeScript per file without bundling, so `api/` now holds esbuild bundles
   generated from `server/` by `npm run build`.
+
+## Call evidence matching (2026-09-06)
+
+- The live model joined adjacent question/answer turns without speaker labels. Exact matching
+  against the labelled transcript rejected five otherwise verbatim quotes and suppressed facts.
+- Omitted line-leading speaker labels are treated as formatting only when the spoken words still
+  form one contiguous span. Explicit labels must match; changed amounts and skipped dialogue are
+  rejected. The same rule is used to compare next-action and criterion evidence.
+- The model still interprets criterion statuses. Grounded quotes do not prove that a contract
+  value or a call assessment is semantically correct; that remains a human-review responsibility.

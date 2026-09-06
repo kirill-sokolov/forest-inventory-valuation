@@ -118,9 +118,14 @@ Use rubric version procurement-v1 and return every criterion exactly once, in th
 For each criterion:
 - use only met, partial, missed, or not-applicable;
 - for met or partial, copy a short exact quote from the transcript as evidenceQuote;
+- quote one contiguous span, preferably from one turn; if it crosses turns, preserve the speaker labels between them;
+- never join nonadjacent excerpts, paraphrase a quote, change an amount, or attribute a client's words to the employee;
 - for missed or not-applicable, set evidenceQuote to null;
 - confidence measures how directly the transcript supports the observation, not call quality;
 - write a concise Latvian note without guessing.
+
+For next-step, use met only when a concrete next action is agreed with the client; a unilateral proposal or an action missing necessary details is partial.
+For summary-close, met requires both a recap of the agreement and a courteous close; a courteous goodbye alone is partial.
 
 Extract only explicitly supported need, key parameters, price terms, timing, and next action. A next action needs an action, owner, exact transcript quote, and an ISO date/time only when the transcript makes it resolvable; otherwise dueAt is null. Metadata is context only and must never be used as evidence.`;
 

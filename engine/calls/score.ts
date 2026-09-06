@@ -198,8 +198,8 @@ function hasPositiveCriterion(
 
 function quotesOverlap(first: string | null, second: string): boolean {
   if (!first) return false;
-  const normalizedFirst = normalizeForGrounding(first);
-  const normalizedSecond = normalizeForGrounding(second);
+  const normalizedFirst = normalizeForGrounding(stripSpeakerLabels(first));
+  const normalizedSecond = normalizeForGrounding(stripSpeakerLabels(second));
   return normalizedFirst.includes(normalizedSecond) || normalizedSecond.includes(normalizedFirst);
 }
 
@@ -360,7 +360,17 @@ function scoreBand(score: number): CallScoreBand {
 }
 
 function containsGroundedQuote(transcript: string, quote: string): boolean {
-  return normalizeForGrounding(transcript).includes(normalizeForGrounding(quote));
+  const normalizedQuote = normalizeForGrounding(quote);
+  if (normalizeForGrounding(transcript).includes(normalizedQuote)) return true;
+
+  // docs/spec.md §Task 3: omitted turn labels are allowed, but explicit attribution must match.
+  if (/(?:^|\s)(?:Darbinieks|Klients)[ \t]*:/iu.test(quote)) return false;
+  return normalizeForGrounding(stripSpeakerLabels(transcript)).includes(normalizedQuote);
+}
+
+function stripSpeakerLabels(value: string): string {
+  // Remove only line-leading metadata; every spoken word and the turn order remain intact.
+  return value.replace(/^[ \t]*(?:Darbinieks|Klients)[ \t]*:[ \t]*/gimu, "");
 }
 
 function normalizeForGrounding(value: string): string {

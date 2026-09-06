@@ -23,7 +23,7 @@ Kā to pārbaudīt piecās minūtēs:
 
 Publiskais paraugs “Paraugmežs” ir izdomāts, bet tā rezultāts (689 m³, 23 435 EUR, 34,01 EUR/m³) ir izrēķināts ar roku pirms koda rakstīšanas un tīši satur sarežģītus gadījumus: nogabalu, kas maina statusu starp tabulas redakcijām, formulu ar koeficientu summu 9, ozola nogabalu, kas padara nesadalīto Oz/Os kolonnu dārgu, aizsargjoslas nogabalu, formulu divās rindās un nemeža rindu.
 
-Papildus ir 101 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
+Papildus ir 106 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
 
 ## Rīki un kāpēc tieši tie
 
@@ -34,7 +34,7 @@ Izvēlētie rīki un iemesli:
 - PDF nolasīšana ar pdf.js tieši pārlūkā. Fails nepamet lietotāja datoru, teksts nāk ar koordinātām, tāpēc tabulu var atjaunot pa kolonnām. Tas pats dzinējs darbojas komandrindā un testos.
 - Aprēķinu dzinējs TypeScript valodā kā tīras funkcijas ar automātiskajiem testiem. Katrs solis ir atsevišķi pārbaudāms pret uzdevuma piemēru, un rezultāts vienmēr atkārtojas.
 - Likuma tabulas kā dati ar redakcijas datumu. Kad tabula mainās, maina vienu failu, un atskaite pati nosauc izmantoto redakciju.
-- Valodas modelis caur OpenRouter ar strukturētu izvadi tikai brīva teksta uzdevumiem: līgumiem un zvanu transkriptiem. Noklusētais modelis ir GPT-4.1 mini ar diviem lētākiem rezerves modeļiem; tie izvēlēti pēc strukturētās izvades atbalsta, cenas un dzīvas pārbaudes uz izvietotās versijas (sākotnēji izvēlētais Gemini Flash Lite šo shēmu noraidīja). Modeļa atbilde iziet trīs pārbaudes: fiksētā shēma noraida nepilnu vai nestrukturētu atbildi; kods pārbauda obligātos laukus, datumus un identifikatoru formātus; katra lauka citāts tiek meklēts dokumenta tekstā, un lauks bez citāta, ar neatrastu citātu vai neeksistējošu lappusi nonāk sarakstā “Jāpārbauda”. Tas nepierāda, ka vērtība ir pareiza, bet garantē, ka izdomāta vērtība nepaliks nepamanīta.
+- Valodas modelis caur OpenRouter ar strukturētu izvadi tikai brīva teksta uzdevumiem: līgumiem un zvanu transkriptiem. Noklusētais modelis ir GPT-4.1 mini ar diviem lētākiem rezerves modeļiem; tie izvēlēti pēc strukturētās izvades atbalsta, cenas un dzīvas pārbaudes uz izvietotās versijas (sākotnēji izvēlētais Gemini Flash Lite šo shēmu noraidīja). Modeļa atbilde iziet trīs pārbaudes: fiksētā shēma noraida nepilnu vai nestrukturētu atbildi; kods pārbauda obligātos laukus, datumus un identifikatoru formātus; katra lauka citāts tiek meklēts dokumenta tekstā, un lauks bez citāta, ar neatrastu citātu vai neeksistējošu lappusi nonāk sarakstā “Jāpārbauda”. Citāta esamība apstiprina avota fragmentu. Lauka vērtības atbilstību šim fragmentam pārbauda cilvēks: arī pie īsta citāta modelis var norādīt nepareizu summu vai datumu.
 - Bezservera funkcijas Vercel vidē tikai modeļa izsaukumam. Pārlūks sūta izvilkto tekstu, nevis PDF, un bez atslēgas demonstrācija darbojas no saglabātiem rezultātiem.
 - Lietotne Vite un React, latviešu valodā, eksports TXT, JSON un DOCX. Bez datubāzes un kontiem, jo tos vienā dienā nevar pārbaudīt.
 
@@ -113,4 +113,3 @@ Jautājumi, uz kuriem gribētu atbildi pirms nākamā soļa:
 - Vai aizsargjoslas nogabals tiešām jāiekļauj pilnā apjomā, vai tikai daļēji?
 - Vai pievešanas attālumam ir sava likmju tabula, ko vajadzētu iebūvēt?
 - Kādi ir uzņēmuma zvanu kvalitātes kritēriji un kāda telefonijas sistēma tiek lietota?
-

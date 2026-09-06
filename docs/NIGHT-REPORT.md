@@ -30,7 +30,7 @@ npm run build
 npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf
 ```
 
-Expected automated result: 23 test files pass, one live-test file is skipped, 101 tests pass and two
+Expected automated result: 23 test files pass, one live-test file is skipped, 106 tests pass and two
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 
@@ -53,8 +53,8 @@ check above; component tests cover the route, drill-down, summaries, actions and
 - Call audio, speech recognition, telephony/CRM integration, persistent storage and automatic
   delivery: the prototype validates the report workflow from a transcript; the staged production
   process is documented in `docs/calls-process.lv.md`.
-- Deployment: Vercel import, the environment key, Caddy proxy, and public URL checks remain the
-  morning manual steps described in `PLAN.md`.
+- The production deployment at `https://sokolov.lv/forest/` and its contract/call APIs were
+  verified on 2026-09-06. New call evidence is being repaired and rechecked in Steps 23–24.
 
 ## Assumptions and limits
 
@@ -79,3 +79,13 @@ check above; component tests cover the route, drill-down, summaries, actions and
    prototype assumptions in a pilot?
 4. After deployment, do `/forest/`, `/forest/zvani`, `/forest/api/extract` and
    `/forest/api/analyze-call` pass the proxy smoke check?
+
+## Call evidence repair — 2026-09-06
+
+Five regression cases cover adjacent-turn quotations, altered amounts, nonadjacent excerpts,
+incorrect speaker attribution and overlapping next-action evidence with different label formatting.
+The reproduced API quotes now retain the original 90-point oracle score and supported facts;
+the oracle files and rubric weights are unchanged. The model prompt asks for contiguous quotes and
+clarifies that an unconfirmed next action or a goodbye without a recap earns partial credit.
+
+The decisions page now states that finding a quote does not verify the extracted value against it.

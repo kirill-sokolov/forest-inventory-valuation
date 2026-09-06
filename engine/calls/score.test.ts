@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import fixture from "../../samples/expected/calls-demo.json";
 import { PROCUREMENT_CALL_RUBRIC } from "./rubric";
 import { analyzeCall } from "./score";
-import type { CallDemoFixture } from "./types";
+import type { CallDemoFixture, CriterionId } from "./types";
 
 const demo = fixture as unknown as CallDemoFixture;
 
@@ -53,6 +53,82 @@ describe("call quality scoring", () => {
     const analysis = analyzeCall(call, call.extraction);
     expect(analysis.applicableWeight).toBe(85);
     expect(analysis.score).toBe(100);
+  });
+
+  it("retains the oracle score when quotes join adjacent turns without speaker labels", () => {
+    const call = structuredClone(demo.calls[0]);
+    if (!call.extraction) throw new Error("Oracle extraction is missing");
+    // Quotes returned by the deployed API on 2026-09-06; the oracle statuses stay unchanged.
+    const quotes: Partial<Record<CriterionId, string>> = {
+      "need-object":
+        "Kādu rezultātu Jūs sagaidāt no īpašuma pārdošanas? Vēlos drošu darījumu tuvāko nedēļu laikā.",
+      "key-parameters":
+        "Kāda ir īpašuma adrese, platība un dokumentu statuss? Adrese ir Parka iela 1, platība 4,2 hektāri, dokumenti ir sagatavoti.",
+      "price-terms":
+        "Kādu cenu Jūs sagaidāt un vai tajā ir iekļauti visi nosacījumi? Sagaidu 120 000 EUR.",
+      "timing-decision":
+        "Kad plānojat pieņemt lēmumu un kas vēl piedalās lēmumā? Līdz 15. septembrim, lēmumu pieņemšu pats.",
+      "questions-objections":
+        "Vai Jums ir jautājumi vai bažas par nākamo soli? Vēlos zināt nepieciešamo dokumentu sarakstu.",
+    };
+    for (const observation of call.extraction.observations) {
+      const quote = quotes[observation.criterionId];
+      if (quote) observation.evidenceQuote = quote;
+    }
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.score).toBe(90);
+    expect(analysis.warnings).toEqual([]);
+    expect(analysis.facts).toEqual(call.extraction.facts);
+  });
+
+  it.each([
+    [
+      "a fabricated amount",
+      "Kādu cenu Jūs sagaidāt un vai tajā ir iekļauti visi nosacījumi? Sagaidu 999 999 EUR.",
+    ],
+    [
+      "nonadjacent turns",
+      "Kādu cenu Jūs sagaidāt un vai tajā ir iekļauti visi nosacījumi? Dokumentu sarakstu nosūtīšu rīt.",
+    ],
+    ["a wrong speaker attribution", "Darbinieks: Sagaidu 120 000 EUR."],
+  ])("still rejects a quote containing %s", (_case, quote) => {
+    const call = structuredClone(demo.calls[0]);
+    const observation = call.extraction?.observations.find(
+      (candidate) => candidate.criterionId === "price-terms",
+    );
+    if (!observation) throw new Error("Oracle observation is missing");
+    observation.evidenceQuote = quote;
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.criteria.find((item) => item.criterionId === "price-terms")?.status).toBe(
+      "missed",
+    );
+    expect(analysis.facts.priceTerms).toBeNull();
+    expect(analysis.warnings).toContainEqual(
+      expect.objectContaining({ code: "quote-not-found", criterionId: "price-terms" }),
+    );
+  });
+
+  it("keeps next-action evidence when only one overlapping quote has speaker labels", () => {
+    const call = structuredClone(demo.calls[0]);
+    const observation = call.extraction?.observations.find(
+      (candidate) => candidate.criterionId === "next-step",
+    );
+    if (!observation || !call.extraction?.facts.nextAction) {
+      throw new Error("Oracle next action is missing");
+    }
+    observation.evidenceQuote =
+      "Darbinieks: Dokumentu sarakstu nosūtīšu rīt.\nDarbinieks: Paldies par sarunu, jauku dienu!";
+    call.extraction.facts.nextAction.evidenceQuote =
+      "Dokumentu sarakstu nosūtīšu rīt. Paldies par sarunu, jauku dienu!";
+
+    const analysis = analyzeCall(call, call.extraction);
+
+    expect(analysis.facts.nextAction).toEqual(call.extraction.facts.nextAction);
+    expect(analysis.warnings).toEqual([]);
   });
 
   it("downgrades unsupported positive observations and flags low confidence", () => {

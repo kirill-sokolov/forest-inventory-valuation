@@ -299,6 +299,12 @@ below `0.70` does not change the score but requires human review. Bands: `>=85` 
 improve, `<70` review. No-answer attempts are counted in volume and duration but excluded from
 quality averages.
 
+Evidence may join adjacent turns while omitting the line-leading `Darbinieks:` / `Klients:`
+labels. Matching still requires the exact spoken words in their original order, allowing only
+whitespace normalization. Quotes with explicit speaker labels must match those labels; invented
+amounts, incorrect speaker attribution and skipped intervening words must not be accepted.
+The same treatment applies when checking overlap between next-action and criterion evidence.
+
 Daily output: total/evaluated/connected/no-answer calls, total duration, average evaluated-call
 duration, average score, score-band counts, per-criterion status rates, follow-ups and calls needing
 review. Employee summaries show only that employee's calls, strengths, focus criteria and actions.

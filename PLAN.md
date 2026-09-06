@@ -294,3 +294,22 @@ Status: DONE
 - Update README, DECISIONS, Latvian e-mail and night report for three prototypes; run every gate and
   commit with a clean tree.
 - **Verification:** `npm run lint && npm run typecheck && npm test && npm run build && test -z "$(git status --porcelain)"`
+
+## Step 23 — Repair live call evidence and clarify validation limits (P0)
+Status: DONE — 106 offline tests, lint, typecheck, and production build pass
+
+- Reproduce the deployed call's joined question/answer quotes before changing the engine.
+- Accept omitted speaker labels only for adjacent, unchanged spoken text. Continue to reject
+  invented amounts, skipped dialogue and incorrect explicit speaker attribution.
+- Apply the same comparison to next-action evidence and clarify the model's quotation instructions.
+- Replace the guarantee about invented contract values with the actual validation boundary.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`
+
+## Step 24 — Publish and verify the evidence repair (P0)
+Status: TODO
+
+- Push the verified change and deploy the existing Vercel project without changing hosting settings.
+- Fetch the production assets and analyze a synthetic transcript through the public API;
+  verify that the response retains all supported criteria without `quote-not-found` warnings.
+- **Verification:** `vercel deploy --prod --yes` exits 0; public routes return the updated
+  application and the live transcript result passes the deployed engine's evidence checks.
