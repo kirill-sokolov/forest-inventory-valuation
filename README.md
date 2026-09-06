@@ -49,10 +49,18 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173/forest/`. The forest, contract, and call-day samples work without
-secrets. To process a new contract, call transcript or MP3 through a Vercel function, copy `.env.example`
-to `.env.local`, set `OPENROUTER_API_KEY`, and run the project with Vercel's local development
-command.
+Open the `/forest/` URL printed by Vite (usually `http://localhost:5173/forest/`; the port advances
+when occupied). For the fixed local URL `http://127.0.0.1:5174/forest/`, run
+`npm run dev -- --host 127.0.0.1 --port 5174 --strictPort` and leave that terminal running.
+
+The forest, contract, and call-day samples work without secrets. During Vite development,
+`/forest/api/` requests are proxied to the deployed API at `https://sokolov.lv`: new contract/call
+analysis and MP3 transcription use the same remote model service as the public site and need an
+internet connection. No API key is exposed to the browser or required locally. This mode tests
+local UI changes against the deployed server code.
+
+To work on the functions locally, copy `.env.example` to `.env.local`, set `OPENROUTER_API_KEY`,
+run `npm run bundle:api`, and run `vercel dev`. Rebundle after changing `server/` sources.
 
 `npm run dev` and `npm run build` prepare stable downloads under `public/samples/contracts/` and
 `public/samples/calls/` from the committed synthetic fixtures. These generated directories are

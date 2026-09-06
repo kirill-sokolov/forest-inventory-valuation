@@ -364,3 +364,12 @@ of the recognized call retain all nine criteria and facts with no quote-not-foun
   response schema. Keep the scoring/grounding engine and every oracle value unchanged.
 - **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; recheck the
   real recognized transcript through the deployed API and complete Step 28's public upload flow.
+
+## Step 30 — Working API requests from the local Vite UI (P0)
+Status: DONE — lint, typecheck and build pass; all three API routes respond through the local proxy,
+and a real browser MP3 upload, transcription, TXT download and nine-criterion analysis succeed
+
+- Start the local UI at the requested address and proxy its API paths to the existing deployed API.
+- Document the remote request boundary and the separate workflow for changing server sources.
+- **Verification:** `npm run lint && npm run typecheck && npm run build`; check all three local
+  API routes and the MP3-to-transcript-to-analysis flow at `http://127.0.0.1:5174/forest/zvani`.

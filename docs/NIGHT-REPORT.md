@@ -176,3 +176,17 @@ retained facts and next action, and no grounding warnings. Recognized speakers i
 employee, client and child. The browser reports no runtime errors and no page overflow at 390 px.
 Recognition and semantic assessment can still make mistakes; the transcript and evidence remain
 available for human review before using the result.
+
+## Local development API recovery — 2026-09-06
+
+The reported local URL had no listener on port 5174. In addition, plain Vite previously served only
+the UI and had no handler for `/forest/api/` requests. Vite now proxies those paths to the existing
+deployed API at `https://sokolov.lv`, including a 125-second timeout for audio transcription.
+The README documents this remote request boundary, the fixed-port launch command and the separate
+Vercel workflow for changing server code locally.
+
+Lint, typecheck and build pass. Each of the three local API paths returns the deployed JSON handler's
+405 response to a GET. A real browser run at `http://127.0.0.1:5174/forest/zvani` verified both sample
+downloads, MP3 drag/drop and playback, transcription in 17.1 seconds, matching TXT export and
+analysis in 7.0 seconds with all nine criteria and valid source quotes. No browser runtime errors
+or page overflow at 390 px were observed. The development server was left running on port 5174.
