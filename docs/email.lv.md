@@ -15,7 +15,7 @@ Kā izmēģināt:
 
 Testa failu lejupielādes pogas ir attiecīgajās līgumu un zvanu sadaļās. Visi publiskie paraugi ir manis veidoti sintētiski dati. Jūsu atsūtītais fails izmantots pārbaudei un nav publicēts.
 
-Pieeja un pieņēmumi aprakstīti sadaļā “Lēmumi par risinājumu”.
+Pieeja un pieņēmumi aprakstīti sadaļā [“Lēmumi par risinājumu”](https://sokolov.lv/forest/lemumi).
 
 Ar cieņu
 
