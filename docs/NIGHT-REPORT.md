@@ -166,4 +166,13 @@ Real transcription returned all 4:15 of the sample in 16 seconds, including corr
 the child speaker. A longer-dialogue issue in the existing analysis was reproduced: the model
 joined nonadjacent quotes. Generation now selects numbered contiguous source excerpts and code
 copies them verbatim; the scoring and grounding engine, rubric weights and oracles are unchanged.
-Production verification of the corrected complete flow is pending.
+
+Production deployment `dpl_3s2umAd7E23WXKKvgMQv63en5R67` is ready and promoted. The public route
+serves `index-BlN7TR6f.js`, byte-identical to the local build. A real browser run through
+`https://sokolov.lv/forest/zvani` verified both sample downloads byte-for-byte, MP3 drag/drop,
+255-second playback, actual transcription in 13.7 seconds, TXT export matching the returned text,
+and subsequent analysis in 7.6 seconds. The call receives all nine criteria, 95 points on this run,
+retained facts and next action, and no grounding warnings. Recognized speakers include the
+employee, client and child. The browser reports no runtime errors and no page overflow at 390 px.
+Recognition and semantic assessment can still make mistakes; the transcript and evidence remain
+available for human review before using the result.

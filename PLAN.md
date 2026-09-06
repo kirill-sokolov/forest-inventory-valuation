@@ -346,8 +346,8 @@ Status: DONE — 14 API tests pass; the integration run also passed typecheck an
 - **Verification:** `npm test -- server/transcribe-call && npm run typecheck && npm run bundle:api`
 
 ## Step 28 — TXT and MP3 input, samples and handoff (P0)
-Status: BLOCKED — upload/transcription works live; the longer call exposed collated model quotes,
-so final handoff depends on the bounded evidence repair in Step 29
+Status: DONE — full local gate passes (144 tests, two guarded skips); public browser flow verifies
+both downloads, MP3 drop/playback, real transcription, TXT export, analysis and 390 px layout
 
 - Preserve TXT input and add MP3 selection/drop, playback, transcription review and TXT export.
 - Publish both formats of the realistic synthetic call alongside the original TXT examples.
@@ -356,7 +356,8 @@ so final handoff depends on the bounded evidence repair in Step 29
   verify both sample downloads, real MP3 transcription and subsequent analysis through the public URL.
 
 ## Step 29 — Source excerpt selection for longer call analysis (P0)
-Status: IN PROGRESS
+Status: DONE — 144 tests, lint, typecheck and build pass; both deployment and public-proxy analysis
+of the recognized call retain all nine criteria and facts with no quote-not-found warnings
 
 - Reproduce the invalid, nonadjacent evidence emitted for the new realistic call.
 - Ask the model to select source excerpt IDs and copy those excerpts in code into the existing
