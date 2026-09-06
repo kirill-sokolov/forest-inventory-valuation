@@ -54,7 +54,7 @@ check above; component tests cover the route, drill-down, summaries, actions and
   delivery: the prototype validates the report workflow from a transcript; the staged production
   process is documented in `docs/calls-process.lv.md`.
 - The production deployment at `https://sokolov.lv/forest/` and its contract/call APIs were
-  verified on 2026-09-06. New call evidence is being repaired and rechecked in Steps 23–24.
+  verified on 2026-09-06. The call evidence repair was deployed and rechecked in Steps 23–24.
 
 ## Assumptions and limits
 
@@ -89,3 +89,14 @@ the oracle files and rubric weights are unchanged. The model prompt asks for con
 clarifies that an unconfirmed next action or a goodbye without a recap earns partial credit.
 
 The decisions page now states that finding a quote does not verify the extracted value against it.
+
+Verification passed: lint, typecheck, 106 offline tests and the production build. Vercel deployment
+`dpl_Hhk1HRCFdtyrYvSDfD41gTZYfWiV` is ready; all five public routes return HTTP 200, and the
+JavaScript served through `sokolov.lv` is byte-for-byte identical to the locally verified bundle.
+The same synthetic transcript analyzed through the production API completed in 10 seconds with
+nine criteria, a score of 98, no warnings and all supported facts retained. Live model statuses can
+differ from the cached 90-point example; the reproduced quote formatting itself no longer lowers
+scores or removes facts. All cached oracle scores remain unchanged.
+
+The CLI upload manifest was also checked: 116 inputs, no private fixtures, source assignments,
+third-party templates or environment files. These exclusions are explicit in `.vercelignore`.

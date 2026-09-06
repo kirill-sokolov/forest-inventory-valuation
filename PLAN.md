@@ -306,7 +306,7 @@ Status: DONE — 106 offline tests, lint, typecheck, and production build pass
 - **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`
 
 ## Step 24 — Publish and verify the evidence repair (P0)
-Status: TODO
+Status: DONE — production bundle matches the verified build; live call has no evidence warnings
 
 - Push the verified change and deploy the existing Vercel project without changing hosting settings.
 - Verify the CLI upload list excludes private fixtures, source assignments, third-party templates
