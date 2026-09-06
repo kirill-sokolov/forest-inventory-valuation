@@ -375,7 +375,8 @@ and a real browser MP3 upload, transcription, TXT download and nine-criterion an
   API routes and the MP3-to-transcript-to-analysis flow at `http://127.0.0.1:5174/forest/zvani`.
 
 ## Step 31 — Align process copy and documents with the implemented prototype (P0)
-Status: IN PROGRESS
+Status: DONE — lint, typecheck, 16 page tests and build pass; both public pages show the updated
+copy at 1440/390 px without runtime errors, overflow or model calls; public bundle matches locally
 
 - Describe MP3 transcription/review and source-excerpt selection in the process panel and documents.
 - Distinguish the manual prototype from planned integration/delivery and unmeasured pilot targets.

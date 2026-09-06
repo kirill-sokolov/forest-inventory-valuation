@@ -204,4 +204,6 @@ handoff/sample descriptions are reconciled with the implementation.
 
 Lint, typecheck, all 16 call-page tests and build pass. Local browser checks confirm the updated
 process and decisions pages at 1440/390 px with no overflow, runtime errors or model requests.
-Public verification of the updated copy is pending.
+Deployment `dpl_DrCf8AzHHKhdnzFsNCxULEASvLFB` is ready and promoted. The public route serves
+`index-Cs0jBVRD.js`, byte-identical to the local build. Browser checks on the public process and
+decisions pages also pass at 1440/390 px with no runtime errors, overflow or model requests.
