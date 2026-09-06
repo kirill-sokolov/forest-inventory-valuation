@@ -10,6 +10,7 @@ import { CallsPage } from "./CallsPage";
 
 afterEach(() => {
   cleanup();
+  vi.restoreAllMocks();
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
 });
@@ -22,7 +23,132 @@ function renderPage(): void {
   );
 }
 
+function mp3File(): File {
+  vi.stubGlobal(
+    "URL",
+    Object.assign(class extends URL {}, {
+      createObjectURL: vi.fn().mockReturnValue("blob:call-audio"),
+      revokeObjectURL: vi.fn(),
+    }),
+  );
+  return new File(["ID3synthetic-audio"], "saruna.mp3", { type: "audio/mpeg" });
+}
+
 describe("CallsPage", () => {
+  it("offers the realistic call as both MP3 and TXT downloads", () => {
+    vi.stubEnv("BASE_URL", "/forest/");
+    renderPage();
+    expect(screen.getByRole("link", { name: "Lejupielādēt parauga MP3" })).toHaveAttribute(
+      "href",
+      "/forest/samples/calls/sintetisks-zvans-ar-partraukumu.mp3",
+    );
+    expect(screen.getByRole("link", { name: "Lejupielādēt parauga TXT" })).toHaveAttribute(
+      "href",
+      "/forest/samples/calls/sintetisks-zvans-ar-partraukumu.txt",
+    );
+  });
+
+  it.each(["picker", "drop"])(
+    "transcribes MP3 from the %s, then analyzes only reviewed text",
+    async (method) => {
+      const user = userEvent.setup();
+      const recognized = "Darbinieks: Labdien!\nKlients: Četri hektāri.";
+      const reviewed = "Darbinieks: Labdien!\nKlients: Četri komats septiņi hektāri.";
+      const file = mp3File();
+      const fetchMock = vi
+        .fn()
+        .mockResolvedValueOnce(
+          Response.json({
+            transcript: recognized,
+            durationSec: 255,
+            warnings: ["Platība jāpārbauda."],
+          }),
+        )
+        .mockResolvedValueOnce(Response.json(callFixture.calls[0]?.extraction));
+      vi.stubGlobal("fetch", fetchMock);
+      vi.stubEnv("BASE_URL", "/forest/");
+      renderPage();
+      if (method === "picker") {
+        await user.upload(screen.getByLabelText("Izvēlēties TXT vai MP3 failu"), file);
+      } else {
+        fireEvent.drop(screen.getByRole("region", { name: "Transkripta faila augšupielāde" }), {
+          dataTransfer: { files: [file], types: ["Files"] },
+        });
+      }
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(
+        screen.queryByRole("button", { name: "Analizēt transkriptu" }),
+      ).not.toBeInTheDocument();
+      await user.click(screen.getByRole("button", { name: "Atšifrēt MP3" }));
+      await waitFor(() =>
+        expect(screen.getByLabelText("Zvana transkripts")).toHaveValue(recognized),
+      );
+      expect(screen.getByLabelText("Ilgums sekundēs")).toHaveValue(255);
+      expect(screen.getByText("Platība jāpārbauda.")).toBeInTheDocument();
+      expect(within(screen.getByLabelText("Dienas rādītāji")).getByText("5")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Lejupielādēt transkriptu TXT" })).toBeEnabled();
+      expect(fetchMock.mock.calls[0]?.[0]).toBe("/forest/api/transcribe-call");
+      expect(JSON.parse(fetchMock.mock.calls[0]?.[1]?.body as string)).toEqual({
+        audio: btoa("ID3synthetic-audio"),
+      });
+      fireEvent.change(screen.getByLabelText("Zvana transkripts"), { target: { value: reviewed } });
+      await user.click(screen.getByRole("button", { name: "Analizēt transkriptu" }));
+      expect(await screen.findByRole("heading", { name: "Kontakts 006" })).toBeInTheDocument();
+      expect(fetchMock.mock.calls[1]?.[0]).toBe("/forest/api/analyze-call");
+      const analysisBody = JSON.parse(fetchMock.mock.calls[1]?.[1]?.body as string);
+      expect(analysisBody.transcript).toBe(reviewed);
+      expect(analysisBody).not.toHaveProperty("audio");
+    },
+  );
+
+  it("keeps old text and selected MP3 after failure, then allows switching back to TXT", async () => {
+    const user = userEvent.setup();
+    const file = mp3File();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(Response.json({ message: "Audio nav pieejams." }, { status: 503 })),
+    );
+    renderPage();
+    fireEvent.change(screen.getByLabelText("Zvana transkripts"), {
+      target: { value: "Previous transcript" },
+    });
+    await user.upload(screen.getByLabelText("Izvēlēties TXT vai MP3 failu"), file);
+    await user.click(screen.getByRole("button", { name: "Atšifrēt MP3" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("Audio nav pieejams.");
+    expect(screen.getByLabelText("Zvana transkripts")).toHaveValue("Previous transcript");
+    expect(screen.getByText("saruna.mp3")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Atšifrēt MP3" })).toBeEnabled();
+    const text = new File(["Darbinieks: Sveiki.\nKlients: Jā."], "text.txt", {
+      type: "text/plain",
+    });
+    Object.defineProperty(text, "text", { value: async () => "Darbinieks: Sveiki.\nKlients: Jā." });
+    await user.upload(screen.getByLabelText("Izvēlēties TXT vai MP3 failu"), text);
+    await waitFor(() =>
+      expect(screen.getByLabelText("Zvana transkripts")).toHaveValue(
+        "Darbinieks: Sveiki.\nKlients: Jā.",
+      ),
+    );
+    expect(screen.getByRole("button", { name: "Analizēt transkriptu" })).toBeEnabled();
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:call-audio");
+  });
+
+  it("rejects an oversized MP3 before a network call without losing existing text", async () => {
+    const file = new File(["x"], "large.mp3", { type: "audio/mpeg" });
+    Object.defineProperty(file, "size", { value: 3_200_001 });
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    renderPage();
+    fireEvent.change(screen.getByLabelText("Zvana transkripts"), {
+      target: { value: "Previous transcript" },
+    });
+    fireEvent.drop(screen.getByRole("region", { name: "Transkripta faila augšupielāde" }), {
+      dataTransfer: { files: [file], types: ["Files"] },
+    });
+    expect(await screen.findByRole("alert")).toHaveTextContent("3,2 MB");
+    expect(screen.getByLabelText("Zvana transkripts")).toHaveValue("Previous transcript");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it("loads the synthetic day and exposes the fixed daily oracle", () => {
     renderPage();
 
@@ -121,6 +247,7 @@ describe("CallsPage", () => {
     vi.stubGlobal("fetch", fetchMock);
     renderPage();
 
+    await user.selectOptions(screen.getByLabelText("Zvana paraugs"), "call-a1");
     const download = screen.getByRole("link", { name: "Lejupielādēt parauga TXT" });
     expect(download).toHaveAttribute("href", "/forest/samples/calls/zvans-par-ipasumu.txt");
     expect(download).toHaveAttribute("download", "zvans-par-ipasumu.txt");
@@ -158,7 +285,7 @@ describe("CallsPage", () => {
       type: "text/plain",
     });
     Object.defineProperty(file, "text", { value: async () => `${sample?.transcript}\n` });
-    await user.upload(screen.getByLabelText("Izvēlēties .txt failu"), file);
+    await user.upload(screen.getByLabelText("Izvēlēties TXT vai MP3 failu"), file);
     await waitFor(() => {
       expect(screen.getByLabelText("Zvana transkripts")).toHaveValue(`${sample?.transcript}\n`);
     });
@@ -196,7 +323,7 @@ describe("CallsPage", () => {
     fireEvent.drop(screen.getByRole("region", { name: "Transkripta faila augšupielāde" }), {
       dataTransfer: { files: [file], types: ["Files"] },
     });
-    expect(await screen.findByRole("alert")).toHaveTextContent("Izvēlieties TXT failu");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Izvēlieties TXT vai MP3 failu");
     expect(screen.getByLabelText("Zvana transkripts")).toHaveValue("Existing text");
   });
 

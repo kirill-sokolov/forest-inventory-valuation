@@ -1,6 +1,6 @@
 # Lēmumi par prototipu
 
-Šis prototips parāda, kā no meža inventarizācijas un līgumu PDF, kā arī zvana transkripta iegūt pārbaudāmu darba rezultātu vienas dienas laikā. Zemāk ir svarīgākie lēmumi, to iemesli un praktiskais ieguvums pasūtītājam.
+Šis prototips parāda, kā no meža inventarizācijas un līgumu PDF, kā arī zvana TXT vai MP3 iegūt pārbaudāmu darba rezultātu vienas dienas laikā. Zemāk ir svarīgākie lēmumi, to iemesli un praktiskais ieguvums pasūtītājam.
 
 ## Pieeja un problēmas sadalījums
 
@@ -19,11 +19,11 @@ Kā to pārbaudīt piecās minūtēs:
 
 - sadaļā “Mežs” nospiediet “Izmantot paraugu” un salīdziniet gala atskaites četras rindas ar skaitļiem zemāk, vai augšupielādējiet savu inventarizācijas PDF;
 - sadaļā “Līgumi” lejupielādējiet parauga PDF, augšupielādējiet to un nospiediet “Izvilkt datus”. Nepilnīgajā līgumā jāparādās brīdinājumiem par trūkstošu cenu un kadastra numuru. Sagatavotu piemēru uzreiz var atvērt ar “Skatīt gatavo rezultātu”;
-- sadaļā “Zvani” lejupielādējiet sarunas TXT un augšupielādējiet to vai nospiediet “Ievietot parauga tekstu”, pēc tam — “Analizēt transkriptu”. Zemāk jau ir arī sagatavota parauga diena: atveriet zvanu ar 60 punktiem un pārbaudiet katra kritērija citātu.
+- sadaļā “Zvani” lejupielādējiet sarunas MP3 vai TXT. MP3 vispirms atšifrējiet, pārbaudiet tekstu un nospiediet “Analizēt transkriptu”. TXT var ielādēt uzreiz vai izmantot “Ievietot parauga tekstu”. Zemāk jau ir arī sagatavota parauga diena: atveriet zvanu ar 60 punktiem un pārbaudiet katra kritērija citātu.
 
 Publiskais paraugs “Paraugmežs” ir izdomāts, bet tā rezultāts (689 m³, 23 435 EUR, 34,01 EUR/m³) ir izrēķināts ar roku pirms koda rakstīšanas un tīši satur sarežģītus gadījumus: nogabalu, kas maina statusu starp tabulas redakcijām, formulu ar koeficientu summu 9, ozola nogabalu, kas padara nesadalīto Oz/Os kolonnu dārgu, aizsargjoslas nogabalu, formulu divās rindās un nemeža rindu.
 
-Papildus ir 122 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
+Papildus ir 141 automātiskais tests, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
 
 ## Rīki un kāpēc tieši tie
 
@@ -90,7 +90,14 @@ Darbinieks redz tikai savus zvanus, turpmākos darbus, stiprās puses un pilnvei
 
 ## 11. Telefonijas integrācija sākas tikai pēc rubrikas un privātuma pilota
 
-Prototips izmanto tikai izdomātus transkriptus un neglabā audio. Pirms produkcijas nepieciešama juridiski pamatota zvanu ierakstīšana, lomu piekļuve, glabāšanas termiņi, labojumu ceļš un salīdzinājums ar divu cilvēku saskaņotu etalonu. Integrāciju paplašina tikai tad, ja sasniegta pietiekama precizitāte, laika ietaupījums un privātuma prasības.
+Demonstrācijā ir tikai izdomāti transkripti un mākslīgi veidots ieraksts. MP3 atšifrēšanai tiek nosūtīts ārējam pakalpojumam, bet lietotne to neglabā. Pirms produkcijas nepieciešama juridiski pamatota zvanu ierakstīšana, lomu piekļuve, glabāšanas termiņi, labojumu ceļš un salīdzinājums ar divu cilvēku saskaņotu etalonu. Integrāciju paplašina tikai tad, ja sasniegta pietiekama precizitāte, laika ietaupījums un privātuma prasības.
+
+## 12. Audio atšifrējumu pārbauda pirms sarunas vērtēšanas
+
+MP3 vispirms pārvērš tekstā ar nodalītiem runātājiem. Lietotājs var noklausīties ierakstu,
+pārbaudīt skaitļus un runātāju atzīmes, labot un lejupielādēt tekstu. Analīzi sāk ar atsevišķu pogu:
+atpazīšanas kļūda nedrīkst nemanāmi kļūt par darbinieka kļūdu. Pieejams arī tas pats testu
+scenārijs TXT formātā, lai salīdzinātu atšifrējumu ar avotu.
 
 ## Pieņēmumi un atklātie jautājumi
 

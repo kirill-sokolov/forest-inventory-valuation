@@ -34,7 +34,7 @@ function HomePage() {
         <Link className="surface-card calls-card" to="/zvani">
           <span className="eyebrow">03 · Zvani</span>
           <h2>Izvērtēt zvanu kvalitāti</h2>
-          <p>Izmēģiniet sarunas TXT paraugu: vērtējums, izlaistie jautājumi un nākamā darbība.</p>
+          <p>Izmēģiniet sarunas MP3 vai TXT: atšifrējums, vērtējums un nākamā darbība.</p>
           <span className="card-link">Atvērt rīku →</span>
         </Link>
       </section>
@@ -49,7 +49,7 @@ function HomePage() {
             <span>01</span>
             <div>
               <strong>Ievadi avotu</strong>
-              <p>Ielādē PDF vai zvana transkriptu; audio netiek sūtīts vai glabāts.</p>
+              <p>Ielādē PDF, sarunas TXT vai MP3. Audio vispirms pārvērš pārbaudāmā tekstā.</p>
             </div>
           </li>
           <li>

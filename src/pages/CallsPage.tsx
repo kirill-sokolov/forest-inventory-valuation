@@ -18,13 +18,23 @@ import type {
   CriterionId,
   ObservationStatus,
 } from "../../engine/calls/types";
+import realisticTranscript from "../../samples/calls/sintetisks-zvans-ar-partraukumu.txt?raw";
 import callFixture from "../../samples/expected/calls-demo.json";
+import { CallUpload } from "../components/CallUpload";
 import { postAnalysisJson } from "../lib/api";
 import { downloadText } from "../lib/download";
 
 const demo = callFixture as unknown as CallDemoFixture;
 
 const transcriptSamples = [
+  {
+    id: "call-realistic",
+    label: "Saruna ar pārpratumiem un pārtraukumu · MP3 + TXT",
+    fileName: "sintetisks-zvans-ar-partraukumu.txt",
+    audioFileName: "sintetisks-zvans-ar-partraukumu.mp3",
+    description:
+      "4:15 minūšu sintētisks ieraksts: darbiniece un klients, kurš precizē platību, šaubās par cenu un uz brīdi pievēršas bērnam. TXT ir sākotnējais scenārijs — salīdziniet to ar audio atšifrējumu.",
+  },
   {
     id: "call-a1",
     label: "Saruna par īpašuma pārdošanu",
@@ -164,7 +174,7 @@ function CallDetails({ call }: { call: AnalyzedCall }) {
 
   return (
     <section
-      className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:p-7"
+      className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:p-7"
       aria-labelledby="call-details-heading"
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -347,7 +357,7 @@ export function CallsPage() {
   const [textFileName, setTextFileName] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const [isReadingFile, setIsReadingFile] = useState(false);
-  const [isDraggingFile, setIsDraggingFile] = useState(false);
+  const [inputRevision, setInputRevision] = useState(0);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -377,7 +387,16 @@ export function CallsPage() {
   }
 
   function insertSampleTranscript(): void {
-    const sample = demo.calls.find((call) => call.id === selectedSampleId);
+    const sample =
+      selectedSampleId === "call-realistic"
+        ? {
+            transcript: realisticTranscript,
+            employee: "Anna",
+            contactLabel: "Sintētiska saruna ar pārtraukumu",
+            startedAt: `${demo.date}T15:30:00+03:00`,
+            durationSec: 255,
+          }
+        : demo.calls.find((call) => call.id === selectedSampleId);
     if (!sample) return;
     const localStart = new Date(sample.startedAt);
     localStart.setMinutes(localStart.getMinutes() - localStart.getTimezoneOffset());
@@ -388,35 +407,9 @@ export function CallsPage() {
     setDurationSec(sample.durationSec);
     setDisposition("connected");
     setTextFileName(selectedSample.fileName);
+    setInputRevision((current) => current + 1);
     setError("");
     document.getElementById("new-call-heading")?.scrollIntoView?.({ behavior: "smooth" });
-  }
-
-  async function readTextFile(file: File): Promise<void> {
-    if (isLoading || isReadingFile || disposition === "no-answer") return;
-    setError("");
-    if (!file.name.toLowerCase().endsWith(".txt")) {
-      setError("Izvēlieties TXT failu ar sarunas tekstu.");
-      return;
-    }
-    if (file.size > 100_000) {
-      setError("Transkripta fails pārsniedz 100 KB ierobežojumu.");
-      return;
-    }
-    setIsReadingFile(true);
-    try {
-      const text = await file.text();
-      if (!text.trim()) {
-        setError("TXT failā nav sarunas teksta.");
-        return;
-      }
-      setTranscript(text);
-      setTextFileName(file.name);
-    } catch {
-      setError("Transkripta failu neizdevās nolasīt.");
-    } finally {
-      setIsReadingFile(false);
-    }
   }
 
   async function analyzeTranscript(): Promise<void> {
@@ -428,7 +421,7 @@ export function CallsPage() {
       return;
     }
     if (disposition === "connected" && !transcript.trim()) {
-      setError("Ielīmējiet transkriptu vai izvēlieties .txt failu.");
+      setError("Ielīmējiet transkriptu, izvēlieties TXT vai atšifrējiet MP3 failu.");
       return;
     }
     if (new TextEncoder().encode(transcript).byteLength > 100_000) {
@@ -482,9 +475,9 @@ export function CallsPage() {
           Zvanu kvalitāte ar pārbaudāmiem pierādījumiem
         </h1>
         <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-          Ielādējiet sarunas tekstu. Saņemsiet vērtējumu no 0 līdz 100, veiksmīgos un izlaistos
-          jautājumus ar citātiem, kā arī nākamo darbību. No zvaniem veidojas dienas kopsavilkums
-          darbiniekam un vadītājam.
+          Ielādējiet sarunas TXT vai MP3 ierakstu. Pēc teksta pārbaudes saņemsiet vērtējumu no 0
+          līdz 100, veiksmīgos un izlaistos jautājumus ar citātiem, kā arī nākamo darbību. No
+          zvaniem veidojas dienas kopsavilkums darbiniekam un vadītājam.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <button
@@ -512,13 +505,14 @@ export function CallsPage() {
             Izmēģiniet ar testa failu
           </h2>
           <p className="mt-2 text-sm leading-6 text-emerald-900">
-            TXT fails ir izdomātas sarunas rakstisks atšifrējums. Katra rinda sākas ar “Darbinieks:”
-            vai “Klients:”. Šajā prototipā ievade ir teksts; audio atšifrēšana nav iekļauta.
+            Izvēlieties MP3, lai izmēģinātu audio atšifrēšanu, vai TXT, lai uzreiz pārietu pie
+            sarunas analīzes. Visi paraugi ir izdomāti; ierakstā izmantotas mākslīgas balsis.
           </p>
           <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm leading-6 text-emerald-900">
-            <li>Lejupielādējiet parauga TXT.</li>
-            <li>Zemāk spiediet “Izvēlēties .txt failu” un atveriet lejupielādēto failu.</li>
-            <li>Spiediet “Analizēt transkriptu” un apskatiet jaunā zvana pārskatu zemāk.</li>
+            <li>Lejupielādējiet parauga MP3 vai TXT.</li>
+            <li>Ievelciet failu laukā zemāk vai izvēlieties to ar pogu.</li>
+            <li>MP3 gadījumā spiediet “Atšifrēt MP3”, tad pārbaudiet tekstu un runātājus.</li>
+            <li>Spiediet “Analizēt transkriptu” un apskatiet jaunā zvana pārskatu.</li>
           </ol>
         </div>
         <div>
@@ -539,6 +533,15 @@ export function CallsPage() {
           </select>
           <p className="mt-3 text-sm leading-6 text-emerald-900">{selectedSample.description}</p>
           <div className="mt-4 flex flex-wrap gap-3">
+            {selectedSample.audioFileName && (
+              <a
+                className="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white"
+                href={`${import.meta.env.BASE_URL}samples/calls/${selectedSample.audioFileName}`}
+                download={selectedSample.audioFileName}
+              >
+                Lejupielādēt parauga MP3
+              </a>
+            )}
             <a
               className="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white"
               href={`${import.meta.env.BASE_URL}samples/calls/${selectedSample.fileName}`}
@@ -556,8 +559,8 @@ export function CallsPage() {
             </button>
           </div>
           <p className="mt-3 text-xs leading-5 text-emerald-900">
-            Otrā poga aizpilda sarunas tekstu, laiku un ilgumu bez lejupielādes. Analīze sāksies
-            tikai pēc pogas “Analizēt transkriptu”.
+            “Ievietot parauga tekstu” aizpilda scenāriju un zvana datus bez lejupielādes. Lai
+            pārbaudītu īstu atšifrēšanu, augšupielādējiet MP3. Analīze sākas atsevišķi.
           </p>
         </div>
       </section>
@@ -573,16 +576,19 @@ export function CallsPage() {
               Izvērtēt transkriptu
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Izvēlieties TXT failu vai ielīmējiet sarunas tekstu. Pārbaudiet zvana datumu un
-              ilgumu; pēc analīzes zvans tiks pievienots zemāk redzamajai dienai.
+              Izvēlieties TXT, ielīmējiet tekstu vai atšifrējiet MP3. Tekstu var labot un
+              lejupielādēt. Pēc analīzes zvans tiks pievienots zemāk redzamajai dienai.
             </p>
           </div>
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
-            Līdz 100 KB
+            TXT līdz 100 KB · MP3 līdz 3,2 MB / 10 min
           </span>
         </div>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <fieldset
+          disabled={isLoading || isReadingFile}
+          className="m-0 mt-6 grid min-w-0 gap-4 border-0 p-0 sm:grid-cols-2 lg:grid-cols-5"
+        >
           <label className="text-sm font-semibold text-slate-700">
             Darbinieks
             <input
@@ -629,97 +635,24 @@ export function CallsPage() {
               <option value="no-answer">Neatbildēja</option>
             </select>
           </label>
-        </div>
+        </fieldset>
 
-        <section
-          aria-label="Transkripta faila augšupielāde"
-          className={`mt-5 rounded-xl border-2 border-dashed p-4 transition ${isDraggingFile ? "border-emerald-600 bg-emerald-50" : "border-slate-300 bg-slate-50/50"}`}
-          onDragOver={(event) => {
-            if (!event.dataTransfer.types.includes("Files")) return;
-            event.preventDefault();
-            const disabled = isLoading || isReadingFile || disposition === "no-answer";
-            event.dataTransfer.dropEffect = disabled ? "none" : "copy";
-            setIsDraggingFile(!disabled);
+        <CallUpload
+          key={inputRevision}
+          transcript={transcript}
+          fileName={textFileName}
+          disabled={isLoading || disposition === "no-answer"}
+          isAnalyzing={isLoading}
+          noAnswer={disposition === "no-answer"}
+          onChange={(text, name, duration) => {
+            setTranscript(text);
+            setTextFileName(name);
+            if (duration !== undefined) setDurationSec(duration);
           }}
-          onDragLeave={(event) => {
-            if (
-              !(event.relatedTarget instanceof Node) ||
-              !event.currentTarget.contains(event.relatedTarget)
-            ) {
-              setIsDraggingFile(false);
-            }
-          }}
-          onDrop={(event) => {
-            if (!event.dataTransfer.files.length) return;
-            event.preventDefault();
-            setIsDraggingFile(false);
-            if (isLoading || isReadingFile || disposition === "no-answer") return;
-            if (event.dataTransfer.files.length !== 1) {
-              setError("Izvēlieties vienu TXT failu.");
-              return;
-            }
-            void readTextFile(event.dataTransfer.files[0]);
-          }}
-        >
-          <p className="text-sm font-semibold text-emerald-800">
-            {isDraggingFile
-              ? "Atlaidiet TXT failu šeit"
-              : "Ievelciet TXT failu šeit vai izvēlieties to ar pogu zemāk"}
-          </p>
-          <label
-            className="mt-5 block text-sm font-semibold text-slate-700"
-            htmlFor="call-transcript"
-          >
-            Zvana transkripts
-          </label>
-          <textarea
-            id="call-transcript"
-            className="mt-1 min-h-52 w-full rounded-xl border border-slate-300 p-4 font-mono text-sm leading-6 disabled:bg-slate-100"
-            disabled={isLoading || isReadingFile || disposition === "no-answer"}
-            placeholder="Darbinieks: Labdien!...\nKlients: Labdien!..."
-            value={transcript}
-            onChange={(event) => {
-              setTranscript(event.target.value);
-              setTextFileName(undefined);
-            }}
-          />
-          <aside className="mt-3 rounded-lg border border-sky-200 bg-sky-50 p-3 text-sm leading-6 text-sky-950">
-            <strong>Datu robeža.</strong> Jauna transkripta teksts un zvana laiks tiek nosūtīts
-            ārējam OpenRouter modelim. Šajā prototipā izmantojiet tikai sintētisku vai anonimizētu
-            tekstu. Parauga diena modelim netiek sūtīta.
-          </aside>
-          <div className="mt-3 flex flex-wrap items-center gap-3">
-            <label className="cursor-pointer rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800">
-              Izvēlēties .txt failu
-              <input
-                className="sr-only"
-                type="file"
-                accept="text/plain,.txt"
-                disabled={isLoading || isReadingFile || disposition === "no-answer"}
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (file) void readTextFile(file);
-                  event.target.value = "";
-                }}
-              />
-            </label>
-            {textFileName && <span className="text-sm text-slate-600">{textFileName}</span>}
-            <button
-              type="button"
-              className="ml-auto rounded-lg bg-emerald-700 px-5 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
-              disabled={isLoading || isReadingFile}
-              onClick={() => void analyzeTranscript()}
-            >
-              {isReadingFile
-                ? "Nolasa failu..."
-                : isLoading
-                  ? "Analizē..."
-                  : disposition === "connected"
-                    ? "Analizēt transkriptu"
-                    : "Pievienot mēģinājumu"}
-            </button>
-          </div>
-        </section>
+          onAnalyze={() => void analyzeTranscript()}
+          onError={setError}
+          onBusyChange={setIsReadingFile}
+        />
         {error && (
           <p className="mt-4 rounded-lg bg-rose-50 p-3 text-sm text-rose-800" role="alert">
             {error}
@@ -762,7 +695,7 @@ export function CallsPage() {
         </fieldset>
       </section>
 
-      <div className="mt-8 grid items-start gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="mt-8 grid grid-cols-1 items-start gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside
           className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"
           aria-label="Dienas zvani"

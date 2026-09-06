@@ -23,4 +23,9 @@ for (const [id, name] of [
   await writeFile(`public/samples/calls/${name}.txt`, `${call.transcript}\n`, "utf8");
 }
 
-console.log("Prepared 3 contract PDFs and 2 call transcripts for download.");
+for (const extension of ["mp3", "txt"]) {
+  const name = `sintetisks-zvans-ar-partraukumu.${extension}`;
+  await copyFile(`samples/calls/${name}`, `public/samples/calls/${name}`);
+}
+
+console.log("Prepared 3 contract PDFs, 3 call transcripts and 1 MP3 for download.");

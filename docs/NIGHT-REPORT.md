@@ -30,7 +30,7 @@ npm run build
 npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf
 ```
 
-Expected automated result: 24 test files pass, one live-test file is skipped, 122 tests pass and two
+Expected automated result: 25 test files pass, one live-test file is skipped, 141 tests pass and two
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 
@@ -40,7 +40,8 @@ For a quick manual check, run `npm run dev`, open `http://localhost:5173/forest/
 2. download the purchase PDF on “Līgumi”, upload it and press “Izvilkt datus”; inspect the parties,
    48,500 EUR price and e-mail draft. For an offline check, select the incomplete sample and press
    “Skatīt gatavo rezultātu”;
-3. on “Zvani”, download a TXT and upload it or press “Ievietot parauga tekstu”, then analyze it.
+3. on “Zvani”, download/upload the realistic MP3, press “Atšifrēt MP3”, review/edit/download the
+   transcript, then analyze it. Alternatively upload TXT or press “Ievietot parauga tekstu”.
    The new call is added to the day. The prepared day remains available without a model request:
    confirm 5 / 18:20 / 82,5, inspect contacts 002 and 005, then switch from manager to employee.
 
@@ -53,9 +54,8 @@ check above; component tests cover the route, drill-down, summaries, actions and
 - Vision/OCR fallback: scanned PDFs receive a clear Latvian message and require manual review.
 - Manual stand-entry grid and XLSX export: the main forest workflow already covers editable inputs
   and TXT, JSON, and DOCX exports.
-- Call audio, speech recognition, telephony/CRM integration, persistent storage and automatic
-  delivery: the prototype validates the report workflow from a transcript; the staged production
-  process is documented in `docs/calls-process.lv.md`.
+- Telephony/CRM integration, persistent storage and automatic delivery: the staged production
+  process is documented in `docs/calls-process.lv.md`. Short MP3 upload/transcription is now supported.
 - The production deployment at `https://sokolov.lv/forest/` and its contract/call APIs were
   verified on 2026-09-06. The call evidence repair was deployed and rechecked in Steps 23–24.
 
@@ -67,7 +67,7 @@ check above; component tests cover the route, drill-down, summaries, actions and
   missing 30% at zero, and points to Kamīnmalka as the likely missing share.
 - Protection-zone stands remain included by default to match the worked example; warnings and an
   alternative result without them remain visible.
-- New contract and call inputs require `OPENROUTER_API_KEY`; every bundled sample works without it.
+- New contract/call analysis and MP3 transcription require `OPENROUTER_API_KEY`; cached results and sample downloads work without it.
 - `procurement-v1` is a transparent prototype rubric, not an approved personnel policy. Production
   requires a double-reviewed reference set, legal/privacy approval, role-based access, retention and
   appeal rules. Low scores and low-confidence observations require a person to review the source.
@@ -145,3 +145,21 @@ Deployment `dpl_DvjSdQAEHGgBsNwgCeFichxpdFrH` is ready. Both public routes serve
 production call endpoint returned HTTP 200 and nine schema-valid criteria in 9 seconds; the contract
 endpoint returned HTTP 200 and a schema-valid 48,500 EUR price in 13 seconds. No retry was needed.
 The deployment manifest contained 112 regular files and no private/environment contents.
+
+## MP3 transcription and dual-format call samples — 2026-09-06
+
+The call form accepts a selected or dropped TXT/MP3. Audio is transcribed separately through
+Gemini 2.5 Flash on OpenRouter, with employee/client/other/unknown speaker labels. The form retains
+the MP3 player and editable text; the user can download the reviewed TXT and explicitly analyze it.
+Files are limited to 3.2 MB and ten minutes, duration is measured from MPEG metadata, requests are
+bounded and rate-limited, and application logs/storage do not contain the audio or transcript.
+
+The realistic 4:15 call is offered as owned MP3 and source TXT, alongside the two earlier text
+examples. Uploaded audio is never replaced with the sample script. A failed transcription preserves
+both the chosen MP3 and previous text. The existing day oracle and analysis endpoint are unchanged.
+
+Local validation: 141 tests pass, two paid tests skip without a key; lint, typecheck and build pass.
+Browser checks verified the actual MP3 download, browser playback duration and edited TXT download.
+A mobile overflow in the call-results grid was corrected while checking the new input flow.
+The in-app browser was unavailable; a separate headless Chrome test was used.
+Production verification is pending.

@@ -51,7 +51,7 @@ describe("POST /api/transcribe-call", () => {
     await handler(request(), res);
     expect(state.status).toBe(200);
     expect(transcribe).toHaveBeenCalledTimes(1);
-    expect((transcribe.mock.calls[0]?.[0] as Buffer).equals(mp3)).toBe(true);
+    expect((transcribe.mock.calls[0][0] as Buffer).equals(mp3)).toBe(true);
     expect(state.body).toEqual({
       transcript:
         "Darbinieks: Labdien! Te Anna.\nKlients: Četri... nē, četri komats septiņi.\nCits: Tēti!",

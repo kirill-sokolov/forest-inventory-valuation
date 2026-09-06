@@ -18,11 +18,12 @@ Live demo: https://sokolov.lv/forest/
 - Use three bundled synthetic contract results without an API key.
 - Review a fictional five-call day, inspect criterion evidence and generate separate employee and
   manager summaries.
-- Download a synthetic contract PDF or call transcript directly from either task page.
+- Download synthetic contract PDFs and call samples in TXT and MP3 directly from the task pages.
 - Paste or upload a new call transcript for grounded observations when the server has an OpenRouter key;
   scores and day metrics are always calculated deterministically.
-- Drop a TXT directly onto the transcript area; empty, oversized and non-TXT files leave existing
-  text intact. Both analysis pages retry one interrupted/empty gateway response, then show a clear
+- Select or drop TXT or MP3. MP3 transcription separates speakers, keeps the text editable and
+  downloadable, and requires a separate analysis action. The selected audio can be played locally.
+  Empty, oversized and unsupported files leave existing text intact. Both analysis pages retry one interrupted/empty gateway response, then show a clear
   error while preserving the input. Explicit API errors are not retried.
 
 ## Try the examples
@@ -30,9 +31,11 @@ Live demo: https://sokolov.lv/forest/
 - Contracts: open `/forest/ligumi`, download the selected sample PDF, choose it in the upload form
   and press “Izvilkt datus”. The complete purchase example contains a 48,500 EUR price; the
   incomplete example intentionally lacks a price and contains an invalid cadastre number.
-- Calls: open `/forest/zvani`, download a sample TXT, choose it with “Izvēlēties .txt failu” and
-  press “Analizēt transkriptu”. “Ievietot parauga tekstu” fills the same text and its metadata
-  without a download. The two examples cover a property discussion and a call with missing questions.
+- Calls: open `/forest/zvani`, download the realistic MP3 or its source TXT, and select/drop it.
+  For MP3, press “Atšifrēt MP3”, review the transcript (especially speakers and corrected numbers),
+  then press “Analizēt transkriptu”. “Lejupielādēt transkriptu TXT” saves the current edited text.
+  The 4:15 synthetic recording has two main speakers and a child interruption. Both original TXT
+  examples remain in the picker; “Ievietot parauga tekstu” inserts a source script without a request.
 - For an immediate offline demonstration, use “Skatīt gatavo rezultātu” on the contracts page or
   the preloaded call day. File uploads run a fresh model analysis; call statuses can vary from the
   prepared example. New call analyses are added to the visible day.
@@ -47,14 +50,14 @@ npm run dev
 ```
 
 Open `http://localhost:5173/forest/`. The forest, contract, and call-day samples work without
-secrets. To process a new contract or call transcript through a Vercel function, copy `.env.example`
+secrets. To process a new contract, call transcript or MP3 through a Vercel function, copy `.env.example`
 to `.env.local`, set `OPENROUTER_API_KEY`, and run the project with Vercel's local development
 command.
 
 `npm run dev` and `npm run build` prepare stable downloads under `public/samples/contracts/` and
 `public/samples/calls/` from the committed synthetic fixtures. These generated directories are
-ignored; `scripts/prepare-demo-files.ts` copies only the three owned PDFs and writes two original
-transcripts, without copying private files or changing the expected results.
+ignored; `scripts/prepare-demo-files.ts` copies only the three owned PDFs and the synthetic MP3/TXT
+pair and writes the two original transcripts, without copying private files or changing expected results.
 
 Generate the committed synthetic PDFs:
 
@@ -98,8 +101,12 @@ With `OPENROUTER_API_KEY` set, a contract can be processed from the command line
     deterministic daily summaries.
 11. `server/analyze-call.ts` maps transcript text into the fixed observation schema; it never receives
     audio and never decides a score.
-12. `src/pages/CallsPage.tsx` provides the offline demonstration, call drill-down and daily views.
-13. `samples/` contains only fictional, reproducible public fixtures; private oracle files stay ignored.
+12. `server/transcribe-call.ts` validates MP3 bytes, measures duration with `music-metadata`, then
+    uses Gemini 2.5 Flash audio input via the same OpenRouter key to return speaker-labelled text.
+    Audio and transcripts are not persisted or logged by the application.
+13. `src/pages/CallsPage.tsx` and `src/components/CallUpload.tsx` provide the offline demonstration,
+    audio playback/transcription review, call drill-down and daily views.
+14. `samples/` contains fictional public fixtures; private oracle files stay ignored.
 
 ## Deterministic and LLM boundaries
 
@@ -115,10 +122,13 @@ number beyond the document are flagged for human review (the value is kept, neve
 - Scanned PDFs without a text layer are detected but not OCR-processed.
 - The inventory parser targets the supplied VMD report layout; other layouts may need another adapter.
 - Contract processing handles one PDF per run and limits extracted text to 200 KB.
-- The call prototype starts from speaker-labelled transcript text; it does not integrate telephony,
-  accept audio, or perform speech recognition. New transcripts are limited to 100 KB.
-- A new transcript and its start time leave the browser for the configured OpenRouter model; use
-  synthetic or anonymized text in this prototype. The bundled call day makes no model request.
+- Calls accept TXT up to 100 KB or MP3 up to 3,200,000 bytes / 10 minutes. The base64 JSON request
+  remains below Vercel's 4.5 MB limit. Transcription has a 100-second provider timeout and a separate
+  best-effort limit of five requests per minute per IP. No telephony integration or persistent storage.
+- Transcription sends the MP3 to an audio-capable OpenRouter model; analysis sends the reviewed text
+  and start time. Use synthetic/anonymized inputs. Speaker roles and recognition can be wrong: listen,
+  review and correct before scoring. The cached call day makes no request; uploaded sample MP3s
+  always undergo real transcription and are never replaced with their source script.
 - The rate limit is best-effort in serverless memory and is not a production abuse-control system.
 - Legal eligibility remains decision support: protection-zone warnings require specialist review.
 - Call scoring is coaching support, not an automated personnel decision. Low-confidence and weak

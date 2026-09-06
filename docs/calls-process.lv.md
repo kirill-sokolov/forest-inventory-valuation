@@ -4,7 +4,7 @@
 
 Risinājuma mērķis ir pēc katra klienta zvana dot darbiniekam īsu un pārbaudāmu atgriezenisko saiti, bet dienas beigās sagatavot atšķirīgus kopsavilkumus darbiniekam un vadītājam. Sistēma palīdz pamanīt neizrunātus jautājumus, nākamos darbus un mācību vajadzības. Tā nepieņem disciplinārus, atalgojuma vai citus personāla lēmumus.
 
-Prototipa sadaļa `/zvani` sāk darbu ar pabeigta zvana transkriptu, kurā runātāji apzīmēti kā `Darbinieks:` un `Klients:`. Tajā nav telefonijas integrācijas, audio augšupielādes, runas atpazīšanas, lietotāju kontu vai ilgtermiņa glabāšanas. Iebūvētajā demonstrācijā ir pieci pilnībā izdomāti zvanu mēģinājumi un iepriekš saglabāti novērojumi, tāpēc visu dienas pārskatu var pārbaudīt bez API atslēgas un bez personas datiem.
+Prototipa sadaļa `/zvani` sāk darbu ar pabeigta zvana transkriptu, kurā runātāji apzīmēti kā `Darbinieks:` un `Klients:`. Var augšupielādēt arī īsu MP3, atšifrēt to un pārbaudīt iegūto tekstu pirms analīzes. Telefonijas integrācijas, lietotāju kontu un ilgtermiņa glabāšanas nav. Iebūvētajā demonstrācijā ir pieci pilnībā izdomāti zvanu mēģinājumi un iepriekš saglabāti novērojumi, tāpēc visu dienas pārskatu var pārbaudīt bez API atslēgas un bez personas datiem.
 
 Demonstrācijas kontroles rezultāts ir pieci mēģinājumi, četri izvērtēti zvani, kopējais ilgums 18:20 un vidējais kvalitātes vērtējums 82,5. Var atvērt katru zvanu, pārbaudīt kritērijus un citātus, apskatīt darbinieka un vadītāja kopsavilkumu, kā arī kopēt, sagatavot e-pastu vai lejupielādēt JSON.
 
@@ -46,7 +46,7 @@ Pēc zvana ir redzama šāda informācija:
 - sarunā noskaidrotā vajadzība, būtiskie parametri un nākamais solis ar atbildīgo un termiņu, ja tas ir pateikts;
 - brīdinājumi un skaidrs cilvēka pārbaudes statuss.
 
-Šāds formāts ļauj darbiniekam un vadītājam pārbaudīt katru secinājumu pret avotu. Prototips neveido saiti uz audio fragmentu, jo audio netiek saņemts vai glabāts.
+Šāds formāts ļauj darbiniekam un vadītājam pārbaudīt katru secinājumu pret avotu. Augšupielādēto MP3 var noklausīties ievades laukā. Prototips neveido laika atzīmju saites no citātiem uz audio un neglabā ierakstus.
 
 ## Dienas kopsavilkumi
 
@@ -58,7 +58,7 @@ Pēc zvana ir redzama šāda informācija:
 
 Valodas modelis jaunam transkriptam ir informācijas izvilkšanas palīgs. Tas drīkst piedāvāt fiksētās shēmas novērojumus un tikai tādus secinājumus, kuriem var pievienot citātu no ievades. Modelis neaprēķina punktus un kopsummas, nemaina rubrikas svarus, nenosaka personāla sekas un nevērtē akcentu, personību, emocijas vai citus ar darba procesu nesaistītus signālus.
 
-Determinētais dzinējs pārbauda pierādījumu, piemēro `procurement-v1`, apstrādā statusu “nav piemērojams”, aprēķina viena zvana rezultātu un visas dienas metrikas. Iebūvētais paraugs izmanto repozitorijā saglabātus novērojumus; tā rezultāts ir atkārtojams un neizsauc maksas modeli. Ielīmējot jaunu transkriptu, pārlūks serverim sūta tikai tekstu, nevis audio. API pieņem ne vairāk kā 100 KB un bez konfigurētas atslēgas atgriež saprotamu kļūdu.
+Determinētais dzinējs pārbauda pierādījumu, piemēro `procurement-v1`, apstrādā statusu “nav piemērojams”, aprēķina viena zvana rezultātu un visas dienas metrikas. Iebūvētais paraugs izmanto repozitorijā saglabātus novērojumus; tā rezultāts ir atkārtojams un neizsauc maksas modeli. Ielīmējot vai ielādējot TXT, analīzei sūta tikai tekstu (līdz 100 KB). Atsevišķā atšifrēšanas plūsma pieņem MP3 līdz 3,2 MB un 10 minūtēm; audio caur serveri nonāk ārējā OpenRouter modelī. Pirms analīzes runātāju atzīmes un tekstu pārbauda lietotājs. Bez konfigurētas atslēgas API atgriež saprotamu kļūdu.
 
 ## Privātums un cilvēka pārbaude
 
