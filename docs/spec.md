@@ -315,6 +315,12 @@ whitespace normalization. Quotes with explicit speaker labels must match those l
 amounts, incorrect speaker attribution and skipped intervening words must not be accepted.
 The same treatment applies when checking overlap between next-action and criterion evidence.
 
+For live generation, give the model numbered contiguous source excerpts and ask it to select one
+excerpt ID per criterion/next action. Server code copies the selected excerpt verbatim into the
+existing `evidenceQuote` response field. Unknown IDs are rejected; the model cannot assemble a
+quotation from nonadjacent turns. This guarantees source text, not the semantic correctness of a
+criterion or fact, which still requires human review. Cached oracle extractions are unchanged.
+
 Daily output: total/evaluated/connected/no-answer calls, total duration, average evaluated-call
 duration, average score, score-band counts, per-criterion status rates, follow-ups and calls needing
 review. Employee summaries show only that employee's calls, strengths, focus criteria and actions.

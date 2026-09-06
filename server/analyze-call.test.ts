@@ -214,6 +214,38 @@ describe("call-analysis prompt boundary", () => {
 
 const hasOpenRouterKey = Boolean(process.env.OPENROUTER_API_KEY?.trim());
 
+it("materializes model-selected evidence from the unchanged source, not generated quotes", async () => {
+  const referenced = {
+    ...extraction,
+    observations: extraction.observations.map(
+      ({ evidenceQuote: _quote, ...observation }, index) => ({
+        ...observation,
+        status: index === 0 ? "met" : "missed",
+        evidenceId: index === 0 ? 1 : null,
+      }),
+    ),
+  };
+  const fetchMock = vi.fn<typeof fetch>().mockResolvedValue(
+    Response.json({
+      id: "test-reference",
+      model: "openai/gpt-4.1-mini",
+      created: 1,
+      choices: [
+        {
+          index: 0,
+          message: { role: "assistant", content: JSON.stringify(referenced) },
+          finish_reason: "stop",
+        },
+      ],
+      usage: { prompt_tokens: 1, completion_tokens: 1, total_tokens: 2 },
+    }),
+  );
+  const result = await analyzeTranscript(transcript, { apiKey: "test-key", fetch: fetchMock });
+  expect(result.observations[0].evidenceQuote).toBe("Darbinieks: Labdien! Mani sauc Anna.");
+  expect(result.observations[0]).not.toHaveProperty("evidenceId");
+  expect(result.observations[1].evidenceQuote).toBeNull();
+});
+
 it.skipIf(!hasOpenRouterKey)(
   "extracts a complete grounded rubric from a synthetic transcript",
   async () => {

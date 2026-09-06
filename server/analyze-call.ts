@@ -2,6 +2,7 @@ import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateObject } from "ai";
 import { z } from "zod";
 
+import { createCallExcerpts, resolveCallExcerpt } from "../engine/calls/excerpts";
 import { describeError } from "../engine/contracts/extract";
 import { CONTRACT_MODEL_FALLBACKS, DEFAULT_CONTRACT_MODEL } from "../engine/contracts/models";
 
@@ -75,6 +76,24 @@ const callExtractionBaseSchema = z
   })
   .strict();
 
+const referencedExtractionSchema = callExtractionBaseSchema.extend({
+  observations: z
+    .array(
+      observationSchema.omit({ evidenceQuote: true }).extend({
+        evidenceId: z.number().int().min(1).nullable(),
+      }),
+    )
+    .length(CALL_CRITERION_IDS.length),
+  facts: callExtractionBaseSchema.shape.facts.extend({
+    nextAction: nextActionSchema
+      .omit({ evidenceQuote: true })
+      .extend({
+        evidenceId: z.number().int().min(1),
+      })
+      .nullable(),
+  }),
+});
+
 export const callExtractionResponseSchema = callExtractionBaseSchema.superRefine(
   (extraction, context) => {
     const received = new Set(extraction.observations.map(({ criterionId }) => criterionId));
@@ -117,20 +136,22 @@ Use rubric version procurement-v1 and return every criterion exactly once, in th
 
 For each criterion:
 - use only met, partial, missed, or not-applicable;
-- for met or partial, copy a short exact quote from the transcript as evidenceQuote;
-- quote one contiguous span, preferably from one turn; if it crosses turns, preserve the speaker labels between them;
-- never join nonadjacent excerpts, paraphrase a quote, change an amount, or attribute a client's words to the employee;
-- for missed or not-applicable, set evidenceQuote to null;
+- for met or partial, select ONE evidenceId from the provided source_excerpts catalogue that best supports the observation;
+- the application copies that exact source excerpt; never write quotations or join excerpts yourself;
+- the selected excerpt must support the status, not merely mention the topic; use the full conversation for context;
+- never attribute a client's words to the employee;
+- for missed or not-applicable, set evidenceId to null;
 - confidence measures how directly the transcript supports the observation, not call quality;
 - write a concise Latvian note without guessing.
 
 For next-step, use met only when a concrete next action is agreed with the client; a unilateral proposal or an action missing necessary details is partial.
 For summary-close, met requires both a recap of the agreement and a courteous close; a courteous goodbye alone is partial.
 
-Extract only explicitly supported need, key parameters, price terms, timing, and next action. A next action needs an action, owner, exact transcript quote, and an ISO date/time only when the transcript makes it resolvable; otherwise dueAt is null. Metadata is context only and must never be used as evidence.`;
+Extract only explicitly supported need, key parameters, price terms, timing, and next action. A next action needs an action, owner, evidenceId and an ISO date/time only when the transcript makes it resolvable; otherwise dueAt is null. Use the SAME evidenceId as the next-step criterion for the next action. Preserve uncertainty and corrections in the facts: an approximate area or proposed price is not confirmed. In notes and actions retain spoken half-hour expressions rather than guessing a clock time. Metadata is context only and must never be used as evidence.`;
 
 export interface AnalyzeTranscriptOptions {
   apiKey?: string;
+  fetch?: typeof fetch;
   fileName?: string;
   metadata?: CallMetadata;
 }
@@ -162,6 +183,10 @@ export function buildCallAnalysisPrompt(
     "<call_transcript>",
     transcript,
     "</call_transcript>",
+    "Select evidence IDs from this catalogue of verbatim source excerpts:",
+    "<source_excerpts>",
+    JSON.stringify(createCallExcerpts(transcript)),
+    "</source_excerpts>",
   ].join("\n");
 }
 
@@ -174,6 +199,7 @@ export async function analyzeTranscript(
 
   const openrouter = createOpenRouter({
     apiKey,
+    fetch: options.fetch,
     compatibility: "strict",
     appName: "forest-inventory-valuation",
     appUrl: "https://sokolov.lv/forest/",
@@ -183,7 +209,7 @@ export async function analyzeTranscript(
       models: [...CONTRACT_MODEL_FALLBACKS],
       plugins: [{ id: "response-healing" }],
     }),
-    schema: callExtractionBaseSchema,
+    schema: referencedExtractionSchema,
     schemaName: "procurement_call_observations",
     schemaDescription:
       "Grounded observations and facts from a Latvian procurement-call transcript; no score.",
@@ -194,7 +220,27 @@ export async function analyzeTranscript(
     maxRetries: 1,
   });
 
-  return callExtractionResponseSchema.parse(result.object);
+  const excerpts = createCallExcerpts(transcript);
+  const referenced = result.object;
+  const nextAction = referenced.facts.nextAction;
+  return callExtractionResponseSchema.parse({
+    ...referenced,
+    observations: referenced.observations.map(({ evidenceId, ...observation }) => ({
+      ...observation,
+      evidenceQuote: resolveCallExcerpt(excerpts, evidenceId),
+    })),
+    facts: {
+      ...referenced.facts,
+      nextAction: nextAction
+        ? {
+            action: nextAction.action,
+            owner: nextAction.owner,
+            dueAt: nextAction.dueAt,
+            evidenceQuote: resolveCallExcerpt(excerpts, nextAction.evidenceId),
+          }
+        : null,
+    },
+  });
 }
 
 export interface AnalyzeCallApiRequest {

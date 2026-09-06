@@ -30,7 +30,7 @@ npm run build
 npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf
 ```
 
-Expected automated result: 25 test files pass, one live-test file is skipped, 141 tests pass and two
+Expected automated result: 26 test files pass, one live-test file is skipped, 144 tests pass and two
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 
@@ -156,10 +156,14 @@ bounded and rate-limited, and application logs/storage do not contain the audio 
 
 The realistic 4:15 call is offered as owned MP3 and source TXT, alongside the two earlier text
 examples. Uploaded audio is never replaced with the sample script. A failed transcription preserves
-both the chosen MP3 and previous text. The existing day oracle and analysis endpoint are unchanged.
+both the chosen MP3 and previous text. The existing day oracle and public analysis schema are unchanged.
 
-Local validation: 141 tests pass, two paid tests skip without a key; lint, typecheck and build pass.
+Local validation: 144 tests pass, two paid tests skip without a key; lint, typecheck and build pass.
 Browser checks verified the actual MP3 download, browser playback duration and edited TXT download.
 A mobile overflow in the call-results grid was corrected while checking the new input flow.
 The in-app browser was unavailable; a separate headless Chrome test was used.
-Production verification is pending.
+Real transcription returned all 4:15 of the sample in 16 seconds, including corrected numbers and
+the child speaker. A longer-dialogue issue in the existing analysis was reproduced: the model
+joined nonadjacent quotes. Generation now selects numbered contiguous source excerpts and code
+copies them verbatim; the scoring and grounding engine, rubric weights and oracles are unchanged.
+Production verification of the corrected complete flow is pending.

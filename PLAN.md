@@ -346,10 +346,20 @@ Status: DONE — 14 API tests pass; the integration run also passed typecheck an
 - **Verification:** `npm test -- server/transcribe-call && npm run typecheck && npm run bundle:api`
 
 ## Step 28 — TXT and MP3 input, samples and handoff (P0)
-Status: IN PROGRESS — 16 page tests pass, including TXT/MP3 picker/drop and reviewed-text analysis
+Status: BLOCKED — upload/transcription works live; the longer call exposed collated model quotes,
+so final handoff depends on the bounded evidence repair in Step 29
 
 - Preserve TXT input and add MP3 selection/drop, playback, transcription review and TXT export.
 - Publish both formats of the realistic synthetic call alongside the original TXT examples.
 - Verify the complete audio-to-reviewed-text-to-analysis flow and update the public explanations.
 - **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; deploy and
   verify both sample downloads, real MP3 transcription and subsequent analysis through the public URL.
+
+## Step 29 — Source excerpt selection for longer call analysis (P0)
+Status: IN PROGRESS
+
+- Reproduce the invalid, nonadjacent evidence emitted for the new realistic call.
+- Ask the model to select source excerpt IDs and copy those excerpts in code into the existing
+  response schema. Keep the scoring/grounding engine and every oracle value unchanged.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; recheck the
+  real recognized transcript through the deployed API and complete Step 28's public upload flow.

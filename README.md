@@ -99,8 +99,9 @@ With `OPENROUTER_API_KEY` set, a contract can be processed from the command line
 9. `src/pages/ContractsPage.tsx` shows live or cached results with field-level grounding.
 10. `engine/calls/` validates transcript evidence, applies the versioned call rubric and creates
     deterministic daily summaries.
-11. `server/analyze-call.ts` maps transcript text into the fixed observation schema; it never receives
-    audio and never decides a score.
+11. `server/analyze-call.ts` maps transcript text into the fixed observation schema. The model selects
+    numbered source excerpts; code copies their exact text into evidence fields. It never receives
+    audio and never decides a score. Human review still verifies what each excerpt supports.
 12. `server/transcribe-call.ts` validates MP3 bytes, measures duration with `music-metadata`, then
     uses Gemini 2.5 Flash audio input via the same OpenRouter key to return speaker-labelled text.
     Audio and transcripts are not persisted or logged by the application.

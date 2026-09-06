@@ -64,6 +64,12 @@ The prototype proceeds with the following documented assumptions. None blocks th
   remains available after a rejected file or failed analysis.
 # MP3 extension gate — 2026-09-06
 
+The real 4:15 MP3 transcribed in 16 seconds, preserving corrected numbers and the child speaker.
+Integration exposed an existing analysis limitation on longer dialogue: GPT-4.1 mini added speaker
+prefixes to mid-turn snippets and joined nonadjacent quotations with ellipses. The engine correctly
+rejected eight quotes. Step 28 handoff is blocked until Step 29 switches generation to numbered
+source-excerpt selection; scoring and evidence acceptance rules will not be weakened.
+
 Step 27's gate stopped twice: Vitest's deep comparison of a 3 MB Buffer exceeded the default
 timeout, then the installed OpenRouter SDK required `reasoning.effort` alongside `enabled`.
 The test now uses Buffer.equals (14 API tests pass); the SDK option includes `effort: "none"`.
