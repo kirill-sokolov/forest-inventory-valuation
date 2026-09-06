@@ -1,0 +1,79 @@
+Darbinieks: Labdien! Te Anna no īpašumu iepirkumu komandas. Jūs vakar atstājāt pieteikumu par meža īpašumu. Vai sazvanīju Mārtiņu?
+
+Klients: Jā, jā, es. Es gan tagad esmu ar mazo mājās... Bet varam, sakiet.
+
+Darbinieks: Tas aizņems dažas minūtes. Gribētu saprast, ko vēlaties pārdot, un tad vienoties par nākamo soli.
+
+Klients: Nu, to mežu. Mums viņš no tēva palika. Es īsti nezinu, ar ko tur sākt.
+
+Darbinieks: Jūs domājat visu īpašumu kopā ar zemi vai tikai kokus ciršanai?
+
+Klients: Ā... Es domāju, ka tas ir viens un tas pats. Laikam visu. Negribas pēc tam pašam tur kaut ko apsaimniekot.
+
+Darbinieks: Sapratu. Un kāda ir aptuvenā platība?
+
+Klients: Četri ar kaut ko. Četri komats divi, man šķiet. Pagaidiet, man te telefonā bija bilde.
+
+Klients: Nē, samelojos. Te ir četri komats septiņi. Bet tur jau laikam tas gabaliņš ar pļavu arī ir iekšā.
+
+Darbinieks: Tātad četri komats septiņi varētu būt visa zemes platība, bet tieši meža platību vēl pārbaudīsim?
+
+Klients: Jā. Es negribu tagad jums sastāstīt nepareizi.
+
+Darbinieks: Tas nekas. Vai jums ir meža inventarizācija, tas dokuments ar nogabaliem un koku datiem?
+
+Klients: Man ir zemesgrāmata. Tas nav tas pats?
+
+Darbinieks: Nē, tie ir dažādi dokumenti. Vai atceraties, kad mežs pēdējo reizi inventarizēts?
+
+Klients: Nu... pirms kādiem gadiem pieciem? Vai desmit. Tēvs vēl toreiz kārtoja. Jāpaprasa māsai, viņai ir tā mape.
+
+Darbinieks: Māsa arī ir īpašniece?
+
+Klients: Mums katram puse. Viņa principā ir par pārdošanu, tikai...
+
+Bērns fonā: Tēti! Palīdzi attaisīt!
+
+Klients: Pagaidi, es runāju. Nē, nenes te... Dod šurp. Tā, turi ar abām rokām.
+
+Klients: Atvainojiet, puika ar sulas pudeli. Ko jūs tikko prasījāt?
+
+Darbinieks: Par māsu. Jūs teicāt, ka viņa piekrīt pārdot, bet kaut ko vēl gribējāt piebilst.
+
+Klients: Jā, bet cenu mēs vēl neesam izrunājuši. Es pats te neko nevaru apsolīt.
+
+Darbinieks: Protams. Kādu summu jūs pats bijāt iedomājies?
+
+Klients: Simt divdesmit tūkstošus. Nu, kaimiņš teica, ka tagad meži dārgi... Bet es nezinu, vai tas vispār ir reāli.
+
+Darbinieks: Tā pagaidām ir jūsu sākotnējā doma, nevis jau saskaņota pārdošanas cena?
+
+Klients: Jā. Varbūt tur sanāk mazāk. Man galvenais saprast, cik es beigās saņemtu. Un lai nav tā, ka parakstu, bet naudu pēc tam gaidu.
+
+Darbinieks: Sapratu. Piedāvājumā norādīsim summu un maksāšanas kārtību, ko varēsiet izskatīt pirms parakstīšanas. Šobrīd cenu vēl nevaru nosaukt, vispirms jāapskata dokumenti.
+
+Klients: Bet tas simt divdesmit būtu par abām daļām kopā. Nevis tikai par manējo.
+
+Darbinieks: Jā, pierakstīju, par visu īpašumu. Vai ir svarīgi darījumu pabeigt līdz kādam konkrētam datumam?
+
+Klients: Nu, būtu labi drīz. Man ir viens cits pirkums padomā. Bet jāskatās, ko māsa teiks.
+
+Darbinieks: Labi. Tad sāksim ar dokumentiem. Vai varēsiet atsūtīt zemesgrāmatu un to, kas mapē ir par mežu?
+
+Klients: Jā, tikai es tagad jums to e-pastu nevarēšu pierakstīt. Varat atsūtīt īsziņā, ko tieši vajag?
+
+Darbinieks: Jā, šodien atsūtīšu īsziņu uz šo numuru ar sarakstu un e-pasta adresi. Fotogrāfijas sākumam arī derēs, ja teksts būs salasāms.
+
+Klients: Vakarā mēģināšu māsu sazvanīt. Nesolu gan, ka šodien visu atradīsim.
+
+Darbinieks: Vai rīt ap vieniem varu piezvanīt un pajautāt, kā veicas?
+
+Klients: Vienos es nevarēšu. Labāk pēc trijiem. Ap pusčetriem, piemēram.
+
+Darbinieks: Sarunāts, rīt pusčetros piezvanīšu. Tātad šodien no manis īsziņa, jūs aprunājaties ar māsu un paskatāties dokumentus. Platību un cenu vēl precizēsim.
+
+Klients: Jā, tā der. Un tad jau sapratīsim, vai tur ir par ko runāt.
+
+Darbinieks: Tieši tā. Paldies par sarunu! Lai mierīgs vakars!
+
+Klients: Nu, cik nu mierīgs te sanāks. Paldies, visu labu!
