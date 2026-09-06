@@ -386,7 +386,8 @@ copy at 1440/390 px without runtime errors, overflow or model calls; public bund
   inspect the process and decisions pages at desktop/mobile widths and verify the deployed copy.
 
 ## Step 32 — Verify Annex 7 and reconcile its documented status (P0)
-Status: IN PROGRESS — official table comparison passes 15/15 cells; values are unchanged
+Status: DONE — official comparison passes 15/15 cells; all 144 tests, lint, typecheck, build and
+public CLI pass; the published label and decisions link are verified and calculations are unchanged
 
 - Record the source comparison and its scope consistently in the decisions, spec and handoff.
 - Correct the visible edition year to 2026, retaining the internal key and numeric oracles.

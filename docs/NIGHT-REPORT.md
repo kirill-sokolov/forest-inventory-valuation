@@ -217,4 +217,8 @@ The consolidated source identifies the annex as reissued by MK No. 494 of 18.08.
 21.08.2026. The source links, exact values and verification scope are recorded in docs/waiting.md.
 DECISIONS, the spec, the morning checklist and this handoff now record the same completed check.
 The visible edition label is updated to 2026; the existing internal identifier and numeric oracles
-are preserved. Release verification is pending.
+are preserved. Lint, typecheck, all 144 tests (two guarded skips) and build pass. The public CLI
+retains 23,435 EUR / 34.01 EUR/m3 and reports the 2026 label. Browser checks confirm the same label,
+unchanged public headline, dated decisions wording and working Annex 7 link locally and on the
+public site, with no runtime errors. Deployment `dpl_8T55oQVvVkpjJ2dBVEur1HZmzozt` is promoted;
+the public `index-Do4K-HGN.js` bundle matches the local build byte-for-byte.
