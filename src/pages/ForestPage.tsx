@@ -12,7 +12,7 @@ import { parseInventory } from "@engine/inventory/parse";
 import type { Inventory } from "@engine/inventory/types";
 import { serializeJsonReport } from "@engine/report/json";
 import { createTextReport } from "@engine/report/text";
-import type { LawEdition } from "@engine/rules/law-tables";
+import { LAW_EDITION_LABELS, type LawEdition } from "@engine/rules/law-tables";
 import { MATRIX_COLUMNS, type MatrixColumn } from "@engine/species";
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
@@ -308,7 +308,7 @@ export function ForestPage({ initialInventory = null }: ForestPageProps) {
                   value={edition}
                   onChange={(event) => setEdition(event.target.value as LawEdition)}
                 >
-                  <option value="current-2024">Spēkā esošā (2024)</option>
+                  <option value="current-2024">{LAW_EDITION_LABELS["current-2024"]}</option>
                   <option value="task-pre-2022">Uzdevuma (līdz 29.06.2022)</option>
                 </select>
               </label>

@@ -5,7 +5,7 @@ export type LawEdition = (typeof LAW_EDITIONS)[number];
 export const DEFAULT_LAW_EDITION: LawEdition = "current-2024";
 
 export const LAW_EDITION_LABELS: Record<LawEdition, string> = {
-  "current-2024": "Spēkā esošā (2024)",
+  "current-2024": "Spēkā esošā (2026)",
   "task-pre-2022": "Uzdevuma (līdz 29.06.2022)",
 };
 
@@ -32,6 +32,8 @@ type DiameterThresholds = Partial<Record<DiameterBonitateGroup, number>>;
 /**
  * Mean-diameter thresholds from MK noteikumi Nr. 935, 7. pielikums.
  * Source: https://likumi.lv/ta/id/253760-noteikumi-par-koku-cirsanu-meza
+ * All 15 current values checked on 2026-09-06 against Annex 7 as reissued by MK No. 494
+ * (effective 2026-08-21). The legacy current-2024 key is retained; see docs/waiting.md.
  * Editions and the Constitutional Court context are documented in docs/spec.md.
  */
 export const MAIN_FELLING_DIAMETER: Record<

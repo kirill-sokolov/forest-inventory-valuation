@@ -178,10 +178,13 @@ Table B — mean diameter of the dominant stand (cm), MK 935 7. pielikums. Two e
 | Bērzs | `task-pre-2022` | 31 | 27 | 25 | 22 | — |
 | Bērzs | `current-2024` | 31 | 27 | 25 | 25 | 25 |
 
-Default edition: `current-2024`. The report prints the edition used and, when the two editions
-disagree for the loaded PDF, a warning listing the stands that flip. The `current-2024` numbers come
-from two independent fetches of likumi.lv by the research wave; **morning task for Kirill: eyeball
-7. pielikums once** (open question).
+Default internal edition key: `current-2024`, retained for existing data and oracles. Its visible
+label is `Spēkā esošā (2026)`. The report prints the edition used and, when the two editions disagree
+for the loaded PDF, a warning lists the stands that flip. On 2026-09-06 Codex compared all 15 values
+with the official Annex 7 HTML table and inspected the rendered table; every value matches. Annex 7
+was reissued by MK No. 494 of 18.08.2026, effective 21.08.2026. See docs/waiting.md §Diameter-table
+source check for the source, column mapping and scope. This completes the numerical source check;
+it does not certify compliance with all conditions for a particular felling operation.
 
 Protection zone: a stand whose notes contain `Aizs.paz.` gets flag `protection-zone` with the note
 text. It stays included by default (matches the employer's example) with an "iekļaut" checkbox;
@@ -491,9 +494,10 @@ read the generated PDF back into the same stands.
 
 ## Pre-mortem
 
-- **What we don't know:** whether `current-2024` diameter values are pixel-exact (likumi.lv renders
-  the table as an image; two text fetches agreed) — morning eyeball; species codes for Liepa/Goba/
-  Vīksna/Kļava; whether every registry PDF wraps formulas the same way; which OpenRouter models
+- **Resolved source risk:** all 15 diameter values match the official Annex 7 HTML table and its
+  rendered view (2026-09-06); see docs/waiting.md. The internal `current-2024` key is retained.
+- **What we don't know:** species codes for Liepa/Goba/Vīksna/Kļava; whether every registry PDF
+  wraps formulas the same way; which OpenRouter models
   honour strict JSON schema today; whether the employer's `Bl=12` is a slip or a truncation rule.
 - **What breaks first:** (1) pdf.js worker in Vite — pin `workerSrc` via `?url` import, test in
   `npm run build` preview; (2) multi-line formula merge (stand 1) — parser test is red until solved;
@@ -514,7 +518,8 @@ read the generated PDF back into the same stands.
 
 ## Open Questions
 
-- Morning: eyeball MK 935 7. pielikums on likumi.lv against the `current-2024` table.
+- Diameter-table source comparison is complete: all 15 values match Annex 7, checked 2026-09-06.
+  Application to a particular property still requires the specialist's assessment of other rules.
 - Domain: is the assignment's Oz/Os 70 % column a slip (Kamīnmalka share missing) or intentional? Ask
   the client politely in the e-mail; the app warns either way.
 - Hosting is deployed and verified; see docs/NIGHT-REPORT.md for the latest public checks.
@@ -533,7 +538,7 @@ checks. The employer e-mail remains a draft in `docs/email.lv.md`.
    `/lemumi`; footer: GitHub, author.
 2. `/mezs` — dropzone (PDF) + "Izmantot paraugu (Paraugmežs)"; then five panels top-to-bottom:
    Nolasītie nogabali (table, parse status) → Kailcirtes atlase (verdict + trace per stand, flags,
-   edition toggle `Spēkā esošā (2024) / Uzdevuma (līdz 29.06.2022)`, "iekļaut" checkbox on flagged)
+   edition toggle `Spēkā esošā (2026) / Uzdevuma (līdz 29.06.2022)`, "iekļaut" checkbox on flagged)
    → Apjoms un sugas → Sortimenti un izmaksas (editable matrix, cost rates, profit %) → Gala
    atskaite (headline block exactly as the assignment, extended sections, Brīdinājumi with anchors
    to inputs, buttons: Kopēt, .txt, .json, .docx). Alternative totals without flagged stands shown

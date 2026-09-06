@@ -62,8 +62,9 @@ the checks used separate headless Chrome. Dated verification records follow belo
 
 ## Assumptions and limits
 
-- The current MK 935 diameter table should receive the planned human comparison with official
-  Annex 7 before the result is presented as legal guidance.
+- The numerical MK 935 Annex 7 source check is complete: Codex verified all 15 values against the
+  official table on 2026-09-06 (see docs/waiting.md). This is not a specialist's assessment of all
+  felling restrictions for a property.
 - The source Oz/Os assortment column totals 70%. The calculation preserves that input, values the
   missing 30% at zero, and points to Kamīnmalka as the likely missing share.
 - Protection-zone stands remain included by default to match the worked example; warnings and an
@@ -207,3 +208,13 @@ process and decisions pages at 1440/390 px with no overflow, runtime errors or m
 Deployment `dpl_DrCf8AzHHKhdnzFsNCxULEASvLFB` is ready and promoted. The public route serves
 `index-Cs0jBVRD.js`, byte-identical to the local build. Browser checks on the public process and
 decisions pages also pass at 1440/390 px with no runtime errors, overflow or model requests.
+
+## Annex 7 source verification — 2026-09-06
+
+The official three-species/five-column diameter table matches all 15 constants in the engine.
+Both HTML cell comparison and inspection of the rendered official table were completed by Codex.
+The consolidated source identifies the annex as reissued by MK No. 494 of 18.08.2026, effective
+21.08.2026. The source links, exact values and verification scope are recorded in docs/waiting.md.
+DECISIONS, the spec, the morning checklist and this handoff now record the same completed check.
+The visible edition label is updated to 2026; the existing internal identifier and numeric oracles
+are preserved. Release verification is pending.

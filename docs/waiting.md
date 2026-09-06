@@ -2,13 +2,35 @@
 
 The prototype proceeds with the following documented assumptions. None blocks the three prototypes.
 
-- The `current-2024` diameter values are the researched values in `docs/spec.md`. A human should visually compare `engine/rules/law-tables.ts` with MK 935 Annex 7 before presenting the result as legal guidance.
+- The diameter-table source check is complete: all 15 values match official Annex 7 (2026-09-06).
+  See the dated comparison below. This verifies the constants, not all legal conditions for a property.
 - The assignment's Oz/Os assortment column totals 70%. The prototype preserves it, calculates the remaining 30% as unpriced volume, and points to Kamīnmalka as the likely missing share.
 - Protection-zone stands remain included by default to match the worked example. They are flagged and an alternative total is shown without them.
 - Hauling conditions and distance have no supplied formula. The prototype represents the specialist's judgment through editable forwarding and transport EUR/m³ rates.
 - The public contract picker contains only our three synthetic files. Third-party templates remain local, ignored test material and are never published.
 - Cached synthetic extraction results are deterministic demo fixtures. A newly uploaded contract requires `OPENROUTER_API_KEY`.
 - Contract upload is one PDF per run. Multi-document batch processing is outside the one-day prototype.
+
+## Diameter-table source check — 2026-09-06
+
+Codex compared the official Annex 7 HTML table cell-by-cell with
+`MAIN_FELLING_DIAMETER["current-2024"]` and inspected its rendered table in a browser. All 15
+thresholds match, including the order of the bonitate columns and centimetre units:
+
+| Species / code | Ia | I | II | III | IV and V |
+|---|---:|---:|---:|---:|---:|
+| Priede / P | 39 | 35 | 31 | 30 | 30 |
+| Egle / E | 31 | 29 | 29 | 27 | 26 |
+| Bērzs / B | 31 | 27 | 25 | 25 | 25 |
+
+Sources: [MK No. 935, Annex 7](https://likumi.lv/ta/id/253760-noteikumi-par-koku-cirsanu-meza#piel7)
+and [MK No. 494 of 18.08.2026](https://likumi.lv/ta/id/370370), which reissues Annex 7 in its
+second annex and took effect on 21.08.2026. The values already in the code match this edition;
+only the visible year needed updating to 2026. The internal `current-2024` identifier is retained
+for existing data and oracle compatibility.
+
+This resolves the source-transcription check. It is a Codex verification of these constants, not
+a specialist's assessment of all felling restrictions or of any particular property's eligibility.
 
 ## Contract model (2026-09-06, after first live deployment)
 

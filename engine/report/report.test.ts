@@ -19,7 +19,7 @@ function verifyReport(oracle: ReportOracle): void {
   const text = createTextReport(oracle, calculation);
   expect(text.split("\n").slice(0, 4)).toEqual(oracle.report.headlineLines);
   expect(text).toContain("Nogabalu izvērtējums");
-  expect(text).toContain("Tabulas redakcija: Spēkā esošā (2024)");
+  expect(text).toContain("Tabulas redakcija: Spēkā esošā (2026)");
   expect(text).toContain("Brīdinājumi");
 }
 

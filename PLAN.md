@@ -226,7 +226,8 @@ Status: DONE
 ## Morning (Kirill)
 
 1. `git log --oneline`, read `docs/NIGHT-REPORT.md`, run `npm ci && npm test && npm run build`.
-2. Eyeball MK 935 7. pielikums on likumi.lv against `engine/rules/law-tables.ts` (`current-2024`).
+2. DONE — Codex compared all 15 diameter thresholds with the official Annex 7 table and its rendered
+   view on 2026-09-06. See docs/waiting.md §Diameter-table source check; no numerical changes.
 3. Create GitHub repo `forest-inventory-valuation` (public), push; Vercel: import repo, set
    `OPENROUTER_API_KEY`, deploy → note the `<project>.vercel.app` host.
 3a. Caddy on the VPS — in wedding-quiz `caddy/sites/sokolov.caddy`, inside the `sokolov.lv` block and
@@ -383,3 +384,11 @@ copy at 1440/390 px without runtime errors, overflow or model calls; public bund
 - Reconcile obsolete handoff notes and mark the old planning draft as historical.
 - **Verification:** `npm run lint && npm run typecheck && npm test -- src/pages/CallsPage.test.tsx && npm run build`;
   inspect the process and decisions pages at desktop/mobile widths and verify the deployed copy.
+
+## Step 32 — Verify Annex 7 and reconcile its documented status (P0)
+Status: IN PROGRESS — official table comparison passes 15/15 cells; values are unchanged
+
+- Record the source comparison and its scope consistently in the decisions, spec and handoff.
+- Correct the visible edition year to 2026, retaining the internal key and numeric oracles.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; run the public
+  forest CLI and verify the published edition label and decisions text.
