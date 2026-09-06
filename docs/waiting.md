@@ -34,3 +34,9 @@ The prototype proceeds with the following documented assumptions. None blocks th
   rejected. The same rule is used to compare next-action and criterion evidence.
 - The model still interprets criterion statuses. Grounded quotes do not prove that a contract
   value or a call assessment is semantically correct; that remains a human-review responsibility.
+
+## Deployment file selection (2026-09-06)
+
+- `vercel deploy --dry --json` included local private fixtures and source assignments despite
+  their `.gitignore` entries. `.vercelignore` now explicitly excludes those directories,
+  third-party templates, research material and environment files from CLI uploads.

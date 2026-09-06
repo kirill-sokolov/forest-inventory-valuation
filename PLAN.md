@@ -309,6 +309,8 @@ Status: DONE — 106 offline tests, lint, typecheck, and production build pass
 Status: TODO
 
 - Push the verified change and deploy the existing Vercel project without changing hosting settings.
+- Verify the CLI upload list excludes private fixtures, source assignments, third-party templates
+  and secrets using the explicit `.vercelignore` rules.
 - Fetch the production assets and analyze a synthetic transcript through the public API;
   verify that the response retains all supported criteria without `quote-not-found` warnings.
 - **Verification:** `vercel deploy --prod --yes` exits 0; public routes return the updated

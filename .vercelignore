@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.git/
+.vercel/
+.idea/
+.codex/
+.env*
+coverage/
+*.log
+docs/research/
+docs/task/
+docs/decisions.ru.md
+samples/private/
+samples/contracts/third-party/
