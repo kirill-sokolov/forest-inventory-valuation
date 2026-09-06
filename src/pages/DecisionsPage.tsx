@@ -1,18 +1,22 @@
 import { Link } from "react-router";
 import decisions from "../../DECISIONS.md?raw";
 
-interface Block {
-  type: "title" | "heading" | "paragraph";
-  text: string;
-}
+type Block =
+  | { type: "title" | "heading" | "paragraph"; text: string }
+  | { type: "list"; items: string[] };
 
 function blocks(markdown: string): Block[] {
   const result: Block[] = [];
   let paragraph: string[] = [];
+  let list: string[] = [];
   const flush = () => {
     if (paragraph.length > 0) {
       result.push({ type: "paragraph", text: paragraph.join(" ") });
       paragraph = [];
+    }
+    if (list.length > 0) {
+      result.push({ type: "list", items: list });
+      list = [];
     }
   };
 
@@ -25,6 +29,11 @@ function blocks(markdown: string): Block[] {
       result.push({ type: "heading", text: line.slice(3) });
     } else if (line.trim() === "") {
       flush();
+    } else if (line.startsWith("- ")) {
+      if (paragraph.length > 0) flush();
+      list.push(line.slice(2).trim());
+    } else if (list.length > 0 && line.startsWith("  ")) {
+      list[list.length - 1] = `${list[list.length - 1]} ${line.trim()}`;
     } else {
       paragraph.push(line.trim());
     }
@@ -54,6 +63,15 @@ export function DecisionsPage() {
       </Link>
       <article className="decisions-document">
         {blocks(decisions).map((block) => {
+          if (block.type === "list") {
+            return (
+              <ul key={`list-${block.items[0]}`}>
+                {block.items.map((item) => (
+                  <li key={item}>{linkedText(item)}</li>
+                ))}
+              </ul>
+            );
+          }
           if (block.type === "title") return <h1 key={block.text}>{block.text}</h1>;
           if (block.type === "heading") return <h2 key={block.text}>{block.text}</h2>;
           return <p key={`${block.type}-${block.text}`}>{linkedText(block.text)}</p>;

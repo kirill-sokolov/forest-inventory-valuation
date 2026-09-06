@@ -278,11 +278,18 @@
       }
     ]
   },
-  "issues": [],
-  "needsReview": false,
+  "issues": [
+    {
+      "code": "quote-inexact",
+      "path": "parties.0.representative",
+      "message": "Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu.",
+      "severity": "warning"
+    }
+  ],
+  "needsReview": true,
   "summary": {
     "subject": "Pirkuma līgums: Parauga ceļš 11, Izdomu pagasts",
-    "body": "Pirkuma līgums: Nekustamā īpašuma pirkuma līgums\nParakstīts: 2026-08-12, Rīga\n\nLīdzēji\n- Pārdevējs: SIA Zaļais Nams (40000000011)\n- Pircējs: Elīna Ozola (320180-00001)\n\nLīguma objekts\n- Adrese: Parauga ceļš 11, Izdomu pagasts\n- Kadastra numurs: 00000000011\n- Platība: 6,42 ha\n- Apraksts: Zemes īpašums ar mežaudzi un palīgēku\n\nFinanšu nosacījumi\n- Pirkuma cena: 48 500 EUR\n- Nomas maksa: nav norādīts\n- Drošības nauda: 4850 EUR\n- Maksājuma termiņš: 2026-08-30\n- Līgumsods: 0,1 % no kavētās summas par katru kavējuma dienu\n\nTermiņš\n- No: 2026-08-12\n- Līdz: nav norādīts\n- Ilgums: nav norādīts\n- Uzteikuma termiņš: nav norādīts\n- Automātiska pagarināšana: nav norādīta\n\nĪpašie nosacījumi\n- Zemesgrāmata (2. lpp.): Pircējs 10 darba dienu laikā iesniedz nostiprinājuma lūgumu zemesgrāmatā.\n- Apgrūtinājumi (2. lpp.): Pārdevējs apliecina, ka nav citu nereģistrētu apgrūtinājumu.\n\nPārbaudāmie jautājumi\n- Nav konstatēti."
+    "body": "Pirkuma līgums: Nekustamā īpašuma pirkuma līgums\nParakstīts: 2026-08-12, Rīga\n\nLīdzēji\n- Pārdevējs: SIA Zaļais Nams (40000000011)\n- Pircējs: Elīna Ozola (320180-00001)\n\nLīguma objekts\n- Adrese: Parauga ceļš 11, Izdomu pagasts\n- Kadastra numurs: 00000000011\n- Platība: 6,42 ha\n- Apraksts: Zemes īpašums ar mežaudzi un palīgēku\n\nFinanšu nosacījumi\n- Pirkuma cena: 48 500 EUR\n- Nomas maksa: nav norādīts\n- Drošības nauda: 4850 EUR\n- Maksājuma termiņš: 2026-08-30\n- Līgumsods: 0,1 % no kavētās summas par katru kavējuma dienu\n\nTermiņš\n- No: 2026-08-12\n- Līdz: nav norādīts\n- Ilgums: nav norādīts\n- Uzteikuma termiņš: nav norādīts\n- Automātiska pagarināšana: nav norādīta\n\nĪpašie nosacījumi\n- Zemesgrāmata (2. lpp.): Pircējs 10 darba dienu laikā iesniedz nostiprinājuma lūgumu zemesgrāmatā.\n- Apgrūtinājumi (2. lpp.): Pārdevējs apliecina, ka nav citu nereģistrētu apgrūtinājumu.\n\nPārbaudāmie jautājumi\n- Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu."
   },
   "model": null
 }

@@ -256,12 +256,18 @@
       "path": "object.cadastreNumber",
       "message": "Lauka uzticamība ir 58 %; vērtība jāpārbauda.",
       "severity": "warning"
+    },
+    {
+      "code": "quote-inexact",
+      "path": "object.description",
+      "message": "Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu.",
+      "severity": "warning"
     }
   ],
   "needsReview": true,
   "summary": {
     "subject": "Pirkuma līgums: Nepabeigtā iela 33, Rīga",
-    "body": "Pirkuma līgums: Nepilnīgs pirkuma līguma paraugs\nParakstīts: 2026-09-20, Rīga\n\nLīdzēji\n- Pārdevējs: SIA Parauga Īpašumi (40000000033)\n- Pircējs: SIA Drošs Pircējs (40000000034)\n\nLīguma objekts\n- Adrese: Nepabeigtā iela 33, Rīga\n- Kadastra numurs: 0000-ABC-33\n- Platība: 0,18 ha\n- Apraksts: Zemesgabals ar nepabeigtu būvi\n\nFinanšu nosacījumi\n- Pirkuma cena: nav norādīts\n- Nomas maksa: nav norādīts\n- Drošības nauda: nav norādīts\n- Maksājuma termiņš: nav norādīts\n- Līgumsods: nav norādīts\n\nTermiņš\n- No: nav norādīts\n- Līdz: nav norādīts\n- Ilgums: nav norādīts\n- Uzteikuma termiņš: nav norādīts\n- Automātiska pagarināšana: nav norādīta\n\nĪpašie nosacījumi\n- Nezināms apgrūtinājums (1. lpp.): Pircējs ir informēts par iespējamu apgrūtinājumu, kura saturs nav pievienots.\n\nPārbaudāmie jautājumi\n- Nav norādīta pirkuma cena.\n- Kadastra numuram jābūt 11 cipariem.\n- Lauka uzticamība ir 58 %; vērtība jāpārbauda."
+    "body": "Pirkuma līgums: Nepilnīgs pirkuma līguma paraugs\nParakstīts: 2026-09-20, Rīga\n\nLīdzēji\n- Pārdevējs: SIA Parauga Īpašumi (40000000033)\n- Pircējs: SIA Drošs Pircējs (40000000034)\n\nLīguma objekts\n- Adrese: Nepabeigtā iela 33, Rīga\n- Kadastra numurs: 0000-ABC-33\n- Platība: 0,18 ha\n- Apraksts: Zemesgabals ar nepabeigtu būvi\n\nFinanšu nosacījumi\n- Pirkuma cena: nav norādīts\n- Nomas maksa: nav norādīts\n- Drošības nauda: nav norādīts\n- Maksājuma termiņš: nav norādīts\n- Līgumsods: nav norādīts\n\nTermiņš\n- No: nav norādīts\n- Līdz: nav norādīts\n- Ilgums: nav norādīts\n- Uzteikuma termiņš: nav norādīts\n- Automātiska pagarināšana: nav norādīta\n\nĪpašie nosacījumi\n- Nezināms apgrūtinājums (1. lpp.): Pircējs ir informēts par iespējamu apgrūtinājumu, kura saturs nav pievienots.\n\nPārbaudāmie jautājumi\n- Nav norādīta pirkuma cena.\n- Kadastra numuram jābūt 11 cipariem.\n- Lauka uzticamība ir 58 %; vērtība jāpārbauda.\n- Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu."
   },
   "model": null
 }

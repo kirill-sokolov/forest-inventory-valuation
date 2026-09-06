@@ -467,7 +467,8 @@ export function ContractsPage() {
                       <span className="font-semibold">
                         {issue.severity === "error" ? "Kļūda" : "Brīdinājums"}:
                       </span>{" "}
-                      {issue.message}
+                      {issue.message}{" "}
+                      <span className="text-slate-500">({issue.path})</span>
                     </li>
                   ))}
                 </ul>

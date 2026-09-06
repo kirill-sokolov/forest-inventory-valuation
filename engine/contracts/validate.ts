@@ -1,6 +1,6 @@
 import { isValidIBAN } from "ibantools";
 
-import type { ContractExtraction, Field, MoneyValue } from "./schema";
+import type { ContractExtraction, Field, FieldSource, MoneyValue } from "./schema";
 
 export type ValidationSeverity = "error" | "warning";
 
@@ -91,7 +91,15 @@ function checkCurrency(issues: ValidationIssue[], path: string, money: MoneyValu
   }
 }
 
-export function validateContract(contract: ContractExtraction): ContractValidation {
+/**
+ * docs/spec.md §Task 2: validation is deterministic. When the page-marked source text is
+ * available, every value must be traceable to a quote that exists in that text; a value
+ * without evidence or with an unverifiable quote is flagged for human review, never dropped.
+ */
+export function validateContract(
+  contract: ContractExtraction,
+  sourceText?: string,
+): ContractValidation {
   const issues: ValidationIssue[] = [];
   const documentType = contract.document.type.value;
 
@@ -274,5 +282,121 @@ export function validateContract(contract: ContractExtraction): ContractValidati
     }
   }
 
+  if (sourceText !== undefined) {
+    checkGrounding(issues, contract, sourceText);
+  }
+
   return { issues, needsReview: issues.length > 0 };
+}
+
+export type GroundingStatus = "exact" | "inexact" | "not-found";
+
+const INEXACT_MATCH_THRESHOLD = 0.8;
+
+/** Same normalization as the call engine: NFKC, collapsed whitespace, Latvian lower case. */
+export function normalizeForGrounding(value: string): string {
+  return value
+    .normalize("NFKC")
+    .replace(/[\u201c\u201d\u201e"'«»]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[.;:,]+$/u, "")
+    .toLocaleLowerCase("lv");
+}
+
+/**
+ * Exact substring first; otherwise count quote words whose stem (first six letters, so Latvian
+ * inflections such as līgumsods/līgumsodu still match) occurs in the text.
+ */
+export function groundQuote(quote: string, sourceText: string): GroundingStatus {
+  const normalizedText = normalizeForGrounding(sourceText);
+  const normalizedQuote = normalizeForGrounding(quote);
+  if (normalizedQuote.length === 0) return "not-found";
+  if (normalizedText.includes(normalizedQuote)) return "exact";
+
+  const words = normalizedQuote.split(" ").filter((word) => /\p{L}|\d/u.test(word));
+  if (words.length === 0) return "not-found";
+  const present = words.filter((word) => normalizedText.includes(stem(word))).length;
+  return present / words.length >= INEXACT_MATCH_THRESHOLD ? "inexact" : "not-found";
+}
+
+export function countSourcePages(sourceText: string): number | null {
+  const markers = sourceText.match(/\[PAGE (\d+)\]/g);
+  if (!markers) return null;
+  return markers.reduce((max, marker) => Math.max(max, Number(marker.slice(6, -1))), 0);
+}
+
+function stem(word: string): string {
+  return word.length > 6 ? word.slice(0, 6) : word;
+}
+
+function groundedFields(contract: ContractExtraction): Array<[string, Field<unknown>]> {
+  return [
+    ...confidenceFields(contract),
+    ["financials.rent", contract.financials.rent],
+    ["financials.deposit", contract.financials.deposit],
+  ].filter(([path]) => path !== "document.type") as Array<[string, Field<unknown>]>;
+}
+
+function checkGrounding(
+  issues: ValidationIssue[],
+  contract: ContractExtraction,
+  sourceText: string,
+): void {
+  const pageCount = countSourcePages(sourceText);
+  const seen = new Set<string>();
+  const sources: Array<[string, FieldSource | null, boolean]> = [];
+  for (const [path, field] of groundedFields(contract)) {
+    if (seen.has(path)) continue;
+    seen.add(path);
+    sources.push([path, field.source, field.value !== null]);
+  }
+  contract.specialConditions.forEach((condition, index) => {
+    sources.push([
+      `specialConditions.${index}`,
+      { quote: condition.quote, page: condition.page },
+      true,
+    ]);
+  });
+
+  for (const [path, source, hasValue] of sources) {
+    if (!hasValue) continue;
+    if (source === null || source.quote.trim().length === 0) {
+      addIssue(
+        issues,
+        "missing-evidence",
+        path,
+        "Vērtībai nav norādīts citāts no dokumenta; tā jāpārbauda pret oriģinālu.",
+        "warning",
+      );
+      continue;
+    }
+    const status = groundQuote(source.quote, sourceText);
+    if (status === "not-found") {
+      addIssue(
+        issues,
+        "quote-not-found",
+        path,
+        "Norādītais citāts dokumenta tekstā nav atrasts; vērtība var būt izdomāta un jāpārbauda.",
+        "warning",
+      );
+    } else if (status === "inexact") {
+      addIssue(
+        issues,
+        "quote-inexact",
+        path,
+        "Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu.",
+        "warning",
+      );
+    }
+    if (source.page !== undefined && pageCount !== null && source.page > pageCount) {
+      addIssue(
+        issues,
+        "page-out-of-range",
+        path,
+        `Norādītā ${source.page}. lappuse neeksistē; dokumentā ir ${pageCount} lappuses.`,
+        "warning",
+      );
+    }
+  }
 }

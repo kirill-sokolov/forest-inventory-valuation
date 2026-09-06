@@ -84,7 +84,9 @@ With `OPENROUTER_API_KEY` set, a contract can be processed from the command line
 Every number in the forest report and call-quality dashboard comes from versioned TypeScript rules.
 No LLM participates in those calculations. The contract and new-transcript flows use an LLM only to
 map unstructured text into fixed schemas with source quotes. Validation, warnings, scores and daily
-aggregates are deterministic.
+aggregates are deterministic. For contracts, every extracted value must carry a quote that is found
+in the page-marked PDF text; a missing, unmatched or only approximately matched quote and a page
+number beyond the document are flagged for human review (the value is kept, never silently dropped).
 
 ## Limits
 

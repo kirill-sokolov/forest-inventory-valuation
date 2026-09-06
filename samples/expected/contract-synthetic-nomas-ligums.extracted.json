@@ -190,9 +190,9 @@
         "value": {
           "amount": 650,
           "currency": "EUR",
-          "period": "mēnesī",
           "netAmount": 650,
-          "grossAmount": 786.5
+          "grossAmount": 786.5,
+          "period": "mēnesī"
         },
         "confidence": 0.98,
         "source": {
@@ -294,11 +294,18 @@
       }
     ]
   },
-  "issues": [],
-  "needsReview": false,
+  "issues": [
+    {
+      "code": "quote-inexact",
+      "path": "financials.penalty",
+      "message": "Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu.",
+      "severity": "warning"
+    }
+  ],
+  "needsReview": true,
   "summary": {
     "subject": "Nomas līgums: Miera iela 22, Jelgava",
-    "body": "Nomas līgums: Nekustamā īpašuma nomas līgums\nParakstīts: 2026-09-15, Jelgava\n\nLīdzēji\n- Iznomātājs: SIA Miera Telpas (40000000022)\n- Nomnieks: SIA Darba Parks (40000000023)\n\nLīguma objekts\n- Adrese: Miera iela 22, Jelgava\n- Kadastra numurs: 00000000022\n- Platība: 120 m²\n- Apraksts: Biroja telpas ēkas otrajā stāvā\n\nFinanšu nosacījumi\n- Pirkuma cena: nav norādīts\n- Nomas maksa: 650 EUR / mēnesī\n- Drošības nauda: 1300 EUR\n- Maksājuma termiņš: katra mēneša 10. datums\n- Līgumsods: 0,05 % no kavētā maksājuma par katru dienu\n\nTermiņš\n- No: 2026-10-01\n- Līdz: 2029-09-30\n- Ilgums: 36 mēneši\n- Uzteikuma termiņš: 60 dienas\n- Automātiska pagarināšana: nē\n\nĪpašie nosacījumi\n- Pirmstermiņa izbeigšana (2. lpp.): Katra puse var izbeigt līgumu, rakstveidā paziņojot vismaz 60 dienas iepriekš.\n- Telpu nodošana (2. lpp.): Telpas nodod ar abpusēji parakstītu pieņemšanas un nodošanas aktu.\n\nPārbaudāmie jautājumi\n- Nav konstatēti."
+    "body": "Nomas līgums: Nekustamā īpašuma nomas līgums\nParakstīts: 2026-09-15, Jelgava\n\nLīdzēji\n- Iznomātājs: SIA Miera Telpas (40000000022)\n- Nomnieks: SIA Darba Parks (40000000023)\n\nLīguma objekts\n- Adrese: Miera iela 22, Jelgava\n- Kadastra numurs: 00000000022\n- Platība: 120 m²\n- Apraksts: Biroja telpas ēkas otrajā stāvā\n\nFinanšu nosacījumi\n- Pirkuma cena: nav norādīts\n- Nomas maksa: 650 EUR / mēnesī\n- Drošības nauda: 1300 EUR\n- Maksājuma termiņš: katra mēneša 10. datums\n- Līgumsods: 0,05 % no kavētā maksājuma par katru dienu\n\nTermiņš\n- No: 2026-10-01\n- Līdz: 2029-09-30\n- Ilgums: 36 mēneši\n- Uzteikuma termiņš: 60 dienas\n- Automātiska pagarināšana: nē\n\nĪpašie nosacījumi\n- Pirmstermiņa izbeigšana (2. lpp.): Katra puse var izbeigt līgumu, rakstveidā paziņojot vismaz 60 dienas iepriekš.\n- Telpu nodošana (2. lpp.): Telpas nodod ar abpusēji parakstītu pieņemšanas un nodošanas aktu.\n\nPārbaudāmie jautājumi\n- Citāts dokumenta tekstā atrasts tikai aptuveni; pārbaudiet precīzo formulējumu."
   },
   "model": null
 }

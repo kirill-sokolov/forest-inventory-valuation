@@ -30,7 +30,7 @@ npm run build
 npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf
 ```
 
-Expected automated result: 22 test files pass, one live-test file is skipped, 92 tests pass and two
+Expected automated result: 23 test files pass, one live-test file is skipped, 101 tests pass and two
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 

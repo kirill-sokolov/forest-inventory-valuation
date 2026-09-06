@@ -70,8 +70,9 @@ export function buildExtractionPrompt(
 export function analyzeContract(
   data: ContractExtraction,
   model: string | null = null,
+  sourceText?: string,
 ): ContractAnalysis {
-  const validation = validateContract(data);
+  const validation = validateContract(data, sourceText);
   return {
     data,
     issues: validation.issues,
@@ -133,7 +134,7 @@ export async function extractContract(
       maxRetries: 1,
     });
 
-    return analyzeContract(result.object, DEFAULT_CONTRACT_MODEL);
+    return analyzeContract(result.object, DEFAULT_CONTRACT_MODEL, text);
   } catch {
     return failedAnalysis();
   }

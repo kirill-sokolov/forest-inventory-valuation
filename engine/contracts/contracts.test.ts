@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { type ContractExtraction, contractExtractionSchema, type Field } from "./schema";
 import { renderContractSummary } from "./summary";
-import { validateContract } from "./validate";
+import { groundQuote, validateContract } from "./validate";
 
 function field<T>(value: T | null, confidence = value === null ? 0 : 0.99): Field<T> {
   return {
@@ -162,5 +162,86 @@ describe("Latvian e-mail summary", () => {
     expect(summary.body).toContain("Īpašie nosacījumi");
     expect(summary.body).toContain("Pārbaudāmie jautājumi");
     expect(summary.body).toContain("Nav norādīta pirkuma cena");
+  });
+});
+
+describe("contract quote grounding", () => {
+  const sourceText = [
+    "[PAGE 1]",
+    "Pirkuma cena ir 25000 EUR. Līgums parakstīts 2026-08-12 Rīgā.",
+    "Pārdevējs: SIA Parauga Pārdevējs, reģistrācijas Nr. 40000000001, Parauga iela 1, Rīga.",
+    "Pircējs: Jānis Piemērs, personas kods 320180-00001, Testa iela 2, Rīga.",
+    "Objekts: Meža ceļš 1, Paraugu pagasts, kadastra numurs 00000000001, 4.7 ha.",
+    "Zemes īpašums ar mežaudzi. Samaksa līdz 2026-08-30. Līgumsods 0,1 % dienā.",
+    "[PAGE 2]",
+    "Pircējs iesniedz nostiprinājuma lūgumu zemesgrāmatā.",
+  ].join("\n");
+
+  it("does not add grounding issues when every quote is found in the text", () => {
+    const contract = completePurchase();
+    contract.object.area.source = { page: 1, quote: "4.7 ha" };
+    contract.financials.price.source = { page: 1, quote: "Pirkuma cena ir 25000 EUR" };
+    contract.financials.vat.source = { page: 1, quote: "Pirkuma cena ir 25000 EUR" };
+    contract.parties[0].representative.source = null;
+    contract.parties[0].representative.value = null;
+    contract.parties[0].iban.value = null;
+    contract.parties[0].iban.source = null;
+    contract.document.title.source = { page: 1, quote: "Pirkuma cena" };
+    contract.parties[0].role.source = { page: 1, quote: "Pārdevējs" };
+    contract.parties[1].role.source = { page: 1, quote: "Pircējs" };
+    contract.specialConditions[0].quote = "Pircējs iesniedz nostiprinājuma lūgumu";
+    const result = validateContract(contract, sourceText);
+    const grounding = result.issues.filter((issue) =>
+      ["quote-not-found", "quote-inexact", "missing-evidence", "page-out-of-range"].includes(
+        issue.code,
+      ),
+    );
+    expect(grounding).toEqual([]);
+    expect(result.issues.filter((issue) => issue.path === "financials.price")).toEqual([]);
+    expect(result.issues.map((issue) => issue.code)).not.toContain("quote-not-found");
+    expect(result.issues.map((issue) => issue.code)).not.toContain("page-out-of-range");
+  });
+
+  it("flags a fabricated value whose quote and page do not exist", () => {
+    const contract = completePurchase();
+    contract.financials.price = {
+      value: { amount: 99_999, currency: "EUR" },
+      confidence: 0.95,
+      source: { page: 999, quote: "Pirkuma cena ir 99 999 EUR bez PVN" },
+    };
+    const result = validateContract(contract, sourceText);
+    expect(result.needsReview).toBe(true);
+    expect(result.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ code: "quote-not-found", path: "financials.price" }),
+        expect.objectContaining({ code: "page-out-of-range", path: "financials.price" }),
+      ]),
+    );
+  });
+
+  it("flags a value that has no quote at all", () => {
+    const contract = completePurchase();
+    contract.financials.price.source = null;
+    const result = validateContract(contract, sourceText);
+    expect(result.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ code: "missing-evidence", path: "financials.price" }),
+      ]),
+    );
+  });
+
+  it("accepts Latvian inflections and trailing punctuation as an inexact match", () => {
+    expect(groundQuote("Līgumsods 0,1 % dienā.", sourceText)).toBe("exact");
+    expect(groundQuote("līgumsodu 0,1 % dienā", sourceText)).toBe("inexact");
+    expect(groundQuote("Pircējs iesniedz nostiprinājuma lūgumu.", sourceText)).toBe("exact");
+    expect(groundQuote("Nomas maksa ir 650 EUR mēnesī", sourceText)).toBe("not-found");
+  });
+
+  it("does not check grounding when no source text is supplied", () => {
+    const contract = completePurchase();
+    contract.financials.price.source = null;
+    expect(validateContract(contract).issues.map((issue) => issue.code)).not.toContain(
+      "missing-evidence",
+    );
   });
 });

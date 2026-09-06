@@ -4,6 +4,8 @@ import path from "node:path";
 import { extractText, getDocumentProxy } from "unpdf";
 import { describe, expect, it } from "vitest";
 
+import { pageMarkedContractText } from "../../cli/contract-extract";
+import { extractPdfText } from "../pdf/extract-text";
 import { contractExtractionSchema } from "./schema";
 import { validateContract } from "./validate";
 
@@ -57,4 +59,25 @@ describe("committed synthetic contract samples", () => {
       ]),
     );
   });
+});
+
+describe("cached demo results are grounded in their PDFs", () => {
+  for (const sample of sampleCases) {
+    it(`${sample.name} cached issues equal a fresh grounded validation`, async () => {
+      const cachedPath = path.resolve("samples/expected", `contract-${sample.name}.extracted.json`);
+      const cached = JSON.parse(await readFile(cachedPath, "utf8")) as {
+        data: unknown;
+        issues: unknown;
+        needsReview: boolean;
+      };
+      const data = contractExtractionSchema.parse(cached.data);
+      const extracted = await extractPdfText(
+        new Uint8Array(await readFile(path.resolve("samples/contracts", `${sample.name}.pdf`))),
+      );
+      const validation = validateContract(data, pageMarkedContractText(extracted));
+      expect(cached.issues).toEqual(validation.issues);
+      expect(cached.needsReview).toBe(validation.needsReview);
+      expect(validation.issues.map((issue) => issue.code)).not.toContain("quote-not-found");
+    });
+  }
 });
