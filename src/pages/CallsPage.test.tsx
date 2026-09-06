@@ -78,10 +78,10 @@ describe("CallsPage", () => {
     const user = userEvent.setup();
     const extraction = callFixture.calls[0]?.extraction;
     if (!extraction) throw new Error("Synthetic extraction is missing");
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => extraction,
-    });
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response(null, { status: 502 }))
+      .mockResolvedValueOnce(Response.json(extraction));
     vi.stubEnv("BASE_URL", "/forest/");
     vi.stubGlobal("fetch", fetchMock);
     renderPage();
@@ -92,6 +92,8 @@ describe("CallsPage", () => {
     await user.click(screen.getByRole("button", { name: "Analizēt transkriptu" }));
 
     expect(await screen.findByRole("heading", { name: "Kontakts 006" })).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(within(screen.getByLabelText("Dienas rādītāji")).getByText("6")).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledWith(
       "/forest/api/analyze-call",
       expect.objectContaining({ method: "POST" }),
@@ -148,7 +150,7 @@ describe("CallsPage", () => {
   it("reads the downloadable TXT into the form and submits its actual text", async () => {
     const user = userEvent.setup();
     const sample = callFixture.calls[0];
-    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => sample?.extraction });
+    const fetchMock = vi.fn().mockResolvedValue(Response.json(sample?.extraction));
     vi.stubGlobal("fetch", fetchMock);
     renderPage();
 
@@ -170,5 +172,48 @@ describe("CallsPage", () => {
     >;
     expect(request.transcript).toBe(sample?.transcript);
     expect(request).not.toHaveProperty("audio");
+  });
+
+  it("accepts a TXT dropped into the transcript field without navigating", async () => {
+    renderPage();
+    const transcript = `${callFixture.calls[0]?.transcript}\n`;
+    const file = new File([transcript], "zvans.txt", { type: "text/plain" });
+    Object.defineProperty(file, "text", { value: async () => transcript });
+    const dropZone = screen.getByRole("region", { name: "Transkripta faila augšupielāde" });
+    expect(fireEvent.drop(dropZone, { dataTransfer: { files: [file], types: ["Files"] } })).toBe(
+      false,
+    );
+    await waitFor(() => expect(screen.getByLabelText("Zvana transkripts")).toHaveValue(transcript));
+    expect(screen.getByText("zvans.txt")).toBeInTheDocument();
+  });
+
+  it("rejects a PDF dropped into the TXT area and preserves the existing transcript", async () => {
+    renderPage();
+    fireEvent.change(screen.getByLabelText("Zvana transkripts"), {
+      target: { value: "Existing text" },
+    });
+    const file = new File(["%PDF-test"], "ligums.pdf", { type: "application/pdf" });
+    fireEvent.drop(screen.getByRole("region", { name: "Transkripta faila augšupielāde" }), {
+      dataTransfer: { files: [file], types: ["Files"] },
+    });
+    expect(await screen.findByRole("alert")).toHaveTextContent("Izvēlieties TXT failu");
+    expect(screen.getByLabelText("Zvana transkripts")).toHaveValue("Existing text");
+  });
+
+  it.each([
+    ["   ", "TXT failā nav sarunas teksta."],
+    ["a".repeat(100_001), "Transkripta fails pārsniedz 100 KB ierobežojumu."],
+  ])("keeps existing text when the dropped TXT is invalid", async (text, message) => {
+    renderPage();
+    fireEvent.change(screen.getByLabelText("Zvana transkripts"), {
+      target: { value: "Existing text" },
+    });
+    const file = new File([text], "zvans.txt", { type: "text/plain" });
+    Object.defineProperty(file, "text", { value: async () => text });
+    fireEvent.drop(screen.getByRole("region", { name: "Transkripta faila augšupielāde" }), {
+      dataTransfer: { files: [file], types: ["Files"] },
+    });
+    expect(await screen.findByRole("alert")).toHaveTextContent(message);
+    expect(screen.getByLabelText("Zvana transkripts")).toHaveValue("Existing text");
   });
 });

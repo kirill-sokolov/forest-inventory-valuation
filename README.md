@@ -21,6 +21,9 @@ Live demo: https://sokolov.lv/forest/
 - Download a synthetic contract PDF or call transcript directly from either task page.
 - Paste or upload a new call transcript for grounded observations when the server has an OpenRouter key;
   scores and day metrics are always calculated deterministically.
+- Drop a TXT directly onto the transcript area; empty, oversized and non-TXT files leave existing
+  text intact. Both analysis pages retry one interrupted/empty gateway response, then show a clear
+  error while preserving the input. Explicit API errors are not retried.
 
 ## Try the examples
 

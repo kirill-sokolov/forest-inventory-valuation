@@ -19,6 +19,7 @@ import type {
   ObservationStatus,
 } from "../../engine/calls/types";
 import callFixture from "../../samples/expected/calls-demo.json";
+import { postAnalysisJson } from "../lib/api";
 import { downloadText } from "../lib/download";
 
 const demo = callFixture as unknown as CallDemoFixture;
@@ -131,27 +132,12 @@ function isCallExtraction(value: unknown): value is CallExtraction {
 }
 
 async function requestCallExtraction(record: CallRecord): Promise<CallExtraction> {
-  const response = await fetch(apiEndpoint(), {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      transcript: record.transcript,
-      metadata: {
-        startedAt: record.startedAt,
-      },
-    }),
+  const payload = await postAnalysisJson(apiEndpoint(), {
+    transcript: record.transcript,
+    metadata: {
+      startedAt: record.startedAt,
+    },
   });
-  const payload = (await response.json()) as unknown;
-  if (!response.ok) {
-    const message =
-      typeof payload === "object" &&
-      payload !== null &&
-      "message" in payload &&
-      typeof payload.message === "string"
-        ? payload.message
-        : "Transkripta analīze neizdevās.";
-    throw new Error(message);
-  }
   if (!isCallExtraction(payload)) {
     throw new Error("Serveris atgrieza neatpazīstamu analīzes rezultātu.");
   }
@@ -360,6 +346,8 @@ export function CallsPage() {
   const [disposition, setDisposition] = useState<CallRecord["disposition"]>("connected");
   const [textFileName, setTextFileName] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isReadingFile, setIsReadingFile] = useState(false);
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -405,20 +393,34 @@ export function CallsPage() {
   }
 
   async function readTextFile(file: File): Promise<void> {
+    if (isLoading || isReadingFile || disposition === "no-answer") return;
     setError("");
+    if (!file.name.toLowerCase().endsWith(".txt")) {
+      setError("Izvēlieties TXT failu ar sarunas tekstu.");
+      return;
+    }
     if (file.size > 100_000) {
       setError("Transkripta fails pārsniedz 100 KB ierobežojumu.");
       return;
     }
+    setIsReadingFile(true);
     try {
-      setTranscript(await file.text());
+      const text = await file.text();
+      if (!text.trim()) {
+        setError("TXT failā nav sarunas teksta.");
+        return;
+      }
+      setTranscript(text);
       setTextFileName(file.name);
     } catch {
       setError("Transkripta failu neizdevās nolasīt.");
+    } finally {
+      setIsReadingFile(false);
     }
   }
 
   async function analyzeTranscript(): Promise<void> {
+    if (isLoading || isReadingFile) return;
     setError("");
     setCopied(false);
     if (!employee.trim() || !contactLabel.trim() || !startedAt) {
@@ -547,7 +549,7 @@ export function CallsPage() {
             <button
               type="button"
               className="rounded-lg border border-emerald-300 bg-white px-4 py-2.5 text-sm font-semibold text-emerald-900 disabled:opacity-50"
-              disabled={isLoading}
+              disabled={isLoading || isReadingFile}
               onClick={insertSampleTranscript}
             >
               Ievietot parauga tekstu
@@ -629,57 +631,95 @@ export function CallsPage() {
           </label>
         </div>
 
-        <label
-          className="mt-5 block text-sm font-semibold text-slate-700"
-          htmlFor="call-transcript"
-        >
-          Zvana transkripts
-        </label>
-        <textarea
-          id="call-transcript"
-          className="mt-1 min-h-52 w-full rounded-xl border border-slate-300 p-4 font-mono text-sm leading-6 disabled:bg-slate-100"
-          disabled={disposition === "no-answer"}
-          placeholder="Darbinieks: Labdien!...\nKlients: Labdien!..."
-          value={transcript}
-          onChange={(event) => {
-            setTranscript(event.target.value);
-            setTextFileName(undefined);
+        <section
+          aria-label="Transkripta faila augšupielāde"
+          className={`mt-5 rounded-xl border-2 border-dashed p-4 transition ${isDraggingFile ? "border-emerald-600 bg-emerald-50" : "border-slate-300 bg-slate-50/50"}`}
+          onDragOver={(event) => {
+            if (!event.dataTransfer.types.includes("Files")) return;
+            event.preventDefault();
+            const disabled = isLoading || isReadingFile || disposition === "no-answer";
+            event.dataTransfer.dropEffect = disabled ? "none" : "copy";
+            setIsDraggingFile(!disabled);
           }}
-        />
-        <aside className="mt-3 rounded-lg border border-sky-200 bg-sky-50 p-3 text-sm leading-6 text-sky-950">
-          <strong>Datu robeža.</strong> Jauna transkripta teksts un zvana laiks tiek nosūtīts ārējam
-          OpenRouter modelim. Šajā prototipā izmantojiet tikai sintētisku vai anonimizētu tekstu.
-          Parauga diena modelim netiek sūtīta.
-        </aside>
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          <label className="cursor-pointer rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800">
-            Izvēlēties .txt failu
-            <input
-              className="sr-only"
-              type="file"
-              accept="text/plain,.txt"
-              disabled={isLoading || disposition === "no-answer"}
-              onChange={(event) => {
-                const file = event.target.files?.[0];
-                if (file) void readTextFile(file);
-                event.target.value = "";
-              }}
-            />
-          </label>
-          {textFileName && <span className="text-sm text-slate-600">{textFileName}</span>}
-          <button
-            type="button"
-            className="ml-auto rounded-lg bg-emerald-700 px-5 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={isLoading}
-            onClick={() => void analyzeTranscript()}
+          onDragLeave={(event) => {
+            if (
+              !(event.relatedTarget instanceof Node) ||
+              !event.currentTarget.contains(event.relatedTarget)
+            ) {
+              setIsDraggingFile(false);
+            }
+          }}
+          onDrop={(event) => {
+            if (!event.dataTransfer.files.length) return;
+            event.preventDefault();
+            setIsDraggingFile(false);
+            if (isLoading || isReadingFile || disposition === "no-answer") return;
+            if (event.dataTransfer.files.length !== 1) {
+              setError("Izvēlieties vienu TXT failu.");
+              return;
+            }
+            void readTextFile(event.dataTransfer.files[0]);
+          }}
+        >
+          <p className="text-sm font-semibold text-emerald-800">
+            {isDraggingFile
+              ? "Atlaidiet TXT failu šeit"
+              : "Ievelciet TXT failu šeit vai izvēlieties to ar pogu zemāk"}
+          </p>
+          <label
+            className="mt-5 block text-sm font-semibold text-slate-700"
+            htmlFor="call-transcript"
           >
-            {isLoading
-              ? "Analizē..."
-              : disposition === "connected"
-                ? "Analizēt transkriptu"
-                : "Pievienot mēģinājumu"}
-          </button>
-        </div>
+            Zvana transkripts
+          </label>
+          <textarea
+            id="call-transcript"
+            className="mt-1 min-h-52 w-full rounded-xl border border-slate-300 p-4 font-mono text-sm leading-6 disabled:bg-slate-100"
+            disabled={isLoading || isReadingFile || disposition === "no-answer"}
+            placeholder="Darbinieks: Labdien!...\nKlients: Labdien!..."
+            value={transcript}
+            onChange={(event) => {
+              setTranscript(event.target.value);
+              setTextFileName(undefined);
+            }}
+          />
+          <aside className="mt-3 rounded-lg border border-sky-200 bg-sky-50 p-3 text-sm leading-6 text-sky-950">
+            <strong>Datu robeža.</strong> Jauna transkripta teksts un zvana laiks tiek nosūtīts
+            ārējam OpenRouter modelim. Šajā prototipā izmantojiet tikai sintētisku vai anonimizētu
+            tekstu. Parauga diena modelim netiek sūtīta.
+          </aside>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <label className="cursor-pointer rounded-lg bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800">
+              Izvēlēties .txt failu
+              <input
+                className="sr-only"
+                type="file"
+                accept="text/plain,.txt"
+                disabled={isLoading || isReadingFile || disposition === "no-answer"}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void readTextFile(file);
+                  event.target.value = "";
+                }}
+              />
+            </label>
+            {textFileName && <span className="text-sm text-slate-600">{textFileName}</span>}
+            <button
+              type="button"
+              className="ml-auto rounded-lg bg-emerald-700 px-5 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={isLoading || isReadingFile}
+              onClick={() => void analyzeTranscript()}
+            >
+              {isReadingFile
+                ? "Nolasa failu..."
+                : isLoading
+                  ? "Analizē..."
+                  : disposition === "connected"
+                    ? "Analizēt transkriptu"
+                    : "Pievienot mēģinājumu"}
+            </button>
+          </div>
+        </section>
         {error && (
           <p className="mt-4 rounded-lg bg-rose-50 p-3 text-sm text-rose-800" role="alert">
             {error}

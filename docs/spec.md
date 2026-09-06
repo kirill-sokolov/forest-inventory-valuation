@@ -267,6 +267,10 @@ result; a separate action opens the ready-made result. To try a fresh extraction
 the PDF, selects it in the upload form, and presses “Izvilkt datus”. The page explains the expected
 parties, money, dates, source quotes and e-mail summary in plain Latvian.
 
+Both analysis pages handle empty/non-JSON gateway responses without exposing JSON parser errors.
+One transient transport failure may be retried; explicit application errors (including missing
+configuration and rate limits) must remain visible. A failed analysis retains the selected input.
+
 ### Task 3 — call quality and daily summaries
 
 The original task asks for a quality report after each procurement-team call and a daily summary
@@ -334,6 +338,10 @@ speaker-labelled transcripts, with no cached assessments inside. The page explai
 written conversation and guides the user through download, upload and analysis. A shortcut inserts
 the same transcript and its sample metadata into the form without making a model request. A new
 analysis is added to the visible day; its model-assigned statuses may differ from the cached oracle.
+
+TXT file selection and drag-and-drop share the same reader. Reject non-TXT, empty and oversized
+files before analysis while preserving any previously entered transcript. A file drop must not
+navigate the browser away from the form.
 
 ## Oracle A — private real sample (git-ignored)
 

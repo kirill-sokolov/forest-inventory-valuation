@@ -14,6 +14,7 @@ import {
   ContractPdfError,
   extractContractPdfText,
 } from "../components/contracts/extractContractPdf";
+import { AnalysisApiError, postAnalysisJson } from "../lib/api";
 
 interface ContractFieldRow {
   path: string;
@@ -56,16 +57,6 @@ const samples: SampleDefinition[] = [
   },
 ];
 
-class ContractApiError extends Error {
-  constructor(
-    readonly status: number,
-    message: string,
-  ) {
-    super(message);
-    this.name = "ContractApiError";
-  }
-}
-
 function apiEndpoint(): string {
   const base = import.meta.env.BASE_URL.endsWith("/")
     ? import.meta.env.BASE_URL
@@ -78,24 +69,9 @@ async function requestContractAnalysis(
   fileName: string,
   documentTypeHint?: DocumentType,
 ): Promise<ContractAnalysis> {
-  const response = await fetch(apiEndpoint(), {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, fileName, documentTypeHint }),
-  });
-  const payload = (await response.json()) as unknown;
-  if (!response.ok) {
-    const message =
-      typeof payload === "object" &&
-      payload !== null &&
-      "message" in payload &&
-      typeof payload.message === "string"
-        ? payload.message
-        : "Datu izvilkšana neizdevās.";
-    throw new ContractApiError(response.status, message);
-  }
+  const payload = await postAnalysisJson(apiEndpoint(), { text, fileName, documentTypeHint });
   if (typeof payload !== "object" || payload === null || !("data" in payload)) {
-    throw new ContractApiError(502, "Serveris atgrieza neatpazīstamu rezultātu.");
+    throw new AnalysisApiError("Serveris atgrieza neatpazīstamu rezultātu.");
   }
   contractExtractionSchema.parse(payload.data);
   return payload as unknown as ContractAnalysis;
@@ -245,7 +221,7 @@ export function ContractsPage() {
       const result = await requestContractAnalysis(text, file.name, hint || undefined);
       setAnalysis(result);
     } catch (caught) {
-      if (caught instanceof ContractPdfError || caught instanceof ContractApiError) {
+      if (caught instanceof ContractPdfError || caught instanceof AnalysisApiError) {
         setError(caught.message);
       } else {
         setError("Dokumentu neizdevās apstrādāt. Mēģiniet vēlreiz.");
@@ -351,7 +327,7 @@ export function ContractsPage() {
             onDrop={(event) => {
               event.preventDefault();
               const dropped = event.dataTransfer.files[0];
-              if (dropped) acceptFile(dropped);
+              if (dropped && !isLoading) acceptFile(dropped);
             }}
           >
             <span className="font-semibold">Ievelciet līguma PDF vai izvēlieties failu</span>

@@ -23,7 +23,7 @@ Kā to pārbaudīt piecās minūtēs:
 
 Publiskais paraugs “Paraugmežs” ir izdomāts, bet tā rezultāts (689 m³, 23 435 EUR, 34,01 EUR/m³) ir izrēķināts ar roku pirms koda rakstīšanas un tīši satur sarežģītus gadījumus: nogabalu, kas maina statusu starp tabulas redakcijām, formulu ar koeficientu summu 9, ozola nogabalu, kas padara nesadalīto Oz/Os kolonnu dārgu, aizsargjoslas nogabalu, formulu divās rindās un nemeža rindu.
 
-Papildus ir 111 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
+Papildus ir 122 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
 
 ## Rīki un kāpēc tieši tie
 

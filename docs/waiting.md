@@ -50,3 +50,15 @@ The prototype proceeds with the following documented assumptions. None blocks th
 - Choosing a contract sample no longer opens a prepared result implicitly; its separate preview
   action is labelled. Transcript insertion does not request an analysis. File uploads always use
   the normal model path, and a new call is added to the visible demo day.
+
+## Interrupted responses and TXT drops (2026-09-06)
+
+- The user reported an empty JSON response in both upload workflows, then confirmed both were
+  working again before the repair was deployed. Manual requests using the public sample files
+  returned HTTP 200 (call: nine criteria in 9 seconds; PDF: 48,500 EUR in 15 seconds). A build-related
+  cause was suggested but not established by the available request logs.
+- The client previously called `response.json()` directly. Both pages now retry one transport or
+  malformed gateway response, preserve explicit JSON API errors and show Latvian messages after
+  a repeated failure. Only one result is added after a successful retry.
+- TXT drops use the file picker's reader and validate type, size and empty content. Existing input
+  remains available after a rejected file or failed analysis.

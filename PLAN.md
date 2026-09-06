@@ -326,3 +326,13 @@ Status: DONE — 111 offline tests and all gates pass; five downloads and both r
 - Cover sample discovery, file selection and the actual text-only request with component tests.
 - **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; verify all
   five published downloads match their source fixtures and both public task routes load the new build.
+
+## Step 26 — Recover interrupted uploads and accept TXT drops (P0)
+Status: IN PROGRESS
+
+- Reproduce both public input-to-analysis requests and inspect deployment responses.
+- Handle empty/non-JSON gateway responses in both pages, retry one transient failure and retain
+  the user's input when an actionable error must be shown.
+- Add an accessible TXT drop area, validate dropped files and use the same reader as file selection.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; deploy and
+  analyze the downloaded PDF/TXT through the production endpoints, checking real JSON results.

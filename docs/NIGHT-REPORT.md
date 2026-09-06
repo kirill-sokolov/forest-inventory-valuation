@@ -30,7 +30,7 @@ npm run build
 npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf
 ```
 
-Expected automated result: 23 test files pass, one live-test file is skipped, 111 tests pass and two
+Expected automated result: 24 test files pass, one live-test file is skipped, 122 tests pass and two
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 
@@ -123,3 +123,20 @@ Production deployment `dpl_Ckp2ahbWQasZbQYgDozp76HvE5H1` is ready. Both task rou
 the correct content type and bytes identical to the verified inputs. The Vercel build log confirms
 generation of the five downloads. The source upload manifest includes 110 regular files, with no
 private documents or environment contents.
+
+## Interrupted uploads and TXT drag-and-drop — 2026-09-06
+
+The reported upload failure recovered before the repair was deployed, as confirmed by the user
+and successful requests using both public files. A deployment-related cause was not established.
+Both pages previously parsed every response as JSON without handling a missing/truncated body.
+They now retry one broken transport or malformed gateway response and preserve explicit API
+errors. A second failure produces a Latvian message and retains the selected PDF/transcript.
+
+The transcript area now accepts TXT drops with visual feedback. File selection and dropping share
+the reader; empty, oversized, non-TXT or multiple files are rejected without losing existing text.
+Reading/analysis disables conflicting input actions.
+
+All 122 offline tests, lint, typecheck and build pass. Tests cover transport retries, persistent
+empty/HTML/truncated JSON, explicit configuration errors, a single result after retry, TXT drops,
+invalid files and retrying the same PDF after a failed response. Publication and final live checks
+are recorded below after deployment.
