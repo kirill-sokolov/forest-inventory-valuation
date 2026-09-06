@@ -22,7 +22,9 @@ For every Field:
 - use ISO YYYY-MM-DD dates and ISO currency codes;
 - preserve Latvian names and wording accurately.
 
-Page boundaries are marked as [PAGE N]. Extract purchase and lease parties with their legal roles. Put penalties, pre-emption rights, termination rights, encumbrances, and conditions precedent into specialConditions. A source quote is evidence, not a summary.`;
+Page boundaries are marked as [PAGE N]. Extract purchase and lease parties with their legal roles. Put penalties, pre-emption rights, termination rights, encumbrances, and conditions precedent into specialConditions. A source quote is evidence, not a summary.
+
+Respond with a single JSON object that matches the provided schema exactly; every key is required and unknown values are null.`;
 
 export interface ContractAnalysis {
   data: ContractExtraction;
@@ -117,25 +119,63 @@ export async function extractContract(
     appUrl: "https://sokolov.lv/forest/",
   });
 
-  try {
-    const result = await generateObject({
-      model: openrouter(DEFAULT_CONTRACT_MODEL, {
-        models: [...CONTRACT_MODEL_FALLBACKS],
-        plugins: [{ id: "response-healing" }],
-      }),
-      schema: contractExtractionSchema,
-      schemaName: "latvian_real_estate_contract",
-      schemaDescription:
-        "Grounded structured fields extracted from a Latvian purchase or lease contract.",
-      system: CONTRACT_EXTRACTION_SYSTEM_PROMPT,
-      prompt: buildExtractionPrompt(text, options.documentTypeHint, options.fileName),
-      temperature: 0,
-      maxOutputTokens: 8_000,
-      maxRetries: 1,
-    });
-
-    return analyzeContract(result.object, DEFAULT_CONTRACT_MODEL, text);
-  } catch {
-    return failedAnalysis();
+  // OpenRouter's own `models` fallback only reacts to provider errors. An empty or unparsable
+  // completion (seen with Gemini Flash Lite on this large schema) surfaces as
+  // AI_NoObjectGeneratedError, so each candidate model is tried explicitly in order.
+  const candidates = [DEFAULT_CONTRACT_MODEL, ...CONTRACT_MODEL_FALLBACKS];
+  for (const modelId of candidates) {
+    try {
+      const result = await generateObject({
+        model: openrouter(modelId, { plugins: [{ id: "response-healing" }] }),
+        schema: contractExtractionSchema,
+        schemaName: "latvian_real_estate_contract",
+        schemaDescription:
+          "Grounded structured fields extracted from a Latvian purchase or lease contract.",
+        system: CONTRACT_EXTRACTION_SYSTEM_PROMPT,
+        prompt: buildExtractionPrompt(text, options.documentTypeHint, options.fileName),
+        temperature: 0,
+        maxOutputTokens: 8_000,
+        maxRetries: 1,
+      });
+      return analyzeContract(result.object, modelId, text);
+    } catch (error) {
+      console.error(`contract extraction failed (${modelId})`, describeError(error));
+    }
   }
+  return failedAnalysis();
+}
+
+/** Zod issues (path + message) when present, so a schema mismatch names the field, not the payload. */
+function zodIssues(error: Error): string | null {
+  const nested = error.cause;
+  const source =
+    "issues" in error
+      ? error
+      : nested && typeof nested === "object" && "issues" in nested
+        ? nested
+        : null;
+  if (!source || !Array.isArray(source.issues)) return null;
+  return source.issues
+    .slice(0, 8)
+    .map((issue) => {
+      const path = Array.isArray(issue.path) ? issue.path.join(".") : "?";
+      return `${path}: ${typeof issue.message === "string" ? issue.message : "invalid"}`;
+    })
+    .join("; ");
+}
+
+/** Safe, key-free error summary for server logs; never echoes request text or secrets. */
+export function describeError(error: unknown): string {
+  if (!(error instanceof Error)) return String(error).slice(0, 300);
+  const status =
+    "statusCode" in error && typeof error.statusCode === "number"
+      ? ` status=${error.statusCode}`
+      : "";
+  const cause =
+    error.cause instanceof Error
+      ? ` cause=${error.cause.name}: ${zodIssues(error.cause) ?? error.cause.message}`
+      : "";
+  return `${error.name}: ${error.message}${status}${cause}`
+    .replace(/sk-or-[\w-]+/g, "[redacted]")
+    .slice(0, 600);
 }

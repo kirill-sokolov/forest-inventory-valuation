@@ -70,11 +70,12 @@ With `OPENROUTER_API_KEY` set, a contract can be processed from the command line
 5. `engine/report/` creates deterministic text and JSON reports used by both the UI and CLI.
 6. `src/pages/ForestPage.tsx` runs the complete forest pipeline locally in the browser.
 7. `engine/contracts/` defines the structured schema, deterministic validation and e-mail summary.
-8. `api/extract.ts` accepts extracted text, calls OpenRouter and never receives the original PDF.
+8. `server/extract.ts` accepts extracted text, calls OpenRouter and never receives the original PDF;
+   `npm run build` bundles it with esbuild into `api/extract.js` for Vercel.
 9. `src/pages/ContractsPage.tsx` shows live or cached results with field-level grounding.
 10. `engine/calls/` validates transcript evidence, applies the versioned call rubric and creates
     deterministic daily summaries.
-11. `api/analyze-call.ts` maps transcript text into the fixed observation schema; it never receives
+11. `server/analyze-call.ts` maps transcript text into the fixed observation schema; it never receives
     audio and never decides a score.
 12. `src/pages/CallsPage.tsx` provides the offline demonstration, call drill-down and daily views.
 13. `samples/` contains only fictional, reproducible public fixtures; private oracle files stay ignored.

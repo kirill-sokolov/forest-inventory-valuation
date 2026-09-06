@@ -257,7 +257,7 @@ export function validateContract(
 
   const price = contract.financials.price.value;
   const vat = contract.financials.vat.value;
-  if (price?.netAmount !== undefined && price.grossAmount !== undefined && vat !== null) {
+  if (price?.netAmount != null && price.grossAmount != null && vat !== null) {
     const expectedGross = price.netAmount * (1 + vat.rate / 100);
     if (Math.abs(expectedGross - price.grossAmount) > 0.02) {
       addIssue(
@@ -389,7 +389,7 @@ function checkGrounding(
         "warning",
       );
     }
-    if (source.page !== undefined && pageCount !== null && source.page > pageCount) {
+    if (source.page !== null && pageCount !== null && source.page > pageCount) {
       addIssue(
         issues,
         "page-out-of-range",

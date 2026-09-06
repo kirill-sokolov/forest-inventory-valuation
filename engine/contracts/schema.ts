@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export interface FieldSource {
-  page?: number;
+  page: number | null;
   quote: string;
 }
 
@@ -11,8 +11,10 @@ export interface Field<T> {
   source: FieldSource | null;
 }
 
+// Every key is required (nullable, not optional): OpenAI-compatible strict structured output
+// rejects schemas whose properties are missing from `required`.
 export const fieldSourceSchema = z.object({
-  page: z.number().int().positive().optional(),
+  page: z.number().int().positive().nullable(),
   quote: z.string().min(1),
 });
 
@@ -36,8 +38,8 @@ export const moneyValueSchema = z.object({
   amount: z.number(),
   currency: z.string().min(1),
   // Optional paired values make the spec's gross/net VAT consistency check possible.
-  netAmount: z.number().optional(),
-  grossAmount: z.number().optional(),
+  netAmount: z.number().nullable(),
+  grossAmount: z.number().nullable(),
 });
 
 export const rentValueSchema = moneyValueSchema.extend({
@@ -52,7 +54,7 @@ export const vatValueSchema = z.object({
 export const specialConditionSchema = z.object({
   title: z.string().min(1),
   quote: z.string().min(1),
-  page: z.number().int().positive().optional(),
+  page: z.number().int().positive().nullable(),
 });
 
 export const contractExtractionSchema = z.object({

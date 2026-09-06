@@ -210,7 +210,9 @@
       "deposit": {
         "value": {
           "amount": 4850,
-          "currency": "EUR"
+          "currency": "EUR",
+          "netAmount": null,
+          "grossAmount": null
         },
         "confidence": 0.98,
         "source": {

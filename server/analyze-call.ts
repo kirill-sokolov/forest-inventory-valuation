@@ -2,6 +2,7 @@ import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateObject } from "ai";
 import { z } from "zod";
 
+import { describeError } from "../engine/contracts/extract";
 import { CONTRACT_MODEL_FALLBACKS, DEFAULT_CONTRACT_MODEL } from "../engine/contracts/models";
 
 const MAX_TRANSCRIPT_BYTES = 100 * 1024;
@@ -337,6 +338,7 @@ export function createAnalyzeCallHandler(dependencies: AnalyzeCallHandlerDepende
         });
         return;
       }
+      console.error("call analysis failed", describeError(error));
       response.status(500).json({
         code: "analysis_error",
         message: "Zvana analīze neizdevās. Mēģiniet vēlreiz vai pārbaudiet sarunu manuāli.",

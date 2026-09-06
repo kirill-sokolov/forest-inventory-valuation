@@ -5,11 +5,10 @@
  */
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-
-import { extractPdfText } from "../engine/pdf/extract-text";
+import { pageMarkedContractText } from "../cli/contract-extract";
 import { analyzeContract } from "../engine/contracts/extract";
 import { contractExtractionSchema } from "../engine/contracts/schema";
-import { pageMarkedContractText } from "../cli/contract-extract";
+import { extractPdfText } from "../engine/pdf/extract-text";
 
 const names = ["synthetic-pirkuma-ligums", "synthetic-nomas-ligums", "synthetic-pirkuma-nepilns"];
 

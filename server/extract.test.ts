@@ -36,8 +36,8 @@ function response() {
 const analysis: ContractAnalysis = {
   data: {
     document: {
-      type: { value: "other", confidence: 1, source: { quote: "Līgums" } },
-      title: { value: "Līgums", confidence: 1, source: { quote: "Līgums" } },
+      type: { value: "other", confidence: 1, source: { page: 1, quote: "Līgums" } },
+      title: { value: "Līgums", confidence: 1, source: { page: 1, quote: "Līgums" } },
       signedAt: { value: null, confidence: 0, source: null },
       place: { value: null, confidence: 0, source: null },
     },

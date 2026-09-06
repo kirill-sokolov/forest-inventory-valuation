@@ -150,7 +150,7 @@ const purchase: ContractExtraction = {
     rent: empty<RentValue>(),
     vat: field({ included: true, rate: 21 }, "cenā ir ietverts PVN 21 %"),
     deposit: field<MoneyValue>(
-      { amount: 4_850, currency: "EUR" },
+      { amount: 4_850, currency: "EUR", netAmount: null, grossAmount: null },
       "drošības maksājumu 4 850,00 EUR",
     ),
     paymentDeadline: field("2026-08-30", "ne vēlāk kā līdz 2026. gada 30. augustam"),
@@ -230,7 +230,10 @@ const lease: ContractExtraction = {
       "Nomas maksa ir 650,00 EUR mēnesī bez PVN",
     ),
     vat: field({ included: false, rate: 21 }, "papildus maksājams PVN 21 %"),
-    deposit: field<MoneyValue>({ amount: 1_300, currency: "EUR" }, "drošības naudu 1 300,00 EUR"),
+    deposit: field<MoneyValue>(
+      { amount: 1_300, currency: "EUR", netAmount: null, grossAmount: null },
+      "drošības naudu 1 300,00 EUR",
+    ),
     paymentDeadline: field("katra mēneša 10. datums", "līdz katra mēneša 10. datumam"),
     penalty: field(
       "0,05 % no kavētā maksājuma par katru dienu",

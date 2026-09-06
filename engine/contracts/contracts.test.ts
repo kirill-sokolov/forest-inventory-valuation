@@ -47,7 +47,7 @@ function completePurchase(): ContractExtraction {
       description: field("Zemes īpašums ar mežaudzi"),
     },
     financials: {
-      price: field({ amount: 25_000, currency: "EUR" }),
+      price: field({ amount: 25_000, currency: "EUR", netAmount: null, grossAmount: null }),
       rent: field(null),
       vat: field({ included: true, rate: 21 }),
       deposit: field(null),
@@ -205,7 +205,7 @@ describe("contract quote grounding", () => {
   it("flags a fabricated value whose quote and page do not exist", () => {
     const contract = completePurchase();
     contract.financials.price = {
-      value: { amount: 99_999, currency: "EUR" },
+      value: { amount: 99_999, currency: "EUR", netAmount: null, grossAmount: null },
       confidence: 0.95,
       source: { page: 999, quote: "Pirkuma cena ir 99 999 EUR bez PVN" },
     };

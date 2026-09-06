@@ -66,7 +66,7 @@ const minimalPurchase: ContractExtraction = {
   },
   financials: {
     price: {
-      value: { amount: 1000, currency: "EUR" },
+      value: { amount: 1000, currency: "EUR", netAmount: null, grossAmount: null },
       confidence: 0.9,
       source: { page: 1, quote: "1000 EUR" },
     },

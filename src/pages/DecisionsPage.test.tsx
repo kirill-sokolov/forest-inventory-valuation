@@ -14,9 +14,7 @@ describe("DecisionsPage", () => {
     );
 
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Lēmumi par prototipu");
-    expect(
-      screen.getByRole("heading", { name: "Rīki un kāpēc tieši tie" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Rīki un kāpēc tieši tie" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Pieņēmumi un atklātie jautājumi" }),
     ).toBeInTheDocument();
