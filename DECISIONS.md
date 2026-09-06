@@ -25,7 +25,9 @@ Publiskais paraugs “Paraugmežs” ir izdomāts, bet tā rezultāts (689 m³, 
 
 Papildus ir 144 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes.
 
-2026. gada 6. septembrī visi 15 programmā izmantotie caurmēra sliekšņi salīdzināti ar MK noteikumu Nr. 935 [7. pielikumu](https://likumi.lv/ta/id/253760-noteikumi-par-koku-cirsanu-meza#piel7): tie sakrīt. Pārbaudīta redakcija, kas spēkā no 2026. gada 21. augusta. Šī ir tabulas skaitļu pārbaude; konkrēta īpašuma ciršanas nosacījumus izvērtē speciālists.
+2026. gada 6. septembrī visi 15 programmā izmantotie caurmēra sliekšņi salīdzināti ar MK noteikumu Nr. 935 7. pielikumu vietnē likumi.lv: tie sakrīt. Pārbaudīta redakcija, kas spēkā no 2026. gada 21. augusta. Šī ir tabulas skaitļu pārbaude; konkrēta īpašuma ciršanas nosacījumus izvērtē speciālists.
+
+Pārbaudītais avots: https://likumi.lv/ta/id/253760#piel7
 
 ## Rīki un kāpēc tieši tie
 
