@@ -21,6 +21,7 @@
     "ai": "latest",
     "docx": "latest",
     "ibantools": "latest",
+    "music-metadata": "^11.15.0",
     "pdfjs-dist": "latest",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -7,7 +7,7 @@
 import { build } from "esbuild";
 
 await build({
-  entryPoints: ["server/extract.ts", "server/analyze-call.ts"],
+  entryPoints: ["server/extract.ts", "server/analyze-call.ts", "server/transcribe-call.ts"],
   outdir: "api",
   bundle: true,
   format: "esm",

@@ -336,3 +336,20 @@ Status: DONE — 122 offline tests and all gates pass; deployed bundle and both 
 - Add an accessible TXT drop area, validate dropped files and use the same reader as file selection.
 - **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; deploy and
   analyze the downloaded PDF/TXT through the production endpoints, checking real JSON results.
+
+## Step 27 — MP3 transcription API (P0)
+Status: DONE — 14 API tests pass; the integration run also passed typecheck and API bundling
+
+- Validate bounded MP3 uploads and read their real duration before calling an audio-capable model.
+- Return speaker-labelled, editable text, with guarded configuration, timeouts and rate limits.
+- Cover valid audio, malformed/oversized input, upstream errors and the actual audio SDK payload.
+- **Verification:** `npm test -- server/transcribe-call && npm run typecheck && npm run bundle:api`
+
+## Step 28 — TXT and MP3 input, samples and handoff (P0)
+Status: IN PROGRESS — 16 page tests pass, including TXT/MP3 picker/drop and reviewed-text analysis
+
+- Preserve TXT input and add MP3 selection/drop, playback, transcription review and TXT export.
+- Publish both formats of the realistic synthetic call alongside the original TXT examples.
+- Verify the complete audio-to-reviewed-text-to-analysis flow and update the public explanations.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; deploy and
+  verify both sample downloads, real MP3 transcription and subsequent analysis through the public URL.

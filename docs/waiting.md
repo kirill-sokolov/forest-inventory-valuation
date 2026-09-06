@@ -62,3 +62,10 @@ The prototype proceeds with the following documented assumptions. None blocks th
   a repeated failure. Only one result is added after a successful retry.
 - TXT drops use the file picker's reader and validate type, size and empty content. Existing input
   remains available after a rejected file or failed analysis.
+# MP3 extension gate — 2026-09-06
+
+Step 27's gate stopped twice: Vitest's deep comparison of a 3 MB Buffer exceeded the default
+timeout, then the installed OpenRouter SDK required `reasoning.effort` alongside `enabled`.
+The test now uses Buffer.equals (14 API tests pass); the SDK option includes `effort: "none"`.
+Per the two-failure rule, the step is temporarily BLOCKED while independent UI work proceeds.
+RESOLVED: the Step 28 integration run passed all 30 API/page tests, typecheck and API bundling.

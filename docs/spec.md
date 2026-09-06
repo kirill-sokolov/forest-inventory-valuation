@@ -28,7 +28,8 @@ its real inventory PDF are git-ignored (`docs/task/`, `samples/private/`).
 3. **Zvanu kvalitātes analīze.** Analyze a completed call transcript against a versioned
    procurement-call rubric, show evidence for every result, and aggregate a synthetic workday into
    separate employee and manager summaries. The bundled demo is deterministic and requires no API
-   key; production transcription and telephony integration are described, not simulated.
+   key; short MP3 files can be transcribed for review before analysis. Telephony integration remains
+   a documented future step.
 
 Deliverables: public anonymized repo `forest-inventory-valuation`, live site at
 `https://sokolov.lv/forest/` (Vercel behind a Caddy reverse proxy), `DECISIONS.md` rendered as a
@@ -95,8 +96,8 @@ public synthetic PDF).
 - XLSX export (optional step only; SheetJS npm is stale — use CDN build if attempted).
 - English UI (README is English; site is Latvian only).
 - Sending e-mail (only `mailto:` + copy to clipboard).
-- Live telephony, raw-audio upload, speech-to-text, call storage, scheduled delivery, and employee
-  monitoring. Task 3 starts from a transcript and demonstrates the decision-support workflow.
+- Live telephony, call storage, scheduled delivery, and employee monitoring. Task 3 accepts a
+  transcript or a short MP3 and demonstrates the decision-support workflow.
 - Exact cent-level replication of the employer's Excel rounding chain (see Oracle tolerances).
 - Production hardening beyond basic input size limits and a best-effort per-IP rate limit.
 - Legal opinion on protection zones — the app flags, the human decides.
@@ -343,6 +344,26 @@ TXT file selection and drag-and-drop share the same reader. Reject non-TXT, empt
 files before analysis while preserving any previously entered transcript. A file drop must not
 navigate the browser away from the form.
 
+### Task 3 — MP3 transcription extension (2026-09-06)
+
+Accept one TXT or MP3 through the same picker and drop area. TXT remains a local reader. MP3 is
+limited to 3,200,000 bytes and 10 minutes; reject empty, malformed and oversized files before a paid
+request. The server reads duration from MPEG metadata, never from a model. A JSON/base64 upload
+stays below the Vercel 4.5 MB request-body limit. The API key stays on the server.
+
+`POST /api/transcribe-call` sends valid MP3 audio to an audio-capable OpenRouter model and returns
+speaker-labelled text plus the measured duration. Preserve hesitations, corrected numbers and
+background speech; uncertain words use `[neskaidrs]` and uncertain speakers use `Nezināms:`.
+The user reviews/edits the transcript before explicitly requesting the existing text-only analysis.
+Do not silently analyze old text when a newly selected MP3 has not been transcribed. A failure keeps
+both the selected audio and any previous text available for retry. Do not log or persist audio or
+transcript contents. Rate-limit transcription separately (5/minute, best-effort memory).
+
+Offer playback of the selected MP3, download of the current editable transcript, and the owned
+`samples/calls/sintetisks-zvans-ar-partraukumu.mp3` / `.txt` pair as test downloads. The MP3 must
+be processed as actual uploaded audio; never substitute its source script or a cached transcript.
+The existing two TXT samples and deterministic call-day oracle remain available and unchanged.
+
 ## Oracle A — private real sample (git-ignored)
 
 Red-first checks. Numbers below are for `samples/private/inventory-client.pdf`
@@ -421,6 +442,12 @@ read the generated PDF back into the same stands.
    includes team volume, common omissions and review calls without ranking employees.
 5. `/zvani` loads the cached day without a key, drills into criterion evidence and exposes employee
    and manager summaries plus JSON/copy/mailto actions.
+6. MP3 validation rejects bad encoding, non-MPEG data, excessive bytes/duration and missing server
+   configuration without a model call. A valid owned MP3 returns measured duration and labelled text;
+   empty model output or upstream failure gives a clear retryable error without exposing raw content.
+7. Picker and drop both accept MP3. Transcription fills editable text without changing day metrics;
+   only the subsequent analysis sends that reviewed text and adds a call. TXT upload still works,
+   and invalid replacement files or failed transcription preserve the existing input.
 
 ## Rules ← Sources
 

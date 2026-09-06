@@ -1,5 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/transcribe-call.js": { "maxDuration": 120 }
+  },
   "rewrites": [
     { "source": "/forest/api/(.*)", "destination": "/api/$1" },
     { "source": "/forest/(.*)", "destination": "/$1" },
