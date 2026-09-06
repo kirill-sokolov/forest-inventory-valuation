@@ -805,32 +805,49 @@ export function CallsPage() {
         <h2 id="process-heading" className="mt-1 text-2xl font-bold">
           Process, ieviešana un mērīšana
         </h2>
+        <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600">
+          Prototipā zvanu pievieno lietotājs, un pārskati atjaunojas pēc analīzes. Telefonijas
+          pieslēgums un automātiska pārskatu piegāde ir nākamā posma darbs.
+        </p>
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <div>
-            <h3 className="font-bold">Pēc katra zvana</h3>
+            <h3 className="font-bold">Zvana apstrāde prototipā</h3>
             <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-slate-600">
-              <li>Saņem metadatus un transkriptu ar nodalītiem runātājiem.</li>
-              <li>Modelis piedāvā strukturētus novērojumus ar precīziem citātiem.</li>
-              <li>Kods pārbauda pierādījumus, aprēķina punktus un veido pārbaudes rindu.</li>
-              <li>Darbinieks saņem zvana pārskatu; dienas beigās top divi lomu skati.</li>
+              <li>Ielādē TXT vai MP3 un ievada zvana datus.</li>
+              <li>MP3 atšifrē; lietotājs pārbauda un var labot tekstu, runātājus un skaitļus.</li>
+              <li>
+                Modelis piedāvā novērojumus un izvēlas avota fragmentus; kods pārkopē to oriģinālos
+                citātus.
+              </li>
+              <li>Kods pārbauda citātus, aprēķina punktus un atzīmē pārbaudāmos zvanus.</li>
+              <li>
+                Zvana pārskatu un abus dienas skatus atver lapā; atšifrējumu var lejupielādēt TXT.
+              </li>
             </ol>
           </div>
           <div>
-            <h3 className="font-bold">Ieviešanas secība</h3>
+            <h3 className="font-bold">Ieteiktā ieviešanas secība</h3>
             <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-slate-600">
               <li>Apstiprināt rubriku, tiesisko pamatu, piekļuvi un glabāšanas termiņus.</li>
               <li>Kalibrēt 30–50 anonimizētus zvanus ar divu cilvēku etalonu.</li>
+              <li>Pieslēgt telefoniju, piekļuves lomas un pārskatu piegādi.</li>
               <li>Divas nedēļas darbināt ēnas režīmā, pēc tam — kontrolētā četru nedēļu pilotā.</li>
               <li>Paplašināt tikai pēc kvalitātes, privātuma un laika ietaupījuma vārtiem.</li>
             </ol>
           </div>
           <div>
-            <h3 className="font-bold">Pilota mērījumi</h3>
+            <h3 className="font-bold">Saskaņojami pilota mērķi</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              Šie ir piedāvāti sliekšņi, kas vēl nav pārbaudīti pilotā.
+            </p>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-600">
-              <li>95 % pārskatu piecu minūšu laikā; tehniskas kļūdas ne vairāk kā 2 %.</li>
-              <li>90 % citātu atbilst secinājumam; 85 % statusu sakrīt ar cilvēku etalonu.</li>
+              <li>Vismaz 95 % pārskatu piecu minūšu laikā; tehniskas kļūdas ne vairāk kā 2 %.</li>
+              <li>
+                Vismaz 90 % citātu atbilst secinājumam; 85 % statusu sakrīt ar cilvēku etalonu.
+              </li>
               <li>Neatklāti kritiskie izlaidumi ne vairāk kā 5 %.</li>
-              <li>Vismaz 60 % mazāk laika klausīšanai un kopsavilkumiem.</li>
+              <li>Vismaz 60 % mazāk manuāla darba, ieskaitot atšifrējuma pārbaudi un labojumus.</li>
+              <li>Atsevišķi uzskaitīt atšifrējuma vārdu, runātāju un skaitļu kļūdas.</li>
             </ul>
           </div>
         </div>

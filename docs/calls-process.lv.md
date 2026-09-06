@@ -4,18 +4,20 @@
 
 Risinājuma mērķis ir pēc katra klienta zvana dot darbiniekam īsu un pārbaudāmu atgriezenisko saiti, bet dienas beigās sagatavot atšķirīgus kopsavilkumus darbiniekam un vadītājam. Sistēma palīdz pamanīt neizrunātus jautājumus, nākamos darbus un mācību vajadzības. Tā nepieņem disciplinārus, atalgojuma vai citus personāla lēmumus.
 
-Prototipa sadaļa `/zvani` sāk darbu ar pabeigta zvana transkriptu, kurā runātāji apzīmēti kā `Darbinieks:` un `Klients:`. Var augšupielādēt arī īsu MP3, atšifrēt to un pārbaudīt iegūto tekstu pirms analīzes. Telefonijas integrācijas, lietotāju kontu un ilgtermiņa glabāšanas nav. Iebūvētajā demonstrācijā ir pieci pilnībā izdomāti zvanu mēģinājumi un iepriekš saglabāti novērojumi, tāpēc visu dienas pārskatu var pārbaudīt bez API atslēgas un bez personas datiem.
+Prototipa sadaļā `/zvani` lietotājs ielīmē tekstu vai augšupielādē TXT vai MP3. MP3 vispirms atšifrē, pēc tam lietotājs pārbauda un var labot tekstu, runātājus un skaitļus. Analīzi sāk ar atsevišķu pogu. Pamatrunātāji ir `Darbinieks:` un `Klients:`; atšifrējumā iespējamas arī atzīmes `Cits:` un `Nezināms:`. Pieejama izdomāta 4:15 saruna MP3 formātā un tās sākotnējais scenārijs TXT formātā salīdzināšanai, kā arī divi iepriekšējie TXT paraugi.
+
+Telefonijas integrācijas, lietotāju kontu, automātiskas pārskatu nosūtīšanas un ilgtermiņa glabāšanas nav. Jaunie zvani ir lapas atmiņā; pēc lapas pārlādes tie pazūd, tāpēc vajadzīgo atšifrējumu vai pārskatu lejupielādē. Abi lomu skati ir pārslēdzami demonstrācijā un nenodrošina piekļuves tiesību nodalīšanu. Iebūvētajā demonstrācijā ir pieci pilnībā izdomāti zvanu mēģinājumi un iepriekš saglabāti novērojumi, tāpēc sagatavoto dienas pārskatu var pārbaudīt bez API atslēgas un bez personas datiem.
 
 Demonstrācijas kontroles rezultāts ir pieci mēģinājumi, četri izvērtēti zvani, kopējais ilgums 18:20 un vidējais kvalitātes vērtējums 82,5. Var atvērt katru zvanu, pārbaudīt kritērijus un citātus, apskatīt darbinieka un vadītāja kopsavilkumu, kā arī kopēt, sagatavot e-pastu vai lejupielādēt JSON.
 
-## Process pēc katra zvana
+## Zvana apstrāde prototipā
 
-1. Sistēma saņem zvana metadatus un transkriptu. Neatbildēts mēģinājums tiek ieskaitīts zvanu apjomā un ilgumā, bet netiek vērtēts pēc kvalitātes kritērijiem.
-2. Jaunam transkriptam valodas modelis drīkst piedāvāt tikai strukturētus novērojumus un faktus: kritērija statusu, pārliecības līmeni, īsu pamatojumu un precīzu citātu no transkripta.
+1. Lietotājs ievada zvana datus un izvēlas TXT vai MP3. MP3 ierakstu var noklausīties, tā atšifrējumu — labot un lejupielādēt TXT. Analīzei izmanto lietotāja pārbaudīto tekstu. Neatbildēts mēģinājums tiek ieskaitīts zvanu apjomā un ilgumā, bet netiek vērtēts pēc kvalitātes kritērijiem.
+2. Valodas modelis piedāvā strukturētus novērojumus un faktus: kritērija statusu, pārliecības līmeni un īsu pamatojumu. Citātam tas izvēlas numurētu avota fragmentu, kura oriģinālo tekstu pārkopē programma. Tas novērš citāta salīmēšanu no dažādām sarunas vietām; cilvēks pārbauda, vai fragments pamato secinājumu.
 3. Programmas kods pārbauda rezultāta shēmu un pierādījumus. Pozitīvs vai daļējs vērtējums bez citāta tiek pazemināts līdz neizpildītam kritērijam un rada brīdinājumu. Kopsavilkuma fakts tiek rādīts tikai tad, ja saistītais kritērijs ir pozitīvs; turpmākās darbības citātam papildus jāsakrīt ar nākamā soļa pierādījumu.
-4. Programmas kods, nevis modelis, piemēro versēto rubriku, aprēķina punktus un nosaka kvalitātes grupu. Pārliecība zem 0,70 nemaina punktus, bet nosūta zvanu cilvēka pārbaudei.
-5. Darbinieks saņem viena zvana pārskatu ar stiprajām pusēm, izlaistajiem kritērijiem, iegūtajiem faktiem, nākamo soli un visiem gadījumiem, kas jāpārbauda.
-6. Dienas beigās sistēma agregē zvanu mēģinājumus divos lomu skatījumos. Kopsummas tiek rēķinātas no pārbaudītajiem strukturētajiem rezultātiem, nevis no brīva modeļa teksta.
+4. Programmas kods, nevis modelis, piemēro versēto rubriku, aprēķina punktus un nosaka kvalitātes grupu. Pārliecība zem 0,70 nemaina punktus, bet atzīmē zvanu cilvēka pārbaudei.
+5. Lapā atver viena zvana pārskatu ar stiprajām pusēm, izlaistajiem kritērijiem, iegūtajiem faktiem, nākamo soli un visiem gadījumiem, kas jāpārbauda.
+6. Pēc zvana pievienošanas uzreiz pārrēķina dienas kopsavilkumus darbinieka un vadītāja skatā. Tos var kopēt, lejupielādēt vai atvērt e-pasta programmā; prototips pats e-pastu nenosūta. Kopsummas tiek rēķinātas no strukturētajiem rezultātiem, nevis no brīva modeļa teksta.
 
 ## Vērtēšanas rubrika
 
@@ -52,13 +54,13 @@ Pēc zvana ir redzama šāda informācija:
 
 **Darbinieka skatā** ir tikai viņa zvani: kopējais, savienoto, neatbildēto un izvērtēto mēģinājumu skaits, kopējais un vidējais ilgums, vidējais vērtējums, kvalitātes grupu sadalījums, stiprākie un pilnveidojamie kritēriji, sarunātie turpmākie darbi un pārbaudāmie zvani. Mērķis ir palīdzēt sagatavoties nākamajām sarunām, nevis veidot darbinieku reitingu.
 
-**Vadītāja skatā** ir komandas apjoms un ilgums, vidējais vērtējums, kvalitātes grupu sadalījums, kritēriju izpildes īpatsvari, biežākie izlaidumi, turpmāko darbu saraksts un prioritāra cilvēka pārbaudes rinda. Darbinieku rindas dod kontekstu darba organizēšanai un individuālai pārrunai, bet sistēma neveido “labāko” vai “sliktāko” darbinieku sarakstu.
+**Vadītāja skatā** ir komandas apjoms un ilgums, vidējais vērtējums, kvalitātes grupu sadalījums, kritēriju izpildes īpatsvari, biežākie izlaidumi, turpmāko darbu saraksts un pārbaudāmo zvanu saraksts. Darbinieku rindas dod kontekstu darba organizēšanai un individuālai pārrunai, bet sistēma neveido “labāko” vai “sliktāko” darbinieku sarakstu.
 
 ## Mākslīgā intelekta un datu robeža
 
 Valodas modelis jaunam transkriptam ir informācijas izvilkšanas palīgs. Tas drīkst piedāvāt fiksētās shēmas novērojumus un tikai tādus secinājumus, kuriem var pievienot citātu no ievades. Modelis neaprēķina punktus un kopsummas, nemaina rubrikas svarus, nenosaka personāla sekas un nevērtē akcentu, personību, emocijas vai citus ar darba procesu nesaistītus signālus.
 
-Determinētais dzinējs pārbauda pierādījumu, piemēro `procurement-v1`, apstrādā statusu “nav piemērojams”, aprēķina viena zvana rezultātu un visas dienas metrikas. Iebūvētais paraugs izmanto repozitorijā saglabātus novērojumus; tā rezultāts ir atkārtojams un neizsauc maksas modeli. Ielīmējot vai ielādējot TXT, analīzei sūta tikai tekstu (līdz 100 KB). Atsevišķā atšifrēšanas plūsma pieņem MP3 līdz 3,2 MB un 10 minūtēm; audio caur serveri nonāk ārējā OpenRouter modelī. Pirms analīzes runātāju atzīmes un tekstu pārbauda lietotājs. Bez konfigurētas atslēgas API atgriež saprotamu kļūdu.
+Determinētais dzinējs pārbauda pierādījumu, piemēro `procurement-v1`, apstrādā statusu “nav piemērojams”, aprēķina viena zvana rezultātu un visas dienas metrikas. Iebūvētais paraugs izmanto repozitorijā saglabātus novērojumus; tā rezultāts ir atkārtojams un neizsauc maksas modeli. Ielīmējot vai ielādējot TXT, analīzei sūta tekstu (līdz 100 KB) un zvana sākuma laiku. Atsevišķā atšifrēšanas plūsma pieņem MP3 līdz 3,2 MB un 10 minūtēm; audio caur serveri nonāk ārējā OpenRouter modelī. Pirms analīzes runātāju atzīmes un tekstu pārbauda lietotājs. Bez konfigurētas atslēgas API atgriež saprotamu kļūdu.
 
 ## Privātums un cilvēka pārbaude
 
@@ -70,7 +72,7 @@ Cilvēks obligāti pārbauda zvanu, ja rezultāts ir zem 70, kāda novērojuma p
 
 ## Produkcijas plūsma
 
-Produkcijā paredzētā plūsma ir šāda:
+Tālāk ir plānotā integrācija uzņēmuma darbā. Prototipā šī automātiskā plūsma vēl nav ieviesta:
 
 1. Telefonijas sistēma pēc pabeigta zvana nosūta drošu notikumu ar zvana identifikatoru, laiku, ilgumu un ieraksta atsauci. Atkārtots notikums nedrīkst radīt dublikātu.
 2. Pirms apstrādes pārbauda ierakstīšanas pazīmi, piekļuves tiesības un datu glabāšanas politiku. Nederīgs gadījums nonāk tehniskās pārbaudes rindā.
@@ -79,7 +81,9 @@ Produkcijā paredzētā plūsma ir šāda:
 5. Strukturētais pārskats tiek glabāts ar rubrikas versiju un audita ierakstu. Piekļuve tiek piešķirta pēc lomas; darbinieks redz savus, bet vadītājs — savas komandas rezultātus.
 6. Pēc katra zvana tiek nosūtīta saite uz pārskatu. Dienas beigās plānotais uzdevums sagatavo darbinieka un vadītāja kopsavilkumus un reģistrē piegādes statusu.
 
-## Ieviešanas plāns
+## Ieteiktais ieviešanas plāns
+
+Secība, termiņi un pārbaudes izlases apjoms ir priekšlikums apspriešanai ar procesa īpašnieku. Pilots vēl nav veikts; grafiks būs atkarīgs arī no telefonijas un datu pieejamības.
 
 1. **Sagatavošana, viena nedēļa.** Procesa īpašnieks apstiprina rubriku, kritiskos izlaidumus un piemērojamības noteikumus. Juridiskais un datu aizsardzības atbildīgais apstiprina informēšanu, lomas un glabāšanas termiņus. Divi cilvēki neatkarīgi novērtē 30–50 anonimizētu zvanu etalona kopu un vienojas par strīdīgajiem gadījumiem.
 2. **Tehniskais pilots, viena līdz divas nedēļas.** Savieno vienu telefonijas avotu, transkripciju, strukturēto analīzi, viena zvana skatu un dienas kopsavilkumus. Ievieš kļūdu statusus, dublikātu aizsardzību, auditu un manuālās pārbaudes rindu.
@@ -89,7 +93,11 @@ Produkcijā paredzētā plūsma ir šāda:
 
 ## Mērīšanas un KPI plāns
 
+Tabulā norādīti piedāvāti pilota mērķi, kas jāsaskaņo pirms ieviešanas. Tie nav prototipā izmērīti rezultāti. Praktiska pārbaude ar sintētisku ierakstu apliecina, ka faila apstrāde darbojas; tā nepierāda precizitāti vai laika ietaupījumu reālajos zvanos.
+
 Pirms pilota divas nedēļas mēra bāzes līmeni: zvanu skaitu un ilgumu, vadītāja un darbinieka patērēto laiku ierakstu klausīšanai un kopsavilkumiem, katra rubrikas kritērija izpildi, turpmāko darbu reģistrēšanu un tehnisko kļūdu skaitu. Pilotā izmanto vienu rubrikas versiju un stratificētu pārbaudes izlasi pēc darbinieka, sarunas ilguma un valodas. Pirmajai kalibrēšanai etalons ir divu cilvēku saskaņots vērtējums.
+
+Audio pārbaudē atsevišķi uzskaita nepareizi atpazītus vārdus, runātājus un būtiskus skaitļus, arī klienta vēlākos labojumus. Salīdzina analīzi no automātiskā atšifrējuma un cilvēka izlabotā teksta, lai atšķirtu atšifrēšanas kļūdu no vērtēšanas kļūdas. Pārskata sagatavošanas laiku mēra no zvana beigām līdz pieejamam pārskatam, atsevišķi uzskaitot atšifrēšanu, cilvēka pārbaudi un analīzi.
 
 | Joma | Mērījums un mērķis | Lēmuma izmantošana |
 |---|---|---|
@@ -97,8 +105,9 @@ Pirms pilota divas nedēļas mēra bāzes līmeni: zvanu skaitu un ilgumu, vadī
 | Pilnīgums | Tehnisku kļūdu dēļ neapstrādāti ne vairāk kā 2% derīgu zvanu | Pārbauda telefonijas, transkripcijas un analīzes kļūdas atsevišķi |
 | Pierādījumu kvalitāte | Vismaz 90% sistēmas citātu cilvēks atzīst par secinājumam atbilstošiem | Zem mērķa modelis nevar automātiski pabeigt pārskatu |
 | Kritēriju precizitāte | Vismaz 85% statusu sakrīt ar divu cilvēku saskaņoto etalonu | Atšķirības analizē pa kritērijam, valodai un zvana tipam |
+| Atšifrējuma kvalitāte | Vārdu, runātāju un būtisko skaitļu kļūdu īpatsvars pret cilvēka pārbaudīto tekstu; pieņemamo robežu nosaka kalibrēšanā | Salīdzina rezultātu pirms un pēc atšifrējuma labošanas |
 | Kritiskie izlaidumi | Neatklāti ne vairāk kā 5% etalonā atzīmēto kritisko izlaidumu | Slieksni nekompensē ar augstu vidējo punktu skaitu |
-| Laika ietaupījums | Manuālai klausīšanai un kopsavilkumiem patērētais laiks samazinās vismaz par 60%, saglabājot kvalitātes mērķus | Aprēķina faktiskās stundas un izmaksas pret bāzes periodu |
+| Laika ietaupījums | Kopējais manuālais darbs samazinās vismaz par 60%, saglabājot kvalitātes mērķus; ieskaita atšifrējuma pārbaudi, labojumus un pārskata pārskatīšanu | Aprēķina faktiskās stundas un izmaksas pret bāzes periodu |
 | Procesa rezultāts | Pēc četru nedēļu pilota kritisko izlaidumu īpatsvars samazinās vismaz par 20% pret bāzi | Interpretē kopā ar zvanu sastāva un apjoma izmaiņām |
 | Uzticēšanās | Seko apstrīdēto un cilvēka laboto rezultātu īpatsvaram un īsai lietotāju aptaujai | Pieaugošs labojumu īpatsvars aptur automātiskās piegādes paplašināšanu |
 | Privātums | Nav neatļautas piekļuves vai satura nonākšanas tehniskajos žurnālos; 100% dzēšanas pieprasījumu izpildīti politikā noteiktajā laikā | Jebkurš būtisks incidents aptur pilotu un izraisa pārbaudi |

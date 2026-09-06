@@ -373,3 +373,12 @@ and a real browser MP3 upload, transcription, TXT download and nine-criterion an
 - Document the remote request boundary and the separate workflow for changing server sources.
 - **Verification:** `npm run lint && npm run typecheck && npm run build`; check all three local
   API routes and the MP3-to-transcript-to-analysis flow at `http://127.0.0.1:5174/forest/zvani`.
+
+## Step 31 — Align process copy and documents with the implemented prototype (P0)
+Status: IN PROGRESS
+
+- Describe MP3 transcription/review and source-excerpt selection in the process panel and documents.
+- Distinguish the manual prototype from planned integration/delivery and unmeasured pilot targets.
+- Reconcile obsolete handoff notes and mark the old planning draft as historical.
+- **Verification:** `npm run lint && npm run typecheck && npm test -- src/pages/CallsPage.test.tsx && npm run build`;
+  inspect the process and decisions pages at desktop/mobile widths and verify the deployed copy.

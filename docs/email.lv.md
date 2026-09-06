@@ -11,7 +11,9 @@ Sadaļā “Meža inventarizācija” var nospiest “Izmantot paraugu” un uzr
 
 Sadaļā “Līgumi” ir trīs izdomāti pirkuma un nomas līgumu paraugi. Rezultātā redzama lauka vērtība, uzticamība, avota citāts un pārbaudes statuss, kā arī sagatavots e-pasta kopsavilkums. Savu PDF var apstrādāt izvietotajā versijā; pārlūks uz serveri nosūta tikai izvilkto tekstu, nevis pašu failu.
 
-Sadaļā “Zvanu kvalitāte” var ielādēt izdomātu piecu zvanu dienu un pārbaudīt katra kritērija statusu, svaru un avota citātu. Atsevišķi sagatavots darbinieka un vadītāja dienas kopsavilkums ar zvanu skaitu, ilgumu, kvalitāti, turpmākajiem darbiem un pārbaudes rindu. Jauna transkripta gadījumā tā teksts tiek nosūtīts konfigurētajam OpenRouter modelim, tāpēc prototipā jāizmanto anonimizēts teksts. MP3 atšifrēšanai ārējam pakalpojumam nosūta arī audio; demonstrācijai pieejams izdomāts ieraksts. Modelis tikai strukturē novērojumus; punktus un dienas rādītājus aprēķina programma. Zemi vai nepietiekami pamatoti rezultāti tiek nodoti cilvēka pārbaudei.
+Sadaļā “Zvanu kvalitāte” var ielādēt TXT vai MP3 un apskatīt deviņu kritēriju vērtējumu ar avota citātiem. MP3 vispirms atšifrē; tekstu, runātājus un skaitļus var pārbaudīt, labot un lejupielādēt pirms atsevišķas analīzes. Modelis piedāvā novērojumus un izvēlas avota fragmentus, programma pārkopē citātus un aprēķina punktus. Cilvēks pārbauda, vai citāts pamato secinājumu. Jauna faila apstrāde izmanto ārēju OpenRouter pakalpojumu: atšifrēšanai sūta audio, analīzei — pārbaudīto tekstu un zvana laiku.
+
+Līdzās jaunā zvana analīzei pieejama izdomāta piecu zvanu diena un pārslēdzami darbinieka un vadītāja kopsavilkumi. Tie atjaunojas lapā pēc analīzes. Prototipā vēl nav automātiskas nosūtīšanas, telefonijas pieslēguma vai piekļuves tiesību nodalīšanas. Jaunie rezultāti paliek lapas atmiņā līdz pārlādei, un tos var lejupielādēt. Ieviešanas sadaļā norādītie termiņi un procenti ir piedāvāti pilota mērķi, kas vēl jāsaskaņo un jāizmēra.
 
 Publiskajā repozitorijā un demonstrācijā nav Jūsu dokumentu, reālo īpašumu datu vai kadastra numuru. Privātais inventarizācijas fails tika izmantots tikai lokālai rezultāta pārbaudei.
 

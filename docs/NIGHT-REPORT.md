@@ -1,4 +1,4 @@
-# Night report — 2026-09-04
+# Prototype handoff — updated 2026-09-06
 
 ## Outcome
 
@@ -8,16 +8,18 @@ All three assignment prototypes are implemented and available from the Latvian l
   rules, calculates volumes and valuation, supports live edits, and exports TXT, JSON, and DOCX.
 - `/forest/ligumi` extracts text from purchase or lease PDFs in the browser, calls the guarded
   serverless extraction API for uploaded files, and offers three cached synthetic demonstrations.
-- `/forest/zvani` opens with a fictional five-call day, shows criterion-level evidence and warnings,
-  and creates separate employee and manager daily summaries with copy, e-mail and JSON actions.
+- `/forest/zvani` accepts TXT or MP3, supports transcription review and TXT downloads, and opens
+  with a fictional five-call day. It shows criterion-level evidence and warnings and creates
+  employee/manager summaries with copy, e-mail draft and JSON actions.
 - `/forest/lemumi` renders the manager-facing implementation decisions for all three workflows.
 
 The public call oracle produces five attempts, four evaluated calls, 18:20 total duration, 4:30
 average evaluated duration and 82.5 average quality. The four scores are 90, 60, 80 and 100; the
-60-point call and the low-confidence 100-point call are both queued for human review. New speaker-
+60-point call and the low-confidence 100-point call are both flagged for human review. New speaker-
 labelled transcript text can be analyzed through `/forest/api/analyze-call` when OpenRouter is
-configured. The model only proposes grounded observations; TypeScript code calculates every score
-and daily metric.
+configured. MP3 files use the separate `/forest/api/transcribe-call` endpoint before analysis.
+The model proposes observations and selects source excerpts; code copies their original text and
+calculates every score and daily metric. Semantic correctness remains subject to human review.
 
 ## Verify in five minutes
 
@@ -34,7 +36,8 @@ Expected automated result: 26 test files pass, one live-test file is skipped, 14
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 
-For a quick manual check, run `npm run dev`, open `http://localhost:5173/forest/`, and:
+For a quick manual check, run `npm run dev` and open the `/forest/` URL printed by Vite. Local model
+requests use the deployed API through the development proxy (see README). Then:
 
 1. load the forest sample, edit a matrix value and toggle the flagged stand;
 2. download the purchase PDF on “Līgumi”, upload it and press “Izvilkt datus”; inspect the parties,
@@ -45,9 +48,9 @@ For a quick manual check, run `npm run dev`, open `http://localhost:5173/forest/
    The new call is added to the day. The prepared day remains available without a model request:
    confirm 5 / 18:20 / 82,5, inspect contacts 002 and 005, then switch from manager to employee.
 
-The local `/forest/zvani` route returned HTTP 200 during the final run. The in-app browser was not
-available in the executor session, so the last visual responsive check remains part of the manual
-check above; component tests cover the route, drill-down, summaries, actions and base-aware API URL.
+The public and local MP3-to-report workflows were verified in a real browser, including download
+contents, audio playback, source quotes and a 390 px layout. The in-app browser was unavailable;
+the checks used separate headless Chrome. Dated verification records follow below.
 
 ## What is intentionally not included
 
@@ -56,8 +59,6 @@ check above; component tests cover the route, drill-down, summaries, actions and
   and TXT, JSON, and DOCX exports.
 - Telephony/CRM integration, persistent storage and automatic delivery: the staged production
   process is documented in `docs/calls-process.lv.md`. Short MP3 upload/transcription is now supported.
-- The production deployment at `https://sokolov.lv/forest/` and its contract/call APIs were
-  verified on 2026-09-06. The call evidence repair was deployed and rechecked in Steps 23–24.
 
 ## Assumptions and limits
 
@@ -71,17 +72,17 @@ check above; component tests cover the route, drill-down, summaries, actions and
 - `procurement-v1` is a transparent prototype rubric, not an approved personnel policy. Production
   requires a double-reviewed reference set, legal/privacy approval, role-based access, retention and
   appeal rules. Low scores and low-confidence observations require a person to review the source.
+- Pilot dates, sample sizes and percentage thresholds are proposals, not measured real-call
+  outcomes. Audio quality and human transcript-correction time need separate measurement.
 - The production bundle includes the PDF.js worker and reports one large client chunk. This is
   acceptable for the prototype and can be split after validation.
 
-## Morning questions
+## Remaining questions
 
-1. Does the official current MK 935 table match `engine/rules/law-tables.ts`?
+1. Which diameter-table edition should the client approve for their workflow?
 2. Were the missing 30% in Oz/Os intended for Kamīnmalka?
 3. Which approved criteria, telephony source and delivery channels should replace the call
    prototype assumptions in a pilot?
-4. After deployment, do `/forest/`, `/forest/zvani`, `/forest/api/extract` and
-   `/forest/api/analyze-call` pass the proxy smoke check?
 
 ## Call evidence repair — 2026-09-06
 
@@ -190,3 +191,17 @@ Lint, typecheck and build pass. Each of the three local API paths returns the de
 downloads, MP3 drag/drop and playback, transcription in 17.1 seconds, matching TXT export and
 analysis in 7.0 seconds with all nine criteria and valid source quotes. No browser runtime errors
 or page overflow at 390 px were observed. The development server was left running on port 5174.
+
+## Process documentation refresh — 2026-09-06
+
+The process panel and manager-facing documents now include MP3 transcription/review and exact
+source-excerpt selection. They describe immediate, manual call/day views separately from planned
+telephony, access controls and automatic delivery. The rollout durations, calibration sample size
+and KPI thresholds are explicitly proposed targets without representative real-call pilot results.
+Audio evaluation includes word, speaker and important-number errors; savings include human review
+and correction time. The original Russian planning draft is marked historical, and obsolete current
+handoff/sample descriptions are reconciled with the implementation.
+
+Lint, typecheck, all 16 call-page tests and build pass. Local browser checks confirm the updated
+process and decisions pages at 1440/390 px with no overflow, runtime errors or model requests.
+Public verification of the updated copy is pending.

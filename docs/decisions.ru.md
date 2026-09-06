@@ -1,3 +1,7 @@
+> Historical planning draft from 2026-09-04, retained for context. It is not maintained as the
+> implementation changes. Current manager-facing decisions are in [DECISIONS.md](../DECISIONS.md);
+> the current call workflow and proposed pilot are in [calls-process.lv.md](calls-process.lv.md).
+
 # Решения — черновик страницы `/lemumi` [26.09.04]
 
 > Черновик на русском для правки Кириллом; финальная страница — на латышском, для менеджера заказчика.

@@ -119,12 +119,24 @@ With `OPENROUTER_API_KEY` set, a contract can be processed from the command line
 
 ## Deterministic and LLM boundaries
 
-Every number in the forest report and call-quality dashboard comes from versioned TypeScript rules.
-No LLM participates in those calculations. The contract and new-transcript flows use an LLM only to
+Forest calculations, call scores and daily aggregates come from versioned TypeScript rules.
+The call scores depend on model-proposed observations that still require review. The contract and new-transcript flows use an LLM to
 map unstructured text into fixed schemas with source quotes. Validation, warnings, scores and daily
 aggregates are deterministic. For contracts, every extracted value must carry a quote that is found
 in the page-marked PDF text; a missing, unmatched or only approximately matched quote and a page
 number beyond the document are flagged for human review (the value is kept, never silently dropped).
+
+## Call process and pilot status
+
+The process panel at `/forest/zvani#procesa-plans` describes the current manual TXT/MP3 workflow
+and the proposed rollout separately. New call results exist in page memory until reload; transcript
+and report downloads preserve the desired output. Employee/manager tabs are demonstration views,
+not access controls. Telephony integration and scheduled report delivery are future work.
+
+The pilot thresholds and schedule in [the process document](docs/calls-process.lv.md) are proposals
+to agree with the process owner, not measured outcomes. Live checks with synthetic files establish that
+the flow works; no representative real-call pilot has been completed. Audio evaluation must include
+speaker, word and important-number errors, and savings must include transcript review/correction time.
 
 ## Limits
 
@@ -147,6 +159,6 @@ number beyond the document are flagged for human review (the value is kept, neve
 
 - Integrate VMD open data where a reliable per-property source becomes available.
 - Add a human review queue with corrected contract fields and audit history.
-- Pilot the call rubric against a double-reviewed anonymized reference set before connecting
+- Calibrate the call rubric against a double-reviewed anonymized reference set before connecting
   telephony or sending automatic reports.
 - Add OCR or a vision fallback with area-total cross-checking for scanned inventory documents.

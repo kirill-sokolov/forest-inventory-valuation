@@ -1,6 +1,6 @@
 # Assumptions and open checks
 
-The prototype proceeds with the following documented assumptions. None blocks the two core demos.
+The prototype proceeds with the following documented assumptions. None blocks the three prototypes.
 
 - The `current-2024` diameter values are the researched values in `docs/spec.md`. A human should visually compare `engine/rules/law-tables.ts` with MK 935 Annex 7 before presenting the result as legal guidance.
 - The assignment's Oz/Os assortment column totals 70%. The prototype preserves it, calculates the remaining 30% as unpriced volume, and points to Kamīnmalka as the likely missing share.
@@ -43,10 +43,11 @@ The prototype proceeds with the following documented assumptions. None blocks th
 
 ## Downloadable task examples (2026-09-06)
 
-- Users need an input they can open and upload before the result is meaningful. Both task pages
-  now lead with synthetic downloads, concrete expected observations and a three-step walkthrough.
-- The published PDFs are unchanged owned fixtures; TXT downloads contain only the original
-  speaker-labelled text of calls a1/a2. Dev/build generates the public copies from these sources.
+- Users need an input they can open and upload before the result is meaningful. The contract and
+  call pages lead with synthetic downloads, concrete expected observations and upload instructions.
+- The published PDFs are unchanged owned fixtures. The first TXT downloads contained the original
+  speaker-labelled text of calls a1/a2; the MP3 extension adds a longer synthetic recording and its
+  source TXT. Dev/build generates the public copies from these owned sources.
 - Choosing a contract sample no longer opens a prepared result implicitly; its separate preview
   action is labelled. Transcript insertion does not request an analysis. File uploads always use
   the normal model path, and a new call is added to the visible demo day.
@@ -62,7 +63,7 @@ The prototype proceeds with the following documented assumptions. None blocks th
   a repeated failure. Only one result is added after a successful retry.
 - TXT drops use the file picker's reader and validate type, size and empty content. Existing input
   remains available after a rejected file or failed analysis.
-# MP3 extension gate — 2026-09-06
+## MP3 extension gate — 2026-09-06 (resolved)
 
 Resolved: the real 4:15 MP3 transcribed in 16 seconds, preserving corrected numbers and the child speaker.
 Integration exposed an existing analysis limitation on longer dialogue: GPT-4.1 mini added speaker
@@ -74,5 +75,6 @@ retained facts and no grounding warnings; Step 28 handoff is complete.
 Step 27's gate stopped twice: Vitest's deep comparison of a 3 MB Buffer exceeded the default
 timeout, then the installed OpenRouter SDK required `reasoning.effort` alongside `enabled`.
 The test now uses Buffer.equals (14 API tests pass); the SDK option includes `effort: "none"`.
-Per the two-failure rule, the step is temporarily BLOCKED while independent UI work proceeds.
-RESOLVED: the Step 28 integration run passed all 30 API/page tests, typecheck and API bundling.
+Per the two-failure rule, the step was temporarily marked BLOCKED while independent UI work
+proceeded. It was resolved by the Step 28 integration run: all 30 API/page tests, typecheck and API
+bundling passed. No MP3 implementation blocker remains.
