@@ -21,7 +21,7 @@ Trīs pieņēmumi, kurus vēlos skaidri norādīt:
 2. Oz/Os sortimentu kolonnā dotie īpatsvari kopā veido 70%, bet Kamīnmalka rindai ir cena bez īpatsvara. Prototips to saglabā un parāda brīdinājumu par nesadalītajiem 30%. Vai šie 30% bija paredzēti Kamīnmalkai?
 3. Zvanu `procurement-v1` rubrika ir caurskatāms prototipa pieņēmums. Pirms pilota jāapstiprina kritēriji, juridiskais pamats, piekļuves un glabāšanas kārtība, kā arī jāsalīdzina rezultāti ar divu cilvēku vērtētu etalonu.
 
-Ātrākais ceļš pārbaudei: sadaļā “Mežs” nospiest “Izmantot paraugu”, sadaļā “Līgumi” izvēlēties paraugu “Nepilnīgs pirkuma līgums”, sadaļā “Zvani” — “Ielādēt parauga dienu”. Lapā “Lēmumi par risinājumu” ir aprakstīta pieeja, pieņēmumi un salīdzinājums ar Jūsu piemēru.
+Ātrākais ceļš pārbaudei: sadaļā “Mežs” nospiest “Izmantot paraugu”; sadaļā “Līgumi” lejupielādēt testa PDF, augšupielādēt to un nospiest “Izvilkt datus”; sadaļā “Zvani” nospiest “Ievietot parauga tekstu” un “Analizēt transkriptu”. Zvanu sadaļā pieejami arī lejupielādējami TXT faili. Gatavu līguma piemēru uzreiz var apskatīt ar “Skatīt gatavo rezultātu”, bet piecu zvanu diena jau ir atvērta. Lapā “Lēmumi par risinājumu” ir aprakstīta pieeja, pieņēmumi un salīdzinājums ar Jūsu piemēru.
 
 Ar cieņu
 

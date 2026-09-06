@@ -30,16 +30,19 @@ npm run build
 npx tsx cli/forest-report.ts samples/inventory-paraugmezs.pdf
 ```
 
-Expected automated result: 23 test files pass, one live-test file is skipped, 106 tests pass and two
+Expected automated result: 23 test files pass, one live-test file is skipped, 111 tests pass and two
 OpenRouter live tests are skipped without a key. The forest CLI headline must contain `23 435 EUR`
 and `34.01 EUR/m3`.
 
 For a quick manual check, run `npm run dev`, open `http://localhost:5173/forest/`, and:
 
 1. load the forest sample, edit a matrix value and toggle the flagged stand;
-2. open the incomplete contract sample and inspect its issues and e-mail draft;
-3. open “Zvanu kvalitāte”, confirm 5 / 18:20 / 82,5, inspect contacts 002 and 005, then switch the
-   daily summary from manager to employee.
+2. download the purchase PDF on “Līgumi”, upload it and press “Izvilkt datus”; inspect the parties,
+   48,500 EUR price and e-mail draft. For an offline check, select the incomplete sample and press
+   “Skatīt gatavo rezultātu”;
+3. on “Zvani”, download a TXT and upload it or press “Ievietot parauga tekstu”, then analyze it.
+   The new call is added to the day. The prepared day remains available without a model request:
+   confirm 5 / 18:20 / 82,5, inspect contacts 002 and 005, then switch from manager to employee.
 
 The local `/forest/zvani` route returned HTTP 200 during the final run. The in-app browser was not
 available in the executor session, so the last visual responsive check remains part of the manual
@@ -100,3 +103,18 @@ scores or removes facts. All cached oracle scores remain unchanged.
 
 The CLI upload manifest was also checked: 116 inputs, no private fixtures, source assignments,
 third-party templates or environment files. These exclusions are explicit in `.vercelignore`.
+
+## Downloadable examples — 2026-09-06
+
+The contract and call pages now explain the input and result and provide a visible
+download/upload/analyze walkthrough. The contract picker offers three PDF inputs with concrete
+checks; its separate ready-result action is explicitly labelled. Calls offer two original TXT
+transcripts plus a shortcut that fills their text and metadata without analyzing. The home cards,
+decisions and e-mail draft use the same entry points.
+
+All 111 offline tests, lint, typecheck and the production build pass. New component coverage checks
+download discovery, prepared-result selection, inserting a transcript and the text-only upload
+requests. All five build outputs match the original PDFs/transcripts byte-for-byte; the source
+oracles are unchanged. Dev/build creates the public files through `scripts/prepare-demo-files.ts`.
+Browser discovery still returns no available browser, so no visual screenshot check was possible.
+Production publication and download verification are recorded below after deployment.

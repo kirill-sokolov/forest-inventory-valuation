@@ -262,6 +262,11 @@ synthetic contracts — a complete purchase contract, a complete lease, and a pu
 gaps — each with known values in `samples/expected/contract-*.json`. The site serves cached
 extraction results for bundled samples when no API key is configured.
 
+The sample PDF download is visible on first visit. Selecting a sample shows what to check in the
+result; a separate action opens the ready-made result. To try a fresh extraction, the user downloads
+the PDF, selects it in the upload form, and presses “Izvilkt datus”. The page explains the expected
+parties, money, dates, source quotes and e-mail summary in plain Latvian.
+
 ### Task 3 — call quality and daily summaries
 
 The original task asks for a quality report after each procurement-team call and a daily summary
@@ -323,6 +328,12 @@ Synthetic oracle `samples/expected/calls-demo.json`: five attempts with duration
 five calls, four evaluated, total duration `18:20`, average evaluated duration `4:30`, average score
 `82.5`, two good / one improve / one review, and two calls requiring human review (one low score,
 one low-confidence observation).
+
+Calls `call-a1` and `call-a2` are also downloadable UTF-8 `.txt` files containing the original
+speaker-labelled transcripts, with no cached assessments inside. The page explains that this is a
+written conversation and guides the user through download, upload and analysis. A shortcut inserts
+the same transcript and its sample metadata into the form without making a model request. A new
+analysis is added to the visible day; its model-assigned statuses may differ from the cached oracle.
 
 ## Oracle A — private real sample (git-ignored)
 

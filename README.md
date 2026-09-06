@@ -18,8 +18,21 @@ Live demo: https://sokolov.lv/forest/
 - Use three bundled synthetic contract results without an API key.
 - Review a fictional five-call day, inspect criterion evidence and generate separate employee and
   manager summaries.
-- Paste a new call transcript for grounded observations when the server has an OpenRouter key;
+- Download a synthetic contract PDF or call transcript directly from either task page.
+- Paste or upload a new call transcript for grounded observations when the server has an OpenRouter key;
   scores and day metrics are always calculated deterministically.
+
+## Try the examples
+
+- Contracts: open `/forest/ligumi`, download the selected sample PDF, choose it in the upload form
+  and press “Izvilkt datus”. The complete purchase example contains a 48,500 EUR price; the
+  incomplete example intentionally lacks a price and contains an invalid cadastre number.
+- Calls: open `/forest/zvani`, download a sample TXT, choose it with “Izvēlēties .txt failu” and
+  press “Analizēt transkriptu”. “Ievietot parauga tekstu” fills the same text and its metadata
+  without a download. The two examples cover a property discussion and a call with missing questions.
+- For an immediate offline demonstration, use “Skatīt gatavo rezultātu” on the contracts page or
+  the preloaded call day. File uploads run a fresh model analysis; call statuses can vary from the
+  prepared example. New call analyses are added to the visible day.
 
 ## Run locally
 
@@ -34,6 +47,11 @@ Open `http://localhost:5173/forest/`. The forest, contract, and call-day samples
 secrets. To process a new contract or call transcript through a Vercel function, copy `.env.example`
 to `.env.local`, set `OPENROUTER_API_KEY`, and run the project with Vercel's local development
 command.
+
+`npm run dev` and `npm run build` prepare stable downloads under `public/samples/contracts/` and
+`public/samples/calls/` from the committed synthetic fixtures. These generated directories are
+ignored; `scripts/prepare-demo-files.ts` copies only the three owned PDFs and writes two original
+transcripts, without copying private files or changing the expected results.
 
 Generate the committed synthetic PDFs:
 

@@ -40,3 +40,13 @@ The prototype proceeds with the following documented assumptions. None blocks th
 - `vercel deploy --dry --json` included local private fixtures and source assignments despite
   their `.gitignore` entries. `.vercelignore` now explicitly excludes those directories,
   third-party templates, research material and environment files from CLI uploads.
+
+## Downloadable task examples (2026-09-06)
+
+- Users need an input they can open and upload before the result is meaningful. Both task pages
+  now lead with synthetic downloads, concrete expected observations and a three-step walkthrough.
+- The published PDFs are unchanged owned fixtures; TXT downloads contain only the original
+  speaker-labelled text of calls a1/a2. Dev/build generates the public copies from these sources.
+- Choosing a contract sample no longer opens a prepared result implicitly; its separate preview
+  action is labelled. Transcript insertion does not request an analysis. File uploads always use
+  the normal model path, and a new call is added to the visible demo day.

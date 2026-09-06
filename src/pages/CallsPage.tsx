@@ -23,6 +23,23 @@ import { downloadText } from "../lib/download";
 
 const demo = callFixture as unknown as CallDemoFixture;
 
+const transcriptSamples = [
+  {
+    id: "call-a1",
+    label: "Saruna par īpašuma pārdošanu",
+    fileName: "zvans-par-ipasumu.txt",
+    description:
+      "Klients nosauc 4,2 ha īpašumu un vēlamo cenu 120 000 EUR. Pārskatā meklējiet šos faktus, sarunas vērtējumu un solījumu nosūtīt dokumentu sarakstu.",
+  },
+  {
+    id: "call-a2",
+    label: "Saruna ar trūkumiem",
+    fileName: "zvans-ar-trukumiem.txt",
+    description:
+      "Darbinieks noskaidro pieejamos dokumentus, bet ne cenu, lēmuma termiņu vai nākamo soli. Pārskatā meklējiet šos trūkumus un ieteikumus sarunas uzlabošanai.",
+  },
+];
+
 const criterionLabels: Record<CriterionId, string> = {
   "greeting-identity": "Sasveicināšanās un iepazīstināšana",
   purpose: "Zvana mērķis",
@@ -335,6 +352,7 @@ export function CallsPage() {
   const [selectedCallId, setSelectedCallId] = useState(demo.calls[0]?.id ?? "");
   const [recipient, setRecipient] = useState("manager");
   const [transcript, setTranscript] = useState("");
+  const [selectedSampleId, setSelectedSampleId] = useState(transcriptSamples[0].id);
   const [employee, setEmployee] = useState("Darbinieks C");
   const [contactLabel, setContactLabel] = useState("Kontakts 006");
   const [startedAt, setStartedAt] = useState(`${demo.date}T16:30`);
@@ -344,6 +362,9 @@ export function CallsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  const selectedSample =
+    transcriptSamples.find((sample) => sample.id === selectedSampleId) ?? transcriptSamples[0];
 
   const day = useMemo(() => aggregateCallDay(demo.date, analyses), [analyses]);
   const selectedCall = analyses.find((call) => call.id === selectedCallId) ?? analyses[0];
@@ -364,6 +385,23 @@ export function CallsPage() {
     setRecipient("manager");
     setError("");
     setCopied(false);
+    document.getElementById("day-heading")?.scrollIntoView?.({ behavior: "smooth" });
+  }
+
+  function insertSampleTranscript(): void {
+    const sample = demo.calls.find((call) => call.id === selectedSampleId);
+    if (!sample) return;
+    const localStart = new Date(sample.startedAt);
+    localStart.setMinutes(localStart.getMinutes() - localStart.getTimezoneOffset());
+    setTranscript(sample.transcript);
+    setEmployee(sample.employee);
+    setContactLabel(`${sample.contactLabel} · jauna analīze`);
+    setStartedAt(localStart.toISOString().slice(0, 16));
+    setDurationSec(sample.durationSec);
+    setDisposition("connected");
+    setTextFileName(selectedSample.fileName);
+    setError("");
+    document.getElementById("new-call-heading")?.scrollIntoView?.({ behavior: "smooth" });
   }
 
   async function readTextFile(file: File): Promise<void> {
@@ -436,14 +474,15 @@ export function CallsPage() {
           ← Sākums
         </Link>
         <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
-          Zvana pārskats un dienas kopsavilkums
+          03 · Zvana pārskats un dienas kopsavilkums
         </p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
           Zvanu kvalitāte ar pārbaudāmiem pierādījumiem
         </h1>
         <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-          Valodas modelis drīkst atrast faktus un citātus. Punktus, kvalitātes grupas un dienas
-          rādītājus vienmēr aprēķina kods pēc versētās rubrikas.
+          Ielādējiet sarunas tekstu. Saņemsiet vērtējumu no 0 līdz 100, veiksmīgos un izlaistos
+          jautājumus ar citātiem, kā arī nākamo darbību. No zvaniem veidojas dienas kopsavilkums
+          darbiniekam un vadītājam.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <button
@@ -463,6 +502,65 @@ export function CallsPage() {
       </header>
 
       <section
+        className="mb-6 grid gap-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 lg:grid-cols-2 lg:p-7"
+        aria-labelledby="call-sample-heading"
+      >
+        <div>
+          <h2 id="call-sample-heading" className="text-xl font-bold text-emerald-950">
+            Izmēģiniet ar testa failu
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-emerald-900">
+            TXT fails ir izdomātas sarunas rakstisks atšifrējums. Katra rinda sākas ar “Darbinieks:”
+            vai “Klients:”. Šajā prototipā ievade ir teksts; audio atšifrēšana nav iekļauta.
+          </p>
+          <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm leading-6 text-emerald-900">
+            <li>Lejupielādējiet parauga TXT.</li>
+            <li>Zemāk spiediet “Izvēlēties .txt failu” un atveriet lejupielādēto failu.</li>
+            <li>Spiediet “Analizēt transkriptu” un apskatiet jaunā zvana pārskatu zemāk.</li>
+          </ol>
+        </div>
+        <div>
+          <label className="text-sm font-semibold text-emerald-950" htmlFor="call-sample">
+            Zvana paraugs
+          </label>
+          <select
+            id="call-sample"
+            className="mt-2 block w-full rounded-lg border border-emerald-200 bg-white px-3 py-2"
+            value={selectedSampleId}
+            onChange={(event) => setSelectedSampleId(event.target.value)}
+          >
+            {transcriptSamples.map((sample) => (
+              <option key={sample.id} value={sample.id}>
+                {sample.label}
+              </option>
+            ))}
+          </select>
+          <p className="mt-3 text-sm leading-6 text-emerald-900">{selectedSample.description}</p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              className="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white"
+              href={`${import.meta.env.BASE_URL}samples/calls/${selectedSample.fileName}`}
+              download={selectedSample.fileName}
+            >
+              Lejupielādēt parauga TXT
+            </a>
+            <button
+              type="button"
+              className="rounded-lg border border-emerald-300 bg-white px-4 py-2.5 text-sm font-semibold text-emerald-900 disabled:opacity-50"
+              disabled={isLoading}
+              onClick={insertSampleTranscript}
+            >
+              Ievietot parauga tekstu
+            </button>
+          </div>
+          <p className="mt-3 text-xs leading-5 text-emerald-900">
+            Otrā poga aizpilda sarunas tekstu, laiku un ilgumu bez lejupielādes. Analīze sāksies
+            tikai pēc pogas “Analizēt transkriptu”.
+          </p>
+        </div>
+      </section>
+
+      <section
         className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:p-7"
         aria-labelledby="new-call-heading"
       >
@@ -473,8 +571,8 @@ export function CallsPage() {
               Izvērtēt transkriptu
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Izmantojiet runātāju atzīmes “Darbinieks:” un “Klients:”. Pārlūks sūta tikai tekstu,
-              nevis audio.
+              Izvēlieties TXT failu vai ielīmējiet sarunas tekstu. Pārbaudiet zvana datumu un
+              ilgumu; pēc analīzes zvans tiks pievienots zemāk redzamajai dienai.
             </p>
           </div>
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">
@@ -543,7 +641,10 @@ export function CallsPage() {
           disabled={disposition === "no-answer"}
           placeholder="Darbinieks: Labdien!...\nKlients: Labdien!..."
           value={transcript}
-          onChange={(event) => setTranscript(event.target.value)}
+          onChange={(event) => {
+            setTranscript(event.target.value);
+            setTextFileName(undefined);
+          }}
         />
         <aside className="mt-3 rounded-lg border border-sky-200 bg-sky-50 p-3 text-sm leading-6 text-sky-950">
           <strong>Datu robeža.</strong> Jauna transkripta teksts un zvana laiks tiek nosūtīts ārējam
@@ -557,9 +658,11 @@ export function CallsPage() {
               className="sr-only"
               type="file"
               accept="text/plain,.txt"
+              disabled={isLoading || disposition === "no-answer"}
               onChange={(event) => {
                 const file = event.target.files?.[0];
                 if (file) void readTextFile(file);
+                event.target.value = "";
               }}
             />
           </label>
@@ -593,8 +696,8 @@ export function CallsPage() {
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-slate-600">
-            Pieci izdomāti mēģinājumi darbojas bez API atslēgas. Neatbildēts zvans neietekmē
-            kvalitātes vidējo.
+            Sākumā šeit redzami pieci izdomāti zvanu mēģinājumi ar sagatavotiem vērtējumiem. Katra
+            jauna analīze papildina šo dienu. Atkārtotas analīzes vērtējums var atšķirties.
           </p>
         </div>
         <fieldset

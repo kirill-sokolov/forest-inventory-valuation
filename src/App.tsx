@@ -26,13 +26,15 @@ function HomePage() {
         <Link className="surface-card contract-card" to="/ligumi">
           <span className="eyebrow">02 · Līgumi</span>
           <h2>Izvilkt līguma datus</h2>
-          <p>Līguma lauki ar avota citātiem, pārbaudēm un gatavu e-pasta kopsavilkumu.</p>
+          <p>
+            Lejupielādējiet testa PDF un iegūstiet līguma puses, summas un e-pasta kopsavilkumu.
+          </p>
           <span className="card-link">Atvērt rīku →</span>
         </Link>
         <Link className="surface-card calls-card" to="/zvani">
           <span className="eyebrow">03 · Zvani</span>
           <h2>Izvērtēt zvanu kvalitāti</h2>
-          <p>Pārbaudāmi kritēriji, avota citāti un atšķirīgi dienas kopsavilkumi komandai.</p>
+          <p>Izmēģiniet sarunas TXT paraugu: vērtējums, izlaistie jautājumi un nākamā darbība.</p>
           <span className="card-link">Atvērt rīku →</span>
         </Link>
       </section>

@@ -315,3 +315,14 @@ Status: DONE — production bundle matches the verified build; live call has no 
   verify that the response retains all supported criteria without `quote-not-found` warnings.
 - **Verification:** `vercel deploy --prod --yes` exits 0; public routes return the updated
   application and the live transcript result passes the deployed engine's evidence checks.
+
+## Step 25 — Make contract and call examples easy to try (P0)
+Status: IN PROGRESS
+
+- Explain each task in terms of its input and result, with a visible download/upload walkthrough.
+- Publish the three owned contract PDFs and two existing synthetic transcripts at stable sample URLs.
+- Separate the ready-made contract result from a fresh upload; let users insert a call sample into
+  the form and download the same text for the file-upload path.
+- Cover sample discovery, file selection and the actual text-only request with component tests.
+- **Verification:** `npm run lint && npm run typecheck && npm test && npm run build`; verify all
+  five published downloads match their source fixtures and both public task routes load the new build.

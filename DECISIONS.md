@@ -18,12 +18,12 @@ Galvenā pārbaude ir uzdevuma pielikumā dotais inventarizācijas PDF ar speci�
 Kā to pārbaudīt piecās minūtēs:
 
 - sadaļā “Mežs” nospiediet “Izmantot paraugu” un salīdziniet gala atskaites četras rindas ar skaitļiem zemāk, vai augšupielādējiet savu inventarizācijas PDF;
-- sadaļā “Līgumi” izvēlieties paraugu “nepilns pirkuma līgums” un skatiet, kuri lauki atzīmēti “Jāpārbauda” un kāpēc;
-- sadaļā “Zvani” ielādējiet parauga dienu, atveriet zvanu ar 60 punktiem un pārbaudiet katra kritērija citātu.
+- sadaļā “Līgumi” lejupielādējiet parauga PDF, augšupielādējiet to un nospiediet “Izvilkt datus”. Nepilnīgajā līgumā jāparādās brīdinājumiem par trūkstošu cenu un kadastra numuru. Sagatavotu piemēru uzreiz var atvērt ar “Skatīt gatavo rezultātu”;
+- sadaļā “Zvani” lejupielādējiet sarunas TXT un augšupielādējiet to vai nospiediet “Ievietot parauga tekstu”, pēc tam — “Analizēt transkriptu”. Zemāk jau ir arī sagatavota parauga diena: atveriet zvanu ar 60 punktiem un pārbaudiet katra kritērija citātu.
 
 Publiskais paraugs “Paraugmežs” ir izdomāts, bet tā rezultāts (689 m³, 23 435 EUR, 34,01 EUR/m³) ir izrēķināts ar roku pirms koda rakstīšanas un tīši satur sarežģītus gadījumus: nogabalu, kas maina statusu starp tabulas redakcijām, formulu ar koeficientu summu 9, ozola nogabalu, kas padara nesadalīto Oz/Os kolonnu dārgu, aizsargjoslas nogabalu, formulu divās rindās un nemeža rindu.
 
-Papildus ir 106 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
+Papildus ir 111 automātiskie testi, kas pārbauda PDF nolasīšanu, sastāva formulas, likuma tabulas, aprēķinu, atskaiti, līgumu validāciju ar citātu pārbaudi un zvanu vērtēšanu, un tie darbojas bez API atslēgas. To pašu atskaiti var iegūt no komandrindas, tāpēc rezultāts nav atkarīgs no lietotnes. Spēkā esošā MK noteikumu Nr. 935 caurmēru tabula ir salīdzināta ar likumi.lv 2026. gada septembrī un sakrīt.
 
 ## Rīki un kāpēc tieši tie
 

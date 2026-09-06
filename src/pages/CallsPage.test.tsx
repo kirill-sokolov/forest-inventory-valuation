@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -109,6 +109,66 @@ describe("CallsPage", () => {
     expect(metadata).not.toHaveProperty("contactLabel");
     expect(metadata).not.toHaveProperty("durationSec");
     expect(request).not.toHaveProperty("fileName");
+    expect(request).not.toHaveProperty("audio");
+  });
+
+  it("offers both downloadable transcripts before an analysis is requested", async () => {
+    const user = userEvent.setup();
+    vi.stubEnv("BASE_URL", "/forest/");
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    renderPage();
+
+    const download = screen.getByRole("link", { name: "Lejupielādēt parauga TXT" });
+    expect(download).toHaveAttribute("href", "/forest/samples/calls/zvans-par-ipasumu.txt");
+    expect(download).toHaveAttribute("download", "zvans-par-ipasumu.txt");
+    await user.selectOptions(screen.getByLabelText("Zvana paraugs"), "call-a2");
+    expect(download).toHaveAttribute("href", "/forest/samples/calls/zvans-ar-trukumiem.txt");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("inserts the selected sample and metadata without analyzing or changing the demo day", async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    renderPage();
+
+    await user.selectOptions(screen.getByLabelText("Zvana paraugs"), "call-a2");
+    await user.click(screen.getByRole("button", { name: "Ievietot parauga tekstu" }));
+
+    expect(screen.getByLabelText("Zvana transkripts")).toHaveValue(
+      callFixture.calls[1]?.transcript,
+    );
+    expect(screen.getByLabelText("Darbinieks")).toHaveValue(callFixture.calls[1]?.employee);
+    expect(screen.getByLabelText("Ilgums sekundēs")).toHaveValue(callFixture.calls[1]?.durationSec);
+    expect(within(screen.getByLabelText("Dienas rādītāji")).getByText("5")).toBeInTheDocument();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("reads the downloadable TXT into the form and submits its actual text", async () => {
+    const user = userEvent.setup();
+    const sample = callFixture.calls[0];
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => sample?.extraction });
+    vi.stubGlobal("fetch", fetchMock);
+    renderPage();
+
+    const file = new File([`${sample?.transcript}\n`], "zvans-par-ipasumu.txt", {
+      type: "text/plain",
+    });
+    Object.defineProperty(file, "text", { value: async () => `${sample?.transcript}\n` });
+    await user.upload(screen.getByLabelText("Izvēlēties .txt failu"), file);
+    await waitFor(() => {
+      expect(screen.getByLabelText("Zvana transkripts")).toHaveValue(`${sample?.transcript}\n`);
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", { name: "Analizēt transkriptu" }));
+
+    expect(await screen.findByRole("heading", { name: "Kontakts 006" })).toBeInTheDocument();
+    const request = JSON.parse(fetchMock.mock.calls[0]?.[1]?.body as string) as Record<
+      string,
+      unknown
+    >;
+    expect(request.transcript).toBe(sample?.transcript);
     expect(request).not.toHaveProperty("audio");
   });
 });

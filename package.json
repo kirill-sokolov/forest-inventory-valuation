@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "predev": "node --import tsx scripts/prepare-demo-files.ts",
     "dev": "vite",
+    "prebuild": "node --import tsx scripts/prepare-demo-files.ts",
     "build": "vite build && node --import tsx scripts/bundle-api.ts",
     "generate:samples": "node --import tsx scripts/make-synthetic-inventory.tsx && node --import tsx scripts/make-synthetic-contract.tsx",
     "preview": "vite preview",

@@ -7,9 +7,6 @@ import {
   type DocumentType,
   type Field,
 } from "../../engine/contracts/schema";
-import leasePdfUrl from "../../samples/contracts/synthetic-nomas-ligums.pdf?url";
-import purchasePdfUrl from "../../samples/contracts/synthetic-pirkuma-ligums.pdf?url";
-import incompletePdfUrl from "../../samples/contracts/synthetic-pirkuma-nepilns.pdf?url";
 import leaseCached from "../../samples/expected/contract-synthetic-nomas-ligums.extracted.json";
 import purchaseCached from "../../samples/expected/contract-synthetic-pirkuma-ligums.extracted.json";
 import incompleteCached from "../../samples/expected/contract-synthetic-pirkuma-nepilns.extracted.json";
@@ -27,7 +24,7 @@ interface ContractFieldRow {
 interface SampleDefinition {
   id: string;
   label: string;
-  pdfUrl: string;
+  description: string;
   cached: ContractAnalysis;
   type: DocumentType;
 }
@@ -36,21 +33,24 @@ const samples: SampleDefinition[] = [
   {
     id: "synthetic-pirkuma-ligums",
     label: "Pilns pirkuma līgums",
-    pdfUrl: purchasePdfUrl,
+    description:
+      "Rezultātā meklējiet pārdevēju un pircēju, pirkuma cenu 48 500 EUR un maksājuma termiņu 30.08.2026. Katram laukam varēsiet salīdzināt citātu ar PDF.",
     cached: purchaseCached as unknown as ContractAnalysis,
     type: "purchase",
   },
   {
     id: "synthetic-nomas-ligums",
     label: "Pilns nomas līgums",
-    pdfUrl: leasePdfUrl,
+    description:
+      "Rezultātā meklējiet nomas maksu 650 EUR mēnesī bez PVN, drošības naudu 1 300 EUR un nomas termiņu no 01.10.2026. līdz 30.09.2029.",
     cached: leaseCached as unknown as ContractAnalysis,
     type: "lease",
   },
   {
     id: "synthetic-pirkuma-nepilns",
     label: "Nepilnīgs pirkuma līgums",
-    pdfUrl: incompletePdfUrl,
+    description:
+      "Šajā failā apzināti trūkst pirkuma cenas un kadastra numurs ir nepareizā formātā. Rezultātā jāparādās brīdinājumiem par šīm problēmām.",
     cached: incompleteCached as unknown as ContractAnalysis,
     type: "purchase",
   },
@@ -202,7 +202,7 @@ function downloadJson(analysis: ContractAnalysis): void {
 export function ContractsPage() {
   const [file, setFile] = useState<File | null>(null);
   const [hint, setHint] = useState<DocumentType | "">("");
-  const [selectedSampleId, setSelectedSampleId] = useState("");
+  const [selectedSampleId, setSelectedSampleId] = useState("synthetic-pirkuma-ligums");
   const [analysis, setAnalysis] = useState<ContractAnalysis | null>(null);
   const [isCached, setIsCached] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -210,6 +210,7 @@ export function ContractsPage() {
   const [copied, setCopied] = useState(false);
 
   const selectedSample = samples.find((sample) => sample.id === selectedSampleId);
+  const samplePdfUrl = `${import.meta.env.BASE_URL}samples/contracts/${selectedSampleId}.pdf`;
   const rows = useMemo(() => (analysis ? fieldsFor(analysis) : []), [analysis]);
   const mailto = analysis
     ? `mailto:?subject=${encodeURIComponent(analysis.summary.subject)}&body=${encodeURIComponent(analysis.summary.body)}`
@@ -217,24 +218,19 @@ export function ContractsPage() {
 
   function acceptFile(nextFile: File): void {
     setFile(nextFile);
-    setSelectedSampleId("");
+    setHint("");
     setAnalysis(null);
     setIsCached(false);
     setError("");
   }
 
-  function chooseSample(id: string): void {
-    setSelectedSampleId(id);
+  function showSampleResult(): void {
+    if (!selectedSample) return;
     setFile(null);
     setError("");
-    const sample = samples.find((candidate) => candidate.id === id);
-    if (!sample) {
-      setAnalysis(null);
-      setIsCached(false);
-      return;
-    }
-    setHint(sample.type);
-    setAnalysis(sample.cached);
+    setCopied(false);
+    setHint(selectedSample.type);
+    setAnalysis(selectedSample.cached);
     setIsCached(true);
   }
 
@@ -276,19 +272,79 @@ export function ContractsPage() {
           ← Sākums
         </Link>
         <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
-          Līgumu datu izvilkšana
+          02 · Līgumu datu izvilkšana
         </p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
           Pārbaudāmi dati no līguma PDF
         </h1>
         <p className="mt-3 text-base leading-7 text-slate-600">
-          PDF teksts tiek nolasīts pārlūkā. Serverim nosūtām tikai tekstu; katrai vērtībai
-          saglabājam uzticamību un avota citātu.
+          Augšupielādējiet pirkuma vai nomas līgumu. Saņemsiet tabulu ar līguma pusēm, summām,
+          termiņiem un citātiem no dokumenta, kā arī gatavu e-pasta kopsavilkumu.
         </p>
       </header>
 
       <section className="grid gap-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:grid-cols-2">
+        <div className="rounded-xl bg-emerald-50 p-5">
+          <h2 className="text-xl font-bold text-emerald-950">Izmēģiniet ar testa failu</h2>
+          <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm leading-6 text-emerald-900">
+            <li>Lejupielādējiet parauga PDF.</li>
+            <li>Izvēlieties šo failu augšupielādes laukā.</li>
+            <li>Spiediet “Izvilkt datus” un pārbaudiet tabulu un e-pasta kopsavilkumu zemāk.</li>
+          </ol>
+          <label
+            className="mt-5 block text-sm font-semibold text-emerald-950"
+            htmlFor="contract-sample"
+          >
+            Līguma paraugs
+          </label>
+          <select
+            id="contract-sample"
+            className="mt-2 block w-full rounded-lg border border-emerald-200 bg-white px-3 py-2"
+            value={selectedSampleId}
+            onChange={(event) => setSelectedSampleId(event.target.value)}
+          >
+            {samples.map((sample) => (
+              <option key={sample.id} value={sample.id}>
+                {sample.label}
+              </option>
+            ))}
+          </select>
+          <p className="mt-3 text-sm leading-6 text-emerald-900">{selectedSample?.description}</p>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <a
+              className="rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white"
+              href={samplePdfUrl}
+              download={`${selectedSampleId}.pdf`}
+            >
+              Lejupielādēt parauga PDF
+            </a>
+            <a
+              className="text-sm font-semibold text-emerald-800 underline"
+              href={samplePdfUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Atvērt PDF
+            </a>
+          </div>
+          <p className="mt-3 text-xs leading-5 text-emerald-900">Visi parauga dati ir izdomāti.</p>
+          <div className="mt-4 border-t border-emerald-200 pt-4">
+            <button
+              type="button"
+              className="text-sm font-semibold text-emerald-800 underline disabled:opacity-50"
+              disabled={isLoading}
+              onClick={showSampleResult}
+            >
+              Skatīt gatavo rezultātu
+            </button>
+            <p className="mt-1 text-xs leading-5 text-emerald-900">
+              Atver iepriekš sagatavotu šī parauga analīzi uzreiz, bez faila augšupielādes.
+            </p>
+          </div>
+        </div>
+
         <div>
+          <h2 className="mb-3 text-xl font-bold">Augšupielādējiet līgumu</h2>
           <label
             className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 text-center transition hover:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-600"
             onDragOver={(event) => event.preventDefault()}
@@ -306,9 +362,11 @@ export function ContractsPage() {
               className="sr-only"
               type="file"
               accept="application/pdf,.pdf"
+              disabled={isLoading}
               onChange={(event) => {
                 const next = event.target.files?.[0];
                 if (next) acceptFile(next);
+                event.target.value = "";
               }}
             />
             {file && (
@@ -340,38 +398,10 @@ export function ContractsPage() {
               {isLoading ? "Izvelk datus..." : "Izvilkt datus"}
             </button>
           </div>
-        </div>
-
-        <div className="rounded-xl bg-emerald-50 p-5">
-          <label className="block text-sm font-semibold text-emerald-950" htmlFor="contract-sample">
-            Līguma paraugs
-          </label>
-          <select
-            id="contract-sample"
-            className="mt-2 block w-full rounded-lg border border-emerald-200 bg-white px-3 py-2"
-            value={selectedSampleId}
-            onChange={(event) => chooseSample(event.target.value)}
-          >
-            <option value="">Izvēlieties mūsu sintētisko paraugu</option>
-            {samples.map((sample) => (
-              <option key={sample.id} value={sample.id}>
-                {sample.label}
-              </option>
-            ))}
-          </select>
-          <p className="mt-3 text-sm leading-6 text-emerald-900">
-            Paraugi satur tikai fiktīvus datus. Kešotais rezultāts darbojas arī bez API atslēgas.
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Pēc analīzes rezultāts parādīsies zemāk. PDF teksts tiek nolasīts pārlūkā; analīzei
+            nosūtām tikai tekstu.
           </p>
-          {selectedSample && (
-            <a
-              className="mt-3 inline-flex text-sm font-semibold text-emerald-800 underline"
-              href={selectedSample.pdfUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Atvērt parauga PDF
-            </a>
-          )}
         </div>
       </section>
 
@@ -398,7 +428,7 @@ export function ContractsPage() {
               </h2>
               {isCached && (
                 <span className="rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-sky-800">
-                  No kešatmiņas
+                  Sagatavots parauga rezultāts
                 </span>
               )}
               {analysis.needsReview && (

@@ -1,5 +1,7 @@
 node_modules/
 dist/
+public/samples/contracts/
+public/samples/calls/
 .git/
 .vercel/
 .idea/
